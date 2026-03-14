@@ -245,5 +245,3 @@ Initial zoom:  11
 | PLAN_DEVIATIONS.md | `../docs/PLAN_DEVIATIONS.md` | DEV-NNN deviation log |
 | OPEN_QUESTIONS.md | `../docs/OPEN_QUESTIONS.md` | Blocking questions |
 | DATA_REGISTRY.md | `../docs/research/DATA_REGISTRY.md` | Approved CT data sources |
-
-<\!-- aris-unit-1: feat branch commit -->

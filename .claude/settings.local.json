@@ -1,0 +1,110 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "WebFetch(domain:odp.capetown.gov.za)",
+      "WebSearch",
+      "WebFetch(domain:odp-cctegis.opendata.arcgis.com)",
+      "WebFetch(domain:www.capetown.gov.za)",
+      "WebFetch(domain:data.gov.za)",
+      "Bash(curl:*)",
+      "WebFetch(domain:developers.google.com)",
+      "WebFetch(domain:cesium.com)",
+      "WebFetch(domain:www.flightradar24.com)",
+      "WebFetch(domain:www.adsbexchange.com)",
+      "WebFetch(domain:aviationstack.com)",
+      "WebFetch(domain:flightaware.com)",
+      "WebFetch(domain:maplibre.org)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:docs.mapbox.com)",
+      "WebFetch(domain:openskynetwork.github.io)",
+      "WebFetch(domain:www.here.com)",
+      "WebFetch(domain:www.flightaware.com)",
+      "mcp__notebooklm__setup_auth",
+      "mcp__notebooklm__get_health",
+      "mcp__notebooklm__cleanup_data",
+      "mcp__notebooklm__re_auth",
+      "Skill(notebooklm-connector:notebooklm-manager)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:anthropic.com)",
+      "WebFetch(domain:www.anthropic.com)",
+      "WebFetch(domain:www.aitmpl.com)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts || \"$CLAUDE_TOOL_FILE_PATH\" == *.jsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.tsx ]]; then npx eslint \"$CLAUDE_TOOL_FILE_PATH\" --fix 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then pylint \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rb ]]; then rubocop \"$CLAUDE_TOOL_FILE_PATH\" --auto-correct 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_INPUT_FILE_PATH\" == */src/app/api/**/*.ts || \"$CLAUDE_TOOL_INPUT_FILE_PATH\" == */src/app/api/*.ts ]]; then node .claude/hooks/fallback-verify-postwrite.js \"$CLAUDE_TOOL_INPUT_FILE_PATH\" || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_INPUT_FILE_PATH\" == */supabase/migrations/*.sql ]]; then bash scripts/check-rls.sh \"$CLAUDE_TOOL_INPUT_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_INPUT_FILE_PATH\" == */src/**/*.ts || \"$CLAUDE_TOOL_INPUT_FILE_PATH\" == */src/**/*.tsx || \"$CLAUDE_TOOL_INPUT_FILE_PATH\" == */src/*.ts || \"$CLAUDE_TOOL_INPUT_FILE_PATH\" == */src/*.tsx ]]; then node .claude/hooks/filesize-guard.js \"$CLAUDE_TOOL_INPUT_FILE_PATH\" 300 || true; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date)] Tool: $CLAUDE_TOOL_NAME | File: $CLAUDE_TOOL_FILE_PATH\" >> ~/.claude/command-log.txt"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_INPUT_FILE_PATH\" == */src/components/**/*.tsx || \"$CLAUDE_TOOL_INPUT_FILE_PATH\" == */src/components/*.tsx ]]; then node .claude/hooks/badge-lint-prewrite.js \"$CLAUDE_TOOL_INPUT_FILE_PATH\" || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/mcp-health-precheck.js || true"
+          }
+        ]
+      }
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
+  }
+}
