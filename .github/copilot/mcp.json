@@ -1,0 +1,143 @@
+{
+  "servers": {
+    // ── ACTIVE SERVERS ────────────────────────────────────────────────────────
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "description": "Up-to-date library docs (MapLibre, Supabase, Next.js, PostGIS)"
+    },
+    "exa": {
+      "type": "http",
+      "url": "https://mcp.exa.ai/mcp",
+      "headers": {
+        "x-api-key": "${COPILOT_MCP_EXA_API_KEY}"
+      },
+      "description": "Web search for current GIS research and best practices"
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ],
+      "description": "Browser automation for E2E testing and UI validation"
+    },
+    "stitch": {
+      "type": "http",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "${STITCH_API_KEY}"
+      },
+      "timeout": 300000
+    },
+    "open-aware": {
+      "type": "sse",
+      "url": "https://open-aware.qodo.ai/mcp"
+    },
+    "gemini-deep-research": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        ".gemini/extensions/gemini-deep-research/scripts/start.cjs"
+      ],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      }
+    },
+    "computerUse": {
+      "type": "stdio",
+      "command": "bash",
+      "args": [
+        ".gemini/extensions/computer-use/servers/run.sh"
+      ]
+    },
+    "vercel": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "--package",
+        "@vercel/sdk",
+        "--",
+        "mcp",
+        "start"
+      ],
+      "env": {
+        "VERCEL_TOKEN": "${VERCEL_TOKEN}"
+      },
+      "description": "Vercel deployment management and project inspection"
+    },
+    "gis-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "gis-mcp"
+      ],
+      "description": "Geospatial data querying and GIS operations"
+    },
+    "sequentialthinking": {
+      "type": "stdio",
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "danielapatin/sequentialthinking:latest",
+        "-transport",
+        "stdio"
+      ],
+      "description": "Chain-of-thought sequential reasoning for complex spatial queries"
+    },
+    "localstack": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@localstack/localstack-mcp-server"
+      ],
+      "description": "Local AWS stack for S3, Lambda, and infrastructure emulation"
+    },
+    "docker": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "docker-mcp"
+      ],
+      "description": "Docker container and image management for local dev"
+    },
+    "doc-state": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp/doc-state/server.js"
+      ],
+      "description": "Distributed state/lock management for documentation indexes"
+    },
+    "cesium-ion": {
+      "type": "sse",
+      "url": "https://mcp.cesium.com/sse",
+      "headers": {
+        "Authorization": "Bearer ${COPILOT_MCP_CESIUM_ION_TOKEN}"
+      },
+      "description": "Cesium ion 3D asset and tileset management"
+    },
+    "opensky": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "scripts/opensky-mcp-wrapper.js"
+      ],
+      "description": "OpenSky Network ADS-B flight queries over Cape Town airspace"
+    },
+    "nerfstudio": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "nerfstudio.mcp_server"
+      ],
+      "description": "Nerfstudio NeRF/3DGS training and scene reconstruction"
+    }
+  }
+}

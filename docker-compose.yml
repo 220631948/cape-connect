@@ -1,0 +1,87 @@
+# PostGIS + Martin — Local Development
+# Usage: docker compose up -d
+
+services:
+  postgis:
+    image: kartoza/postgis:17-3.5
+    container_name: capegis-postgis
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: capegis
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      ALLOW_IP_RANGE: "0.0.0.0/0"
+      POSTGRES_HOST_AUTH_METHOD: "md5"
+    # Persist listen_addresses=* so PostGIS accepts connections from all interfaces
+    command: >
+      postgres
+      -c listen_addresses='*'
+      -c max_connections=200
+      -c shared_buffers=256MB
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgis_data:/var/lib/postgresql
+      - ./supabase/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d capegis" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  martin:
+    image: ghcr.io/maplibre/martin:latest
+    container_name: capegis-martin
+    restart: unless-stopped
+    ports:
+      - "3005:3000"
+    environment:
+      DATABASE_URL: "postgres://postgres:postgres@postgis:5432/capegis"
+    depends_on:
+      postgis:
+        condition: service_healthy
+
+  localstack:
+    image: localstack/localstack-pro:latest
+    container_name: capegis-localstack
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4510-4559:4510-4559"
+    environment:
+      - DEBUG=1
+      - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: capegis-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - MARTIN_URL=${MARTIN_URL:-http://martin:3000}
+      - DATABASE_URL=postgres://postgres:postgres@postgis:5432/capegis
+    depends_on:
+      postgis:
+        condition: service_healthy
+      martin:
+        condition: service_started
+    healthcheck:
+      test: [ "CMD", "wget", "-qO-", "http://localhost:3000/" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgis_data:
+  localstack_data:
