@@ -1,77 +1,60 @@
-<!--
-trigger: /update-docs [<path>] [--all] [--architecture] [--changelog]
+<\!--
+trigger: /update-docs [--module <path>] [--all] [--registry]
 primary_agent: WORKFLOW-AUTOMATOR
 -->
 
 ## Trigger
-`/update-docs [<path>] [--all] [--architecture] [--changelog]`
+`/update-docs [--module <path>] [--all] [--registry]`
 
 ## Purpose
-Update project documentation to reflect the current codebase state. Regenerates
-ARCHITECTURE.md agent/skill/command counts, updates docs/INDEX.md (auto-section only),
-appends to CHANGELOG_AUTO.md, and produces plain-English module summaries using
-`code_summarize`. Respects `BEGIN/END AUTO` and `BEGIN/END HUMAN` markers — never
-overwrites human-authored content.
+Regenerate documentation for changed modules. `--module <path>` scopes the update to one
+directory. `--all` runs `code_summarize` across the entire `src/` tree. `--registry` recounts
+agents, skills, and commands on the filesystem and updates the total-count headers in
+`AGENTS.md`, `SKILLS.md`, and `COMMANDS.md` to match reality.
 
 ## Primary Agent
-**WORKFLOW-AUTOMATOR ⚙️** — invokes `code_summarize` and `docs_traceability_gate` skills.
+**WORKFLOW-AUTOMATOR ⚙️** — invokes `code_summarize` skill and `scripts/sync_doc_indexes.py`.
 
 ## Steps
 
-1. **Determine scope:**
-   - If `<path>` provided: summarise that specific file or directory
-   - If `--all` flag: summarise all of `app/src/` (by subdirectory to manage size)
-   - If neither: summarise recently modified files (git diff --name-only HEAD~5)
+1. **Invoke `code_summarize` on target scope** — if `--module <path>`, summarise only that
+   directory. If `--all`, summarise all files under `src/`. If neither flag provided, summarise
+   only files modified since the last `docs/architecture/` write (compare git diff).
 
-2. **Module summarisation** — invoke `code_summarize` skill on target scope:
-   - Produce 2–4 sentence summary per module
-   - Include: purpose, exports, CLAUDE.md rule compliance badges
-   - Flag any Rule violations (missing badge, missing fallback, missing POPIA)
+2. **Write summaries to `docs/architecture/`** — one markdown file per module:
+   `<module-name>-summary.md`. Include: exports list, dependencies, line count, and last-
+   modified timestamp.
 
-3. **ARCHITECTURE.md update** — if `--architecture` flag:
-   - Count current agents in `.claude/agents/` directory
-   - Count current skills in `.claude/skills/` directory
-   - Count current commands in `.claude/commands/` directory
-   - Update header counts in `.claude/ARCHITECTURE.md`
-   - Update agent list in Agent Ecosystem Map section
+3. **If `--registry`: recount and update totals** — count actual `.md` files in:
+   - `.claude/agents/` → update "Total agents:" in `.claude/AGENTS.md`
+   - `.claude/skills/` → update "Total skills:" in `.claude/SKILLS.md`
+   - `.claude/commands/` → update "Total commands:" in `.claude/COMMANDS.md`
+   Use surgical string replacement within the header line only.
 
-4. **INDEX.md regeneration** — update `docs/INDEX.md` auto-section only
-   (within `<!-- BEGIN AUTO -->` and `<!-- END AUTO -->` markers):
-   - List all files in `docs/` with brief description
-   - Never touch `<!-- BEGIN HUMAN -->` / `<!-- END HUMAN -->` sections
+4. **Run `scripts/sync_doc_indexes.py`** — regenerate `docs/INDEX.md` auto-section and
+   append entry to `docs/CHANGELOG_AUTO.md`. If the script is absent, skip and note in output.
 
-5. **Changelog append** — if `--changelog` flag:
-   - Append entry to `docs/CHANGELOG_AUTO.md` with timestamp:
-     `[2026-03-14] docs(auto): /update-docs run — [N] modules summarised [workflow-automator]`
-
-6. **Quality gate** — invoke `docs_traceability_gate` skill:
-   - Verify all cross-references in updated docs point to existing files
-   - Check evidence tags in research docs
-   - Confirm auto-section markers are intact
+5. **Confirm `INDEX.md` updated** — read `docs/INDEX.md` and verify the auto-section reflects
+   newly written summary files. Output a diff summary of changed index entries.
 
 ## MCP Servers Used
-- `filesystem` — read source files, write documentation updates
-- `doc-state` — write lock for ARCHITECTURE.md and INDEX.md (if available)
+- `filesystem` — read source files, write summaries, update registry headers
+- `doc-state` — acquire write lock before updating AGENTS.md / SKILLS.md / COMMANDS.md
 
 ## Success Criteria
-- Module summaries produced with rule compliance badges
-- ARCHITECTURE.md agent/skill/command counts accurate (if --architecture)
-- INDEX.md auto-section updated without touching human sections
-- CHANGELOG_AUTO.md appended (if --changelog)
-- `docs_traceability_gate` passes — no broken cross-references
-- No `<!-- BEGIN HUMAN -->` content modified
+- `docs/architecture/` contains updated summary files for all targeted modules
+- If `--registry`: count headers in AGENTS.md, SKILLS.md, COMMANDS.md reflect actual file counts
+- `docs/INDEX.md` auto-section updated
+- `docs/CHANGELOG_AUTO.md` entry appended
 
 ## Usage Example
 ```bash
-# Update docs for a specific component
-/update-docs app/src/components/AnalyticsDashboard.tsx
+# Update docs for the analytics module and sync registry counts
+/update-docs --module src/components/analysis/ --registry
 
-# Full codebase documentation update
+# Full doc regeneration across entire src/
 /update-docs --all
 
-# Regenerate ARCHITECTURE.md counts
-/update-docs --architecture
-
-# Full update with changelog
-/update-docs --all --architecture --changelog
+# Registry sync only (no summarisation)
+/update-docs --registry
 ```

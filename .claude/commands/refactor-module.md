@@ -1,79 +1,60 @@
-<!--
-trigger: /refactor-module <file-path> [--extract <name>] [--dry-run]
+<\!--
+trigger: /refactor-module <file-path> [--dry-run] [--max-lines <n>]
 primary_agent: REFACTOR-SPECIALIST
 -->
 
 ## Trigger
-`/refactor-module <file-path> [--extract <name>] [--dry-run]`
+`/refactor-module <file-path> [--dry-run] [--max-lines <n>]`
 
 ## Purpose
-Plan and execute a module refactoring to resolve Rule 7 violations (files > 300 lines)
-or extract duplicated logic. Always produces a `refactor_plan` for human approval
-before executing any code changes. The `--dry-run` flag shows the plan only without
-making changes.
+Safely split an oversized file into smaller, focused modules to comply with CLAUDE.md Rule 7
+(source files ≤ 300 lines). `--dry-run` produces the split plan and impact report without
+writing any files. `--max-lines <n>` overrides the 300-line default limit for the output
+modules.
 
 ## Primary Agent
-**REFACTOR-SPECIALIST 🔧** — invokes `refactor_plan`, `repo_graph`, and `test_stub_gen` skills.
+**REFACTOR-SPECIALIST ✂️** — invokes `refactor_plan` skill.
 
 ## Steps
 
-1. **Validate target:**
-   - Read target file and count lines
-   - Confirm Rule 7 violation (> 300 lines) or document reason for refactor
-   - If `--extract <name>` provided: focus plan on extracting that named concept
+1. **Read file and count lines** — read `<file-path>`, count total lines, list all exported
+   identifiers (functions, components, types, constants). Confirm file exceeds `--max-lines`
+   (default 300). Abort with explanation if file is already within limit.
 
-2. **Generate refactor plan** — invoke `refactor_plan` skill:
-   - Identify cohesive blocks grouped by responsibility
-   - Assign proposed module names (hook, component, utility, types convention)
-   - List line ranges for each extraction
-   - Identify shared dependencies needing barrel export
-   - Output numbered proposal for review
+2. **Invoke `refactor_plan`** — analyse exports and internal dependencies to propose a split:
+   group related identifiers into logical sub-modules, suggest output file paths, and estimate
+   line counts for each output file.
 
-3. **APPROVAL GATE:** present plan and await explicit "yes" before proceeding.
-   If `--dry-run` flag: output plan and stop here.
+3. **Execute split (if not `--dry-run`)** — write each new module file. Preserve all JSDoc
+   comments, POPIA annotations, and `// STUB` markers. Add `// Extracted from <original-file>`
+   header comment to each new file.
 
-4. **Check downstream consumers** — invoke `repo_graph`:
-   - List all files that import the target module
-   - Confirm renaming/moving will not break consumers
-   - Flag any consumers that need import path updates
+4. **Update all importers** — invoke `repo_graph` to find every file that imports from
+   `<file-path>`. Update each importer's import paths to reference the correct new sub-module.
 
-5. **Execute extraction:**
-   - Create new files for each proposed module
-   - Update imports in the original file
-   - Create barrel `index.ts` if multiple modules extracted
-   - Verify all refactored files are ≤ 300 lines (Rule 7)
+5. **Run `npm run lint` and `npm run test`** — confirm no lint errors introduced and all
+   existing tests pass. Report exit codes.
 
-6. **Generate test stubs** — invoke `test_stub_gen` for each newly created module.
-   Mark stubs with `// STUB — complete`.
-
-7. **Post-refactor verification:**
-   - Confirm no circular imports (`repo_graph` re-run)
-   - Confirm all files ≤ 300 lines
-   - Report: `Before: N lines → After: [file1: N lines, file2: N lines, ...]`
+6. **Confirm all output files ≤ max-lines** — count lines in each new file. Flag any output
+   file that still exceeds `--max-lines` and suggest a further split.
 
 ## MCP Servers Used
-- `filesystem` — read source files, create extracted modules
-- `doc-state` — write lock for multi-file atomic operation (if available)
+- `filesystem` — read original file, write new module files, update importers
 
 ## Success Criteria
-- `refactor_plan` approved before execution
-- All refactored files ≤ 300 lines (Rule 7 resolved)
-- No breaking changes to public API (props/return types unchanged)
-- `repo_graph` confirms no new circular dependencies
-- Test stubs generated for all new modules
-- Barrel `index.ts` created if applicable
+- All output files ≤ 300 lines (or `--max-lines` override)
+- `npm run test` exits 0 (no regressions)
+- `npm run lint` exits 0 (lint clean)
+- All import paths in dependent files updated; original replaced with a re-export barrel
 
 ## Usage Example
 ```bash
-# Standard refactor with plan + approval
-/refactor-module app/src/components/MapView.tsx
+# Dry-run — see the plan without writing files
+/refactor-module src/components/analysis/AnalyticsDashboard.tsx --dry-run
 
-# Plan only — no changes made
-/refactor-module app/src/components/MapView.tsx --dry-run
+# Execute split with default 300-line limit
+/refactor-module src/components/analysis/AnalyticsDashboard.tsx
 
-# Focus on extracting a specific concept
-/refactor-module app/src/components/MapView.tsx --extract LayerManager
-
-# Refactor a hook file
-/refactor-module app/src/hooks/useAnalytics.ts --dry-run
+# Split with a stricter 200-line output limit
+/refactor-module src/lib/geoUtils.ts --max-lines 200
 ```
