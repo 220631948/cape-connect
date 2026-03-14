@@ -51,7 +51,7 @@ The CapeTown GIS Hub uses a sequenced milestone fleet (see `orchestrator.md`). O
 
 > **Session Protocol:** Run `/mcp-status` before any agent session. Run `/milestone-audit` before DoD sign-off.
 
-**Total agents: 26** (15 milestone agents + 10 new self-evolution agents + 1 ARIS general workflow agent)
+**Total agents: 27** (15 milestone agents + 10 new self-evolution agents + 2 ARIS general workflow agents)
 
 ---
 
@@ -773,5 +773,6 @@ They are composable and may collaborate with domain agents.
 | Agent | File | Priority | Purpose |
 |-------|------|----------|---------|
 | REPO-ARCHITECT 🏗️ | `agents/repo-architect.md` | P1 | Repository structure analysis, ARCHITECTURE.md maintenance |
+| BUG-INVESTIGATOR 🔍 | `agents/bug-investigator.md` | P1 | Read-only root-cause analysis from error messages and stack traces |
 
 <!-- END HUMAN -->

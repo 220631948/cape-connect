@@ -2,7 +2,7 @@
 
 > Comprehensive registry of all Claude Code skills available in this workspace. Skills are reusable, parameterised playbooks invoked via the `Skill` tool. Each skill lives in `.claude/skills/<name>/SKILL.md`.
 
-**Total skills:** 38 | **Last updated:** 2026-03-14 (self-evolution pass)
+**Total skills:** 39 | **Last updated:** 2026-03-14 (self-evolution pass)
 
 > **Note:** Run `/mcp-status` before any agent session.
 
@@ -268,3 +268,4 @@ Reusable capabilities for repository analysis and general workflow automation.
 | Skill | Directory | Purpose |
 |-------|-----------|---------|
 | stack_detect | `skills/stack_detect/` | Tech-stack report from package.json + tsconfig |
+| debug_trace | `skills/debug_trace/` | Resolve error file:line → read context → root-cause hypothesis |
