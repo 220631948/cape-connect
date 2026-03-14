@@ -1,0 +1,80 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Environment variables (NEVER commit — CLAUDE.md Rule 3)
+.env
+.env.local
+.env.*.local
+
+# Build output
+.next/
+out/
+dist/
+build/
+
+# OS & editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/settings.json
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+
+# Testing artifacts
+coverage/
+playwright-report/
+test-results/
+
+# Machine-specific symlinks into ~/.claude/
+# These point to absolute paths on this machine and break on other machines.
+# Re-run the setup script to recreate them locally.
+.claude/agents/context-manager.md
+.claude/agents/deployment-engineer.md
+.claude/agents/typescript-pro.md
+.claude/agents/ui-ux-designer.md
+.claude/skills/3d-web-experience
+.claude/skills/agol-publish-checklist
+.claude/skills/agol-search
+.claude/skills/arcpy-plan
+.claude/skills/arcpy-script
+.claude/skills/brainstorming
+.claude/skills/context7-auto-research
+.claude/skills/docx
+.claude/skills/find-skills
+.claude/skills/frontend-design
+.claude/skills/geopandas
+.claude/skills/geoparquet-pack
+.claude/skills/git-commit-helper
+.claude/skills/mcp-builder
+.claude/skills/planning-with-files
+.claude/skills/project-audit
+.claude/skills/sample-qa-skill
+.claude/skills/schema-smells
+.claude/skills/senior-architect
+.claude/skills/senior-backend
+.claude/skills/senior-frontend
+.claude/skills/seo-optimizer
+.claude/skills/spatial-index
+.claude/skills/symbology-compat
+.claude/skills/ui-design-system
+.claude/skills/ui-ux-pro-max
+
+# Security log (runtime artifact, not source)
+.claude/security.log
+
+# Supabase local dev artifacts
+supabase/.branches/
+supabase/.temp/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
