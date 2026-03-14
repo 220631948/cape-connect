@@ -1,88 +1,61 @@
-<!--
-trigger: /explain-architecture [<component>] [--agents] [--flows] [--rules]
+<\!--
+trigger: /explain-architecture [--module <path>] [--data-flow] [--agents]
 primary_agent: REPO-ARCHITECT
 -->
 
 ## Trigger
-`/explain-architecture [<component>] [--agents] [--flows] [--rules]`
+`/explain-architecture [--module <path>] [--data-flow] [--agents]`
 
 ## Purpose
-Explain the CapeTown GIS Hub architecture in plain English — suitable for onboarding
-new developers or AI agents entering the codebase. Answers "how does X work?" questions
-with concrete file references, data flow diagrams, and CLAUDE.md rule explanations.
-Uses `.claude/ARCHITECTURE.md` as the primary reference source.
+Produce a plain-English explanation of how the repository or a specific module is structured.
+`--data-flow` explains the three-tier LIVE→CACHED→MOCK fallback chain with real route examples.
+`--agents` explains which ARIS agent owns which module and why. Designed for onboarding new
+developers or diagnosing unfamiliar code areas quickly.
 
 ## Primary Agent
-**REPO-ARCHITECT 🏗️** — invokes `code_summarize` and `stack_detect` skills.
+**REPO-ARCHITECT 🏗️** — invokes `code_summarize` skill; reads ARCHITECTURE.md and AGENTS.md.
 
 ## Steps
 
-1. **Read `.claude/ARCHITECTURE.md`** as the primary reference for all architectural facts.
+1. **Read `.claude/ARCHITECTURE.md`** — extract the current stack table, module inventory, and
+   agent routing table. Use this as the ground truth for all explanations in this session.
 
-2. **Component-specific explanation** — if `<component>` is provided:
-   - Invoke `code_summarize` on the named component/module
-   - Produce: what it does, what it imports, what it exports, which CLAUDE.md rules apply
-   - Show how it connects to the broader data flow
+2. **If `--module <path>`: invoke `code_summarize` on that path** — generate a module-specific
+   summary: exports, dependencies, file count, line count, and primary responsibilities.
+   Cross-reference against the agent routing table to identify the owning agent.
 
-3. **Agent ecosystem explanation** — if `--agents` flag:
-   - List all 30 agents (25 milestone + 5 ARIS) with their domains
-   - Show handoff chains: which agent activates which
-   - Show supporting agents and when each is invoked
-   - Show priority levels: P0 (always active) → P1 → P2 → P3
+3. **If `--data-flow`: explain three-tier fallback with route examples** — walk through the
+   LIVE→CACHED→MOCK chain as implemented in the project:
+   - LIVE: external API call (e.g., OpenSky, City of Cape Town WFS)
+   - CACHED: `api_cache` Supabase table lookup with TTL check
+   - MOCK: `public/mock/*.geojson` static file fallback
+   Include at least two real route examples from `src/app/api/`.
 
-4. **Data flow explanation** — if `--flows` flag:
-   - Describe client→API→PostGIS→Martin data pipeline
-   - Explain three-tier fallback: LIVE → CACHED (`api_cache`) → MOCK (`public/mock/`)
-   - Explain auth flow: Supabase Auth → JWT → tenant context injection → RLS
-   - Show MapLibre rendering pipeline: vector tiles → layer Z-order → user interactions
-
-5. **CLAUDE.md rules explanation** — if `--rules` flag:
-   - Explain all 10 rules with examples from the actual codebase
-   - Rule 1: badge format and placement
-   - Rule 2: three-tier fallback chain
-   - Rule 3: no API keys in source
-   - Rule 4: RLS + application layer (both required)
-   - Rule 5: POPIA annotation block format
-   - Rule 6: CartoDB attribution
-   - Rule 7: 300-line file limit
-   - Rule 8: No Lightstone data
-   - Rule 9: Cape Town bbox
-   - Rule 10: Sequential milestone ordering
-
-6. **Format response:**
-   - OVERVIEW (2 paragraphs on the platform's purpose and architecture)
-   - KEY CONCEPTS (bullet list: multi-tenancy, three-tier fallback, POPIA, etc.)
-   - ASCII DIAGRAM (data flow or component hierarchy as applicable)
-   - CODE REFERENCES (file paths with 1-line descriptions)
-   - NEXT STEPS (what to read next for deeper understanding)
+4. **If `--agents`: read AGENTS.md and map ownership** — for each agent defined in
+   `.claude/AGENTS.md`, list: agent name, owned modules/paths, primary skills, and trigger
+   conditions. Format as a table for readability.
 
 ## MCP Servers Used
-- `filesystem` — read ARCHITECTURE.md and source files
+- `filesystem` — read ARCHITECTURE.md, AGENTS.md, and source module files
+- `context7` — resolve library documentation references cited in explanations
 
 ## Success Criteria
-- Plain-English explanation produced (no jargon without definition)
-- All file references point to existing files
-- ASCII diagram accurately represents the described system
-- All 10 CLAUDE.md rules correctly described if `--rules` flag used
-- Agent handoff chain accurate if `--agents` flag used
+- Plain-English explanation written to chat (never written to files)
+- All file paths referenced are real paths that exist in the repository
+- No source files modified
+- Explanation is ≤ 600 words unless `--module` scope warrants more detail
 
 ## Usage Example
 ```bash
-# General architecture overview
-/explain-architecture
+# Explain data flow — ideal for onboarding a new developer
+/explain-architecture --data-flow
 
-# Explain a specific component
-/explain-architecture app/src/components/MapView.tsx
+# Explain a specific module
+/explain-architecture --module src/components/analysis/
 
-# Explain the agent ecosystem
+# Show agent ownership map
 /explain-architecture --agents
 
-# Explain data flows
-/explain-architecture --flows
-
-# Explain all CLAUDE.md rules with examples
-/explain-architecture --rules
-
-# Full onboarding explanation
-/explain-architecture --agents --flows --rules
+# Full overview for a new contributor
+/explain-architecture --data-flow --agents
 ```
