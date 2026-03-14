@@ -1,0 +1,231 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/mr/Desktop/Geographical Informations Systems (GIS)"
+      ],
+      "description": "Scoped filesystem read/write for project root — required by all agents (P0)"
+    },
+    "postgres": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:postgres@localhost:5432/capegis"
+      ],
+      "description": "PostGIS/PostgreSQL query execution — requires local PostGIS container (P0)"
+    },
+    "doc-state": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp/doc-state/server.js"
+      ],
+      "description": "Distributed doc locking for multi-agent INDEX.md sync — P0 critical"
+    },
+    "formats": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp/formats/server.js"
+      ],
+      "description": "GIS format validation: Shapefile, GeoPackage, GeoJSON, .prj CRS parsing"
+    },
+    "cesium": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp/cesium/server.js"
+      ],
+      "description": "CesiumJS 3D tile validation, camera bounds, bounding volume checks"
+    },
+    "openaware": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp/openaware/server.js"
+      ],
+      "description": "Real-time flight tracking bbox filter via OpenSky Network"
+    },
+    "stitch": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp/stitch/server.js"
+      ],
+      "env": {
+        "NERFSTUDIO_PATH": "/usr/local/bin/ns-train"
+      },
+      "description": "NeRF/3DGS pipeline orchestration — requires nerfstudio installed"
+    },
+    "computerUse": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp/computerUse/server.js"
+      ],
+      "description": "Desktop automation for visual testing — prefer chrome-devtools for most tasks"
+    },
+    "opensky": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "scripts/opensky-mcp-wrapper.js"
+      ],
+      "description": "OpenSky Network ADS-B flight queries with rate limiting — Cape Town airspace"
+    },
+    "gis-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "gis-mcp"
+      ],
+      "description": "Core GIS operations: geometry validation, CRS detection, bbox checks, spatial stats"
+    },
+    "gemini-deep-research": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        ".gemini/extensions/gemini-deep-research/scripts/start.cjs"
+      ],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      },
+      "description": "Gemini Deep Research: multi-step web-grounded research and report generation"
+    },
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "env": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      },
+      "description": "Fetch current library docs: MapLibre, Supabase, Next.js 15, Serwist, Turf.js"
+    },
+    "exa": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "exa-mcp-server"
+      ],
+      "env": {
+        "EXA_API_KEY": "${EXA_API_KEY}"
+      },
+      "description": "Exa semantic web search for GIS research, academic papers, open data portals"
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "description": "Playwright browser automation for E2E testing and UI validation"
+    },
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp"
+      ],
+      "description": "Chrome DevTools Protocol: Lighthouse, network, DOM, performance, accessibility"
+    },
+    "docker": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "docker-mcp"
+      ],
+      "description": "Docker container management for local dev stack (PostGIS, Martin, LocalStack)"
+    },
+    "localstack": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@localstack/localstack-mcp-server"
+      ],
+      "description": "Local AWS service emulation — S3 bucket simulation for Supabase Storage fallbacks"
+    },
+    "vercel": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "--package",
+        "@vercel/sdk",
+        "--",
+        "mcp",
+        "start"
+      ],
+      "env": {
+        "VERCEL_TOKEN": "${VERCEL_TOKEN}"
+      },
+      "description": "Vercel deployment management: list deployments, build status, env vars"
+    },
+    "sequentialthinking": {
+      "type": "stdio",
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "danielapatin/sequentialthinking:latest",
+        "-transport",
+        "stdio"
+      ],
+      "description": "Chain-of-thought reasoning for complex architectural and spatial decisions"
+    },
+    "cesium-ion": {
+      "type": "sse",
+      "url": "https://mcp.cesium.com/sse",
+      "headers": {
+        "Authorization": "Bearer ${COPILOT_MCP_CESIUM_ION_TOKEN}"
+      },
+      "description": "Cesium Ion cloud: upload assets, stream 3D Tiles — requires COPILOT_MCP_CESIUM_ION_TOKEN"
+    },
+    "nerfstudio": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "nerfstudio.mcp_server"
+      ],
+      "description": "Nerfstudio Python interface: training, COLMAP SfM, GPU monitoring — requires GPU"
+    },
+    "nano-banana": {
+      "type": "http",
+      "url": "https://nano-banana.googleapis.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${GOOGLE_API_KEY}"
+      },
+      "timeout": 20000,
+      "description": "Google Gemini AI via MCP — deep reasoning, multi-modal analysis"
+    },
+    "stitch-google": {
+      "type": "http",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "${GOOGLE_STITCH_API_KEY}"
+      },
+      "timeout": 300000,
+      "description": "Google Stitch HTTP MCP — distinct from local mcp/stitch/server.js"
+    },
+    "open-aware": {
+      "type": "sse",
+      "url": "https://open-aware.qodo.ai/mcp",
+      "description": "Qodo Open-Aware SSE MCP — code quality awareness"
+    }
+  }
+}
