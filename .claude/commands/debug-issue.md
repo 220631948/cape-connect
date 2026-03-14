@@ -1,80 +1,60 @@
-<!--
-trigger: /debug-issue "<error message>" [--file <path>] [--trace <stack>]
+<\!--
+trigger: /debug-issue "<error message or description>" [--file <path>] [--ci-run <url>]
 primary_agent: BUG-INVESTIGATOR
 -->
 
 ## Trigger
-`/debug-issue "<error message>" [--file <path>] [--trace <stack>]`
+`/debug-issue "<error message or description>" [--file <path>] [--ci-run <url>]`
 
 ## Purpose
-Investigate a bug or error report — trace stack frames through source files,
-identify the root cause using pattern matching against common CapeTown GIS Hub
-failure modes, produce a structured fix recommendation, and generate a regression
-test hint. Read-only investigation; fix execution by the appropriate milestone agent.
+Investigate a reported bug or error. Accepts a quoted error message or plain-language
+description, an optional file path to scope the search, or a CI run URL to pull logs from.
+Produces a root-cause hypothesis and hands off the fix to the appropriate domain agent with a
+written brief.
 
 ## Primary Agent
 **BUG-INVESTIGATOR 🔍** — invokes `debug_trace` and `repo_graph` skills.
 
 ## Steps
 
-1. **Parse error input:**
-   - Extract error message and error type (TypeError, RLSViolation, MapError, etc.)
-   - If `--trace` provided: parse all `at <fn> (file:line:col)` stack frames
-   - If `--file` provided: focus analysis on that specific file
+1. **Invoke `debug_trace` with error input** — parse the error message for stack trace lines,
+   module names, and error type. If `--ci-run <url>` provided, fetch CI logs and extract the
+   first failure. If `--file <path>` provided, prioritise that file in trace analysis.
 
-2. **Trace stack frames** — invoke `debug_trace` skill:
-   - Resolve file:line refs from project frames (skip node_modules)
-   - Read ±20 lines around each error location
-   - Check failure patterns:
-     - **Rule 2 violation:** LIVE API returned unexpected shape → undefined propagated
-       because CACHED/MOCK fallback was missing
-     - **MapLibre render error:** invalid GeoJSON, missing `type`, CRS not EPSG:4326,
-       or feature count > 10,000 (should use Martin MVT)
-     - **RLS/Supabase error:** `app.current_tenant` not set, `tenant_id` missing
-     - **CRS mismatch:** EPSG:4326 storage vs EPSG:3857 rendering confusion
+2. **Invoke `repo_graph` to map affected modules** — starting from the file identified in the
+   stack trace, traverse the import graph one level up and one level down to identify all
+   modules that could contribute to or be affected by the error.
 
-3. **Module context** — invoke `repo_graph` to understand upstream callers
-   of the affected module and identify other consumers that may be affected.
+3. **Formulate hypothesis** — produce a written root-cause hypothesis in the format:
+   `HYPOTHESIS: <one sentence> | FILE: <path>:<line> | EVIDENCE: <stack/log excerpt>`
+   Include alternative hypotheses if confidence < 80%.
 
-4. **If `--file` is provided:** focus `debug_trace` on that file first before
-   expanding to the call chain.
+4. **Identify correct fix agent** — match the affected module path against agent ownership
+   defined in `.claude/AGENTS.md`. Output: `FIX AGENT: <agent-name> | SCOPE: <files>`.
 
-5. **Produce structured report:**
-   - `PRIMARY_CAUSE` with file:line evidence
-   - `CONFIDENCE` (HIGH / MEDIUM / LOW)
-   - `FIX_RECOMMENDATION` with code snippet
-   - `REGRESSION_TEST_HINT` for TEST-COVERAGE-AGENT
-
-6. **Write bug report** to `docs/bugs/BUG-NNN.md` (auto-increment NNN).
-
-7. **Security check:** if error pattern suggests RLS bypass, PII leak, or injection
-   → invoke `security_review` skill and issue ESCALATE signal.
+5. **Hand off with written brief** — write a structured brief to `docs/debug/<ISO-8601-timestamp>-brief.md`
+   (e.g. `docs/debug/2026-03-14T1530-brief.md`): error input, affected modules, hypothesis,
+   recommended fix approach, and assigned agent.
 
 ## MCP Servers Used
-- `filesystem` — read source files, write bug report
-- `doc-state` — write lock for bug report (if available)
+- `filesystem` — read source files, write debug brief to docs/debug/
+- `context7` — resolve library docs for error types from third-party packages
 
 ## Success Criteria
-- Root cause identified with file:line evidence
-- Fix recommendation with code snippet produced
-- CONFIDENCE level stated (HIGH/MEDIUM/LOW)
-- Bug report written to `docs/bugs/BUG-NNN.md`
-- Regression test hint provided for TEST-COVERAGE-AGENT
-- ESCALATE issued if security issue found
+- Hypothesis written with `FILE: <path>:<line>` reference and evidence excerpt
+- Domain agent identified and named
+- Brief written to `docs/debug/<ISO-8601-timestamp>-brief.md`
+- No source files modified during investigation
 
 ## Usage Example
 ```bash
-# Basic error investigation
-/debug-issue "Cannot read properties of undefined (reading 'map')"
+# Investigate a runtime TypeError
+/debug-issue "TypeError: Cannot read properties of undefined (reading 'features')" \
+  --file src/components/analysis/AnalyticsDashboard.tsx
 
-# With stack trace
-/debug-issue "RLS policy violation" --trace "at fetchData (api/route.ts:23:5)"
+# Investigate from a CI run
+/debug-issue "Build failed in GitHub Actions" --ci-run https://github.com/org/repo/actions/runs/123
 
-# Focus on specific file
-/debug-issue "MapLibre source error" --file app/src/components/MapView.tsx
-
-# Full investigation
-/debug-issue "TypeError: data is undefined" \
-  --file app/src/components/AnalyticsDashboard.tsx \
-  --trace "at AnalyticsDashboard (AnalyticsDashboard.tsx:47:18)"
+# Plain-language description
+/debug-issue "Map doesn't load on mobile after login"
 ```

@@ -1,74 +1,57 @@
-<!--
-trigger: /analyze-repo [--full] [--deps] [--architecture]
+<\!--
+trigger: /analyze-repo [--update-arch] [--module <path>]
 primary_agent: REPO-ARCHITECT
 -->
 
 ## Trigger
-`/analyze-repo [--full] [--deps] [--architecture]`
+`/analyze-repo [--update-arch] [--module <path>]`
 
 ## Purpose
-Full repository intelligence scan — detects tech stack, maps the module dependency
-graph, audits dependencies for CVEs and unapproved packages, checks Rule 7 file size
-compliance, and optionally regenerates `.claude/ARCHITECTURE.md`. The primary ARIS
-health command — run at the start of any new milestone or ARIS self-evolution pass.
+Run a full repository intelligence analysis — stack detection, module graph, and architecture
+summary. With `--update-arch` rewrites `.claude/ARCHITECTURE.md` with the latest findings.
+With `--module <path>` scopes the analysis to a specific directory instead of the entire repo.
 
 ## Primary Agent
-**REPO-ARCHITECT 🏗️** — coordinates sub-skills and writes consolidated report.
+**REPO-ARCHITECT 🏗️** — invokes `stack_detect`, `repo_graph`, and `code_summarize` skills.
 
 ## Steps
 
-1. **Stack detection** — invoke `stack_detect` skill:
-   - Read `package.json`, `tsconfig.json`, `docker-compose.yml`
-   - Cross-reference against CLAUDE.md §2 approved list
-   - Flag any unapproved direct dependencies
+1. **Invoke `stack_detect`** — identify frameworks, runtime versions, package manager, and
+   dependency graph from `package.json`, `docker-compose.yml`, and `tsconfig.json`.
 
-2. **Module graph** — invoke `repo_graph` skill:
-   - Traverse `app/src/` for all `.ts`/`.tsx` files
-   - Map component → hook → utility dependency chains
-   - List all API routes with HTTP methods
-   - Detect circular imports and orphaned components
-   - List `supabase/migrations/` timeline
+2. **Invoke `repo_graph`** — map inter-module imports and produce a dependency adjacency list.
+   If `--module <path>` provided, scope graph to that directory and its direct dependents.
 
-3. **Dependency audit** — invoke `dependency_analysis` skill (if `--deps` or `--full`):
-   - Run `npm outdated --json`
-   - Run `npm audit --json`
-   - Produce CRITICAL/HIGH/MEDIUM/LOW risk table
+3. **Invoke `code_summarize` on target modules** — if `--module <path>`, summarise only files in
+   that directory. Otherwise summarise all modules changed since the last architecture snapshot
+   (compared against `.claude/ARCHITECTURE.md` timestamp).
 
-4. **Rule 7 check** — scan for files > 300 lines:
-   ```bash
-   find app/src -name "*.tsx" -o -name "*.ts" | xargs wc -l | sort -rn | head -20
-   ```
-   Flag any file exceeding 300 lines as a Rule 7 violation.
+4. **Write architecture summary** — output module-level summaries to `docs/architecture/`
+   as `<module-name>-summary.md` files. Include stack table, dependency graph, and tech debt
+   flags.
 
-5. **ARCHITECTURE.md update** — if `--architecture` flag:
-   - Update agent/skill/command counts in `.claude/ARCHITECTURE.md`
-   - Invoke `code_summarize` on changed modules since last update
-
-6. **Write consolidated report** to `docs/architecture/REPO_INTELLIGENCE_REPORT.md`
-   with timestamp and diffs from previous report.
+5. **Optionally rewrite `.claude/ARCHITECTURE.md`** — if `--update-arch` flag is set, replace
+   the AI brain map sections (stack, module inventory, agent routing table) with current data.
+   Never modify narrative or rule sections authored by humans.
 
 ## MCP Servers Used
-- `filesystem` — read all project files, write report
-- `doc-state` — write lock for ARCHITECTURE.md update (if available)
+- `filesystem` — read source files, write architecture summaries, update ARCHITECTURE.md
+- `context7` — resolve library version docs for stack_detect validation
 
 ## Success Criteria
-- Tech-stack report produced with APPROVED/UNAPPROVED status per package
-- Module graph generated with API routes, hooks, component deps enumerated
-- Dependency risk table complete (CRITICAL/HIGH/MEDIUM/LOW counts)
-- Rule 7 violations listed (or "None detected ✅")
-- `docs/architecture/REPO_INTELLIGENCE_REPORT.md` written with timestamp
+- `docs/architecture/` contains at least one new or updated summary file
+- `.claude/ARCHITECTURE.md` updated (if `--update-arch`) with current timestamp
+- No files under `src/` modified
+- Module graph written to `docs/architecture/module-graph.md`
 
 ## Usage Example
 ```bash
-# Standard repo health scan
-/analyze-repo
+# Full repo analysis before M17 kickoff
+/analyze-repo --update-arch
 
-# Full scan with dependency audit
-/analyze-repo --full
+# Scope analysis to analytics module only
+/analyze-repo --module src/components/analysis/
 
-# Regenerate ARCHITECTURE.md with updated counts
-/analyze-repo --architecture
-
-# All checks
-/analyze-repo --full --architecture
+# Graph only — no ARCHITECTURE.md rewrite
+/analyze-repo --module src/lib/
 ```

@@ -1,72 +1,60 @@
-<!--
-trigger: /generate-tests [<path>] [--coverage-only] [--e2e]
+<\!--
+trigger: /generate-tests [--component <path>] [--all-missing] [--ci-threshold <pct>]
 primary_agent: TEST-COVERAGE-AGENT
 -->
 
 ## Trigger
-`/generate-tests [<path>] [--coverage-only] [--e2e]`
+`/generate-tests [--component <path>] [--all-missing] [--ci-threshold <pct>]`
 
 ## Purpose
-Generate Vitest unit test stubs and/or Playwright E2E test skeletons for components
-and API routes that have zero or insufficient test coverage. Ensures every new
-feature scaffolded by FEATURE-BUILDER receives a corresponding test stub before
-the milestone DoD is signed off.
+Generate Vitest test stubs for untested components. `--component <path>` scopes generation to
+one file or directory. `--all-missing` scans all `src/components/` and `src/app/api/` for files
+with no corresponding test file. `--ci-threshold <pct>` sets the coverage gate used to flag
+files below target (default 60%).
 
 ## Primary Agent
-**TEST-COVERAGE-AGENT 📊** — invokes `test_stub_gen` and `ci_smoke_test` skills.
+**TEST-COVERAGE-AGENT 🧪** — invokes `repo_graph` and `test_stub_gen` skills.
 
 ## Steps
 
-1. **Coverage baseline** — run `/coverage-report` to identify zero-coverage files.
-   If `<path>` is provided, target that specific file or directory instead.
+1. **Invoke `repo_graph` to list untested files** — compare every source file in
+   `src/components/` and `src/app/api/` against existing test files in `src/__tests__/`.
+   Flag files with no corresponding `*.test.ts` or `*.test.tsx` counterpart.
 
-2. **Unit test stub generation** — for each zero-coverage component,
-   invoke `test_stub_gen` skill:
-   - Generate Vitest stub with `vi.mock('maplibre-gl')` and `vi.mock('@supabase/supabase-js')`
-   - Include placeholder test cases for: render (smoke), badge presence (Rule 1),
-     fallback rendering (Rule 2), POPIA field assertions if applicable
-   - Mark stub: `// STUB — complete this test`
+2. **Invoke `test_stub_gen` per file** — for each untested file, generate a Vitest stub with:
+   `describe` block, one `it('// STUB', ...)` per exported function/component, and
+   import of the module under test.
 
-3. **API route test skeleton** — for each zero-coverage API route in `app/src/app/api/`:
-   - Generate Playwright API test with: `GET /api/route` returns 200,
-     LIVE→MOCK fallback assertion, tenant isolation assertion
+3. **Write stubs to `src/__tests__/`** — mirror the source directory structure.
+   Each stub file must include the `// STUB` marker on the first line after imports
+   so CI can detect unimplemented tests.
 
-4. **E2E skeleton** — if `--e2e` flag:
-   - Generate Playwright user-flow test for the component's primary interaction
-   - Include: navigate to page, interact with component, assert expected state
-   - Add data badge visibility assertion (Rule 1)
+4. **Run coverage check** — invoke `/coverage-report` (or `npm run test -- --coverage` directly)
+   to execute the full test suite with V8 coverage and capture per-file percentages.
 
-5. **Write stubs** alongside source files in `__tests__/` directory or
-   `*.test.ts` pattern. Mark all generated stubs with `// STUB — complete`.
+5. **Output coverage table** — produce a markdown table: `File | Statements | Branches | Lines | Status`.
 
-6. **Syntax validation** — invoke `ci_smoke_test` skill to verify stubs
-   parse correctly and are discoverable by Vitest runner.
-
-7. **Coverage delta estimate** — report: "Adding N stubs will increase coverage
-   from X% to ~Y% (stubs only — real coverage requires implementation)."
+6. **Flag files below threshold** — mark any file with line coverage below `--ci-threshold`
+   (default 60%) with `⚠️ BELOW THRESHOLD`. Do not fail the command; report only.
 
 ## MCP Servers Used
 - `filesystem` — read source files, write test stubs
-- `playwright` — E2E skeleton generation (if `--e2e` flag)
+- `playwright` — scaffold e2e test stubs for page-level components when detected
 
 ## Success Criteria
-- Stubs generated for all zero-coverage files in scope
-- All stubs pass TypeScript syntax check
-- Stubs include `// STUB` marker for developer tracking
-- Coverage delta estimated
-- No existing tests overwritten
+- All generated stubs contain the `// STUB` marker
+- Coverage report generated and written to `docs/coverage-report.md`
+- No existing passing tests regress (exit code 0 from test runner)
+- Files below `--ci-threshold` flagged in output
 
 ## Usage Example
 ```bash
-# Generate stubs for all zero-coverage files
-/generate-tests
+# Generate stubs for all untested files with 60% coverage gate
+/generate-tests --all-missing --ci-threshold 60
 
-# Generate stubs for a specific component
-/generate-tests app/src/components/AnalyticsDashboard.tsx
+# Stub a single component
+/generate-tests --component src/components/analysis/AnalyticsDashboard.tsx
 
-# Generate stubs + E2E skeletons
-/generate-tests --e2e
-
-# Just show coverage report without generating
-/generate-tests --coverage-only
+# Scan with stricter threshold for pre-DoD check
+/generate-tests --all-missing --ci-threshold 80
 ```
