@@ -1,0 +1,149 @@
+# 1) rm -rf root and recursive deletions — Example: rm -rf /
+rm\s+-rf\s+(/|\$\{?HOME\}?|~|/dev/|\.|\b)\b
+
+# 2) --no-preserve-root variant — Example: rm -rf --no-preserve-root /
+rm\s+.*--no-preserve-root
+
+# 3) sudo rm -rf variants — Example: sudo rm -rf /tmp
+sudo\s+rm\s+-rf
+
+# 4) dd reading from device (if=) — Example: dd if=/dev/zero of=./file
+\bdd\b[^\n]*\bif=\S+
+
+# 5) dd writing to device (of=/dev) — Example: dd if=/dev/zero of=/dev/sda
+\bdd\b[^\n]*\bof=(/dev/|\\/dev\\/|\\/dev)\S*
+
+# 6) mkfs (filesystem formatting) — Example: mkfs.ext4 /dev/sda
+\bmkfs(\.|_|-)?.*\b
+
+# 7) direct device writes to /dev — Example: cat /dev/zero > /dev/sda
+(/dev/\S+|>\s*/dev/\S+|>>\s*/dev/\S+)
+
+# 8) recursive chmod to root — Example: chmod -R 777 /
+\bchmod\b[^\n]*-R[^\n]*(777|\b/\b)
+
+# 9) recursive chown to root — Example: chown -R root:root /
+\bchown\b[^\n]*-R\b
+
+# 10) chattr to make files immutable / remove attributes misuse — Example: chattr -R
+\bchattr\b\s+(-R|\+i|\-i)
+
+# 11) fork bomb classic — Example: :(){ :|:& };:
+:\(\)\s*\{\s*:\|: &\s*;\s*:\s*\}
+
+# 12) piping remote scripts (curl | sh) — Example: curl http://x | sh
+curl\s+[^\n]*\|\s*sh|wget\s+[^\n]*\|\s*sh
+
+# 13) curl -sSL https://... | sh variants — Example: curl -sSL https://... | sh
+curl[^\n]*-sS?L?[^\n]*\|\s*sh
+
+# 14) interpreter one-liner deleting files (python -c shutil.rmtree) — Example: python -c "import shutil; shutil.rmtree('/')"
+python\s+(-c|--command)\b|python3\s+(-c|--command)\b
+
+# 15) node one-liner evals — Example: node -e "fs.rmdirSync('/')"
+\bnode\b\s+-e\b
+
+# 16) perl one-liners — Example: perl -e 'unlink glob "*"'
+\bperl\b\s+-e\b
+
+# 17) ruby one-liners — Example: ruby -e 'FileUtils.rm_rf("/")'
+\bruby\b\s+-e\b
+
+# 18) bash -c with dangerous payloads — Example: bash -c 'rm -rf /'
+\bbash\b\s+-c\b
+
+# 19) truncate and zeroing files — Example: truncate -s 0 important.log
+\btruncate\b[^\n]*-s\s*0\b
+
+# 20) redirection truncation like ": > file" or "> file" — Example: :> /etc/passwd
+(^|\s)(:?\:*>\s*\S+|:>\s*\S+|>\s*\S+)$
+
+# 21) killall -9 and mass process kill — Example: killall -9 someproc
+\b(killall|pkill)\b[^\n]*(-9|--signal\s+9)\b
+
+# 22) pkill -9 -f pattern — Example: pkill -9 -f '.*'
+\bpkill\b[^\n]*-f\b
+
+# 23) git push --force and variants — Example: git push origin master --force
+\bgit\b[^\n]*\bpush\b[^\n]*\b(--force|-f|--force-with-lease)\b
+
+# 24) git push --mirror / --delete — Example: git push --mirror origin
+\bgit\b[^\n]*\bpush\b[^\n]*\b(--mirror|--delete)\b
+
+# 25) git branch -D and destructive branch deletes — Example: git branch -D feature
+\bgit\b[^\n]*\bbranch\b\s+-D\b
+
+# 26) git reset --hard — Example: git reset --hard HEAD~1
+\bgit\b[^\n]*\breset\b[^\n]*--hard\b
+
+# 27) git clean -fd — Example: git clean -fdx
+\bgit\b[^\n]*\bclean\b[^\n]*-(f|fd|fdx)\b
+
+# 28) git update-ref -d or reflog expire — Example: git update-ref -d refs/heads/master
+\bgit\b[^\n]*\b(update-ref\s+-d|reflog\s+expire)\b
+
+# 29) git filter-repo / filter-branch usage patterns — Example: git filter-repo --invert-paths
+(git\s+filter-repo|git\s+filter-branch)\b
+
+# 30) docker rm -f and rmi -f mistakes — Example: docker rm -f $(docker ps -aq)
+\bdocker\b[^\n]*\b(rm|rmi)\b[^\n]*(-f|--force)\b
+
+# 31) docker system prune -a --volumes — Example: docker system prune -a --volumes
+\bdocker\b[^\n]*\bsystem\b[^\n]*\bprune\b[^\n]*(--volumes|-a)\b
+
+# 32) docker volume rm dangerous — Example: docker volume rm $(docker volume ls -q)
+\bdocker\b[^\n]*\bvolume\b[^\n]*\brm\b
+
+# 33) docker-compose down -v — Example: docker-compose down -v
+\bdocker-compose\b[^\n]*\bdown\b[^\n]*(-v|--volumes)\b
+
+# 34) kubectl delete --all / delete namespace — Example: kubectl delete --all pods
+\bkubectl\b[^\n]*\b(delete|drain)\b[^\n]*\b(--all|--force|namespace|--grace-period)\b
+
+# 35) helm uninstall --namespace .* --all — Example: helm uninstall --namespace prod --all
+\bhelm\b[^\n]*\buninstall\b[^\n]*--namespace\b
+
+# 36) aws s3 rm --recursive — Example: aws s3 rm s3://bucket --recursive
+\baws\b[^\n]*\bs3\b[^\n]*\brm\b[^\n]*--recursive\b
+
+# 37) az storage blob delete-batch — Example: az storage blob delete-batch --source mycontainer
+\baz\b[^\n]*\bstorage\b[^\n]*\bdelete-batch\b
+
+# 38) gcloud compute disks delete --quiet — Example: gcloud compute disks delete --quiet disk-1
+\bgcloud\b[^\n]*\bcompute\b[^\n]*\bdelete\b[^\n]*--quiet\b
+
+# 39) apt-get remove --purge -y with wildcard — Example: apt-get remove --purge -y '.*'
+\b(apt-get|apt)\b[^\n]*\b(remove|purge)\b[^\n]*(-y|--yes)\b
+
+# 40) yum/dnf remove -y — Example: yum remove -y '*'
+\b(yum|dnf)\b[^\n]*\b(remove|erase)\b[^\n]*(-y|--assumeyes)\b
+
+# 41) pip uninstall -y with wildcard — Example: pip uninstall -y -r requirements.txt
+\b(pip|pip3)\b[^\n]*\buninstall\b[^\n]*(-y|--yes)\b
+
+# 42) rm -rf with environment expansions ($HOME, ~) — Example: rm -rf "$HOME"/*
+rm\s+-rf\s+\$HOME|rm\s+-rf\s+~
+
+# 43) dangerous redirections combined with env expansion — Example: > $HOME/.bashrc echo 'x'
+(>\s*\$HOME|>\s*~|:\s*>\s*\$HOME)
+
+# 44) encoded or percent-encoded payloads attempts (e.g., %2F) — Example: rm%20-rf%20/
+%25[0-9A-Fa-f]{2}|%2[fF]
+
+# 45) base64|bash evasion patterns — Example: echo aGVsbG8= | base64 -d | bash
+(base64\s+(-d|--decode)|base64\s*\|\s*bash)\b
+
+# 46) eval with backticks and $() that execute destructive sequences — Example: eval "$(rm -rf /)"
+\beval\b[^\n]*\$\(|`.*`\b
+
+# 47) systemctl halt/poweroff/shutdown variants — Example: systemctl poweroff
+\b(systemctl\s+(poweroff|halt|reboot)|\bshutdown\b)\b
+
+# 48) xargs with rm -rf — Example: find . -name '*' | xargs rm -rf
+\bxargs\b[^\n]*\brm\b[^\n]*-rf\b
+
+# 49) rsync --delete --force to remote that wipes — Example: rsync --delete -av src/ dest/
+\brsync\b[^\n]*\b(--delete|--remove-source-files)\b
+
+# 50) overwrite dd + disk utilities combined patterns and suspicious low-level tools — Example: sgdisk --zap-all /dev/sda
+\b(sgdisk|sgdisk|wipefs|parted|sgdisk)\b[^\n]*\b(--zap-all|--wipe|--remove)\b
