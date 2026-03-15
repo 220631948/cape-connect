@@ -9,9 +9,11 @@ node_modules/
 
 # Build output
 .next/
+.next_*/
 out/
 dist/
 build/
+
 
 # OS & editor artifacts
 .DS_Store
