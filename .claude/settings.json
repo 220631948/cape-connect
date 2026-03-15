@@ -1,4 +1,8 @@
 {
+  "enabledPlugins": {
+    "notebooklm-connector@claude-code-zero": true,
+    "claude-mem@thedotmack": true
+  },
   "mcpServers": {
     "nano-banana": {
       "httpUrl": "https://nano-banana.googleapis.com/mcp",
@@ -167,8 +171,5 @@
         "nerfstudio.mcp_server"
       ]
     }
-  },
-  "enabledPlugins": {
-    "notebooklm-connector@claude-code-zero": true
   }
 }
