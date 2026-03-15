@@ -78,3 +78,5 @@ __pycache__/
 *.pyo
 .venv/
 venv/
+.claude_backup/
+.claude_removed/
