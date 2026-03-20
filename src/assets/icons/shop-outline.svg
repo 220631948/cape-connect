@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shop-Outline: Neomorphic Plump Shop (Commercial) -->
+  <path d="M16,20 L48,20 Q52,20 52,24 L52,52 Q52,56 48,56 L16,56 Q12,56 12,52 L12,24 Q12,20 16,20 Z" 
+        fill="none" stroke="#F472B6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M22,20 Q22,8 32,8 Q42,8 42,20" fill="none" stroke="#F472B6" stroke-width="2" stroke-linecap="round" />
+  <circle cx="32" cy="38" r="6" fill="none" stroke="#F472B6" stroke-width="2" opacity="0.8" />
+</svg>

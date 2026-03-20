@@ -1,0 +1,73 @@
+{
+  "mascotCharacter": {
+    "name": "Talip the Turtle",
+    "stitchId": "mascot-turtle-v1",
+    "description": "A whimsical, neumorphic turtle mascot character that guides users through GIS exploration with playful personality and tactile depth cues.",
+    "creator": "Stitch Engine v3.0",
+    "createdDate": "2025-03-10",
+    "style": {
+      "baseColor": "#7dd3c0",
+      "accentColor": "#2d9d7f",
+      "neumorphicDepth": "moderate",
+      "handDrawnElements": true,
+      "designApproach": "Neumorphic + Whimsy Blend (Variant 3b)"
+    },
+    "poses": {
+      "default": {
+        "file": "turtle-mascot-default.svg",
+        "emotion": "happy",
+        "context": "General UI element, welcome screens, empty states",
+        "dimensions": "128x128",
+        "accessibilityTitle": "Turtle Mascot - Default Happy Pose"
+      },
+      "thinking": {
+        "file": "turtle-mascot-thinking.svg",
+        "emotion": "contemplative",
+        "context": "Loading states, data analysis, decision points",
+        "dimensions": "128x128",
+        "accessibilityTitle": "Turtle Mascot - Thinking Pose"
+      },
+      "celebrating": {
+        "file": "turtle-mascot-celebrating.svg",
+        "emotion": "joyful",
+        "context": "Success messages, achievement unlocked, completion celebrations",
+        "dimensions": "128x128",
+        "accessibilityTitle": "Turtle Mascot - Celebrating Pose"
+      }
+    },
+    "verification": {
+      "neumorphicCompliance": "✅ Yes — Soft shadows, beveled highlights, monochromatic base with accent colors",
+      "whimsicalCompliance": "✅ Yes — Hand-drawn shell pattern, playful expression, floating tail, blush marks",
+      "accessibilityCompliance": "✅ Yes — SVGs include <title> and <desc>, scalable, works in light/dark/high-contrast modes",
+      "wcagAA": true,
+      "reducedMotionSupport": true
+    },
+    "usageGuidelines": {
+      "minSize": "48x48px (mobile badge)",
+      "recommendedSize": "128x128px (screens)",
+      "maxSize": "256x256px (hero illustrations)",
+      "scaling": "SVG scales perfectly to any size",
+      "colorAdaptation": "Base green works in light, dark, and high-contrast modes. Outline color adjusts for contrast.",
+      "placeInUI": [
+        "Top-right corner of login/onboarding screens",
+        "Loading state placeholders",
+        "Empty state illustrations",
+        "Success modals and confirmations",
+        "Chat-like assistance overlays"
+      ]
+    },
+    "neumorphicDetails": {
+      "shellGradient": "radial gradient (center light teal to dark teal)",
+      "shadowBlur": "12px",
+      "shadowSpread": "2px",
+      "highlightOpacity": 0.3,
+      "bevelsPresent": true,
+      "depthLayers": 3
+    },
+    "whimsicalDetails": {
+      "doodleElements": ["shell hex grid pattern", "blush marks", "curved tail with shine"],
+      "personalityTraits": ["curious", "friendly", "helpful", "playful"],
+      "easterEggs": "Tail waves independently; mascot 'watches' user interaction"
+    }
+  }
+}
