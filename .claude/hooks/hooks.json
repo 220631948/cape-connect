@@ -1,7 +1,0 @@
-{
-  "hooks": [
-    {"name": "block-secrets", "type": "PreToolUse", "tool": "Bash", "pattern": "git commit", "script": ".claude/hooks/block-secrets.js", "blocking": true},
-    {"name": "badge-enforcer", "type": "PostToolUse", "tool": ["Write", "Edit"], "pattern": "src/(components|app).*\\.(tsx|ts)$", "script": ".claude/hooks/badge-enforcer.js", "blocking": false},
-    {"name": "audit-trail", "type": "PostToolUse", "tool": "Bash", "pattern": "*", "script": ".claude/hooks/audit-trail.js", "blocking": false}
-  ]
-}

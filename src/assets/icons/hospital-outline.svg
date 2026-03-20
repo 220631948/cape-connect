@@ -1,8 +1,0 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Hospital-Outline: Neomorphic Plump Hospital (Social) -->
-  <path d="M12,12 Q8,12 8,16 L8,52 Q8,56 12,56 L52,56 Q56,56 56,52 L56,16 Q56,12 52,12 L36,12 L36,4 L28,4 L28,12 L12,12 Z" 
-        fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M32,24 L32,44 M22,34 L42,34" fill="none" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round" />
-  <rect x="16" y="44" width="8" height="8" rx="2" fill="none" stroke="#FF6B6B" stroke-width="1.5" opacity="0.8" />
-  <rect x="40" y="44" width="8" height="8" rx="2" fill="none" stroke="#FF6B6B" stroke-width="1.5" opacity="0.8" />
-</svg>

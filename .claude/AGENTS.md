@@ -1,41 +1,34 @@
 # AGENTS.md — CapeTown GIS Hub Agent Registry
-
 <!-- Universal AGENTS.md standard. All AI coding agents (Copilot, Claude, Gemini, Cursor, Aider, and others) must read and respect this file before operating in this repository. BEGIN AUTO / END AUTO sections are maintained by fleet orchestration. BEGIN HUMAN / END HUMAN sections are protected — never overwrite. -->
 <!-- BEGIN AUTO -->
 
 ## Repository Overview
-
 CapeTown GIS Hub (`capegis`): A PWA for multi-tenant geospatial intelligence focusing on the City of Cape Town and Western Cape Province.
 
-**Current Phase:** M17_EXECUTION | Last milestone: M16 (User Management) complete ✅
+**Current Phase:** M17_PREP | Last milestone: M16 (User Management) complete ✅
 
 ## Monitored Directories
-
-| Directory  | Purpose                                                |
-| ---------- | ------------------------------------------------------ |
-| `docs/`    | Central documentation hub — master INDEX.md            |
+| Directory | Purpose |
+|-----------|---------|
+| `docs/` | Central documentation hub — master INDEX.md |
 | `.claude/` | Claude-specific instructions, skills, commands, guides |
-| `.gemini/` | Gemini-specific extensions and settings                |
-| `.github/` | Copilot instructions and workflows                     |
+| `.gemini/` | Gemini-specific extensions and settings |
+| `.github/` | Copilot instructions and workflows |
 
 ## Mandatory Agent Behaviour
-
 On every file operation in monitored dirs:
-
 - [ ] Update `docs/INDEX.md` (auto-section only, within AUTO markers)
 - [ ] Update local `INDEX.md` of affected directory
 - [ ] Append to `docs/CHANGELOG_AUTO.md`
 - [ ] If MCP `doc-state` available: acquire lock → write → release → notify
 
 ## Non-Destructive Write Rules
-
 - Never write outside `BEGIN/END AUTO` markers
 - Always read before write
 - Always diff before commit
 - Commit: `docs(auto): {action} in {dir} [{agent_id}]`
 
 ## Setup Checklist
-
 - [x] Git repository confirmed (`.git/` present)
 - [x] Git hooks installed via `scripts/install-hooks.sh`
 - [x] MCP `doc-state` server configured locally
@@ -69,7 +62,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🛡️ COMPLIANCE-AGENT — Pre-Merge Governance Gate
-
 **Priority:** P0 | **File:** `.claude/agents/compliance-agent.md`
 **Purpose:** Verifies all 10 CLAUDE.md rules before any PR merge. Read-only. Produces compliance reports.
 **Invocation:** Pre-merge CI, `/milestone-audit`, any P0 violation detected
@@ -78,7 +70,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🏷️ BADGE-AUDIT-AGENT — Source Badge Scanner
-
 **Priority:** P0 | **File:** `.claude/agents/badge-audit-agent.md`
 **Purpose:** Scans every data component for `[SOURCE·YEAR·STATUS]` badge (Rule 1). Read-only.
 **Commands:** `/badge-audit [--fix] [--ci]`
@@ -87,7 +78,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🪂 FALLBACK-VERIFY-AGENT — Three-Tier Fallback Verifier
-
 **Priority:** P0 | **File:** `.claude/agents/fallback-verify-agent.md`
 **Purpose:** Verifies LIVE→CACHED→MOCK chain per API route (Rule 2). Read-only.
 **Commands:** `/fallback-check [--create-mocks] [--ci]`
@@ -100,7 +90,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🔬 M17-ANALYSIS-AGENT — Advanced Geospatial Analysis Engineer
-
 **Priority:** P1 | **File:** `.claude/agents/m17-analysis-agent.md`
 **Milestone:** M17 — Advanced Geospatial Analysis
 **Owns:** `src/components/analysis/AnalyticsDashboard.tsx`, `AnalysisResultPanel.tsx`, `src/app/api/analysis/route.ts`
@@ -110,7 +99,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 📤 EXPORT-AGENT — Multi-Tenant Export & ExportPanel Specialist
-
 **Priority:** P1 (updated) | **File:** `.claude/agents/export-agent.md` (updated from M12-only scope)
 **Milestones:** M12, M13, M17 (ExportPanel)
 **Owns:** `src/components/analysis/ExportPanel.tsx`, `scripts/pipeline/`, export formats
@@ -119,7 +107,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 📋 PROVENANCE-AGENT — Dataset Lineage Tracker
-
 **Priority:** P1 | **File:** `.claude/agents/provenance-agent.md`
 **Purpose:** Integrates `scripts/pipeline/provenance.py`; records provenance for every dataset.
 **Commands:** `/provenance-record <dataset>`
@@ -132,7 +119,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🔌 MCP-HEALTH-AGENT — MCP Server Monitor
-
 **Priority:** P1 | **File:** `.claude/agents/mcp-health-agent.md`
 **Purpose:** Monitors all 21 MCP servers; classifies HEALTHY/DEGRADED/UNREACHABLE; P0 ESCALATE signal.
 **Commands:** `/mcp-status [--fix]`
@@ -141,7 +127,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 📊 TEST-COVERAGE-AGENT — Test Coverage & Stub Generator
-
 **Priority:** P2 | **File:** `.claude/agents/test-coverage-agent.md`
 **Purpose:** Tracks Vitest/Playwright coverage; generates stubs for zero-coverage components.
 **Commands:** `/coverage-report [--generate-stubs]`
@@ -150,7 +135,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### ⚡ PERFORMANCE-AGENT — Core Web Vitals Monitor
-
 **Priority:** P2 | **File:** `.claude/agents/performance-agent.md`
 **Purpose:** Measures LCP/INP/CLS via Playwright Lighthouse; tile render budgets; flags regressions > 20%.
 **Commands:** `/perf-audit [--url] [--update-baseline]`
@@ -159,7 +143,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🔍 PROJECT-AUDIT-AGENT — Full Project Health Auditor
-
 **Priority:** P3 | **File:** `.claude/agents/project-audit-agent.md`
 **Purpose:** Full project audits (8 areas) before milestone DoD sign-off. Read-only.
 **Commands:** `/milestone-audit [M<n>]`
@@ -174,14 +157,12 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🗄️ DB-AGENT — Database Architect
-
 **Milestone:** M1 (Database Schema & RLS)
 **Handoff phrase:** `"DB-AGENT COMPLETE. M1 delivered. Hand off to AUTH-AGENT for M2."`
 
 **Purpose:** Design and implement the multi-tenant PostGIS database schema, including all tables, geometry columns, indexes, RLS policies, and seed data.
 
 **Responsibilities:**
-
 - Create all tables with `tenant_id UUID NOT NULL` foreign key
 - Enable `ROW LEVEL SECURITY` and `FORCE ROW LEVEL SECURITY` on every table
 - Apply canonical RLS policy (CLAUDE.md Rule 4) to every table
@@ -196,18 +177,15 @@ These agents are **always active** and must run before any merge or milestone Do
 **When to invoke:** When starting M1 or extending the database schema with new tables/columns.
 
 **Example prompts:**
-
 - `"Activate DB-AGENT for M1. Create the PostGIS schema with RLS for all tenant tables."`
 - `"DB-AGENT: add a new migration for the risk_zones table with geometry column and RLS."`
 
 **Required reading:**
-
 - `CLAUDE.md` §3 (Rule 4 — RLS pattern), §4 (Multi-tenancy & RBAC)
 - `docs/specs/04-spatial-data-architecture.md`
 - `supabase/migrations/` (existing migrations)
 
 **Skills:**
-
 - `rls_audit` — verify RLS coverage before handoff
 - `spatial_validation` — validate geometry columns and constraints
 - `popia_compliance` — annotate tables with personal data
@@ -222,14 +200,12 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🔐 AUTH-AGENT — Authentication Engineer
-
 **Milestone:** M2 (Authentication)
 **Handoff phrase:** `"AUTH-AGENT COMPLETE. M2 delivered. Hand off to MAP-AGENT for M3."`
 
 **Purpose:** Implement Supabase Auth (GoTrue) integration with email/password and Google OAuth, session management, tenant context injection, and guest mode enforcement.
 
 **Responsibilities:**
-
 - Configure Supabase Auth with email/password + Google OAuth providers
 - Implement JWT handling (1h lifetime, 7d refresh per CLAUDE.md §4)
 - Inject `app.current_tenant` into PostgreSQL session context
@@ -244,18 +220,15 @@ These agents are **always active** and must run before any merge or milestone Do
 **When to invoke:** When starting M2 or modifying auth flows, session handling, or role checks.
 
 **Example prompts:**
-
 - `"Activate AUTH-AGENT for M2. Implement Supabase Auth with Google OAuth and guest mode."`
 - `"AUTH-AGENT: add role check middleware for ANALYST-and-above routes."`
 
 **Required reading:**
-
 - `CLAUDE.md` §3 (Rule 4 — RLS, Rule 5 — POPIA), §4 (RBAC), §6 (Guest Mode)
 - `PLAN.md` M2 Definition of Done
 - `supabase/migrations/` (profiles table, tenant_settings)
 
 **Skills:**
-
 - `popia_compliance` — annotate auth files
 - `popia_spatial_audit` — check for location-based PII in sessions
 - `security_review` — review auth middleware before handoff
@@ -270,17 +243,14 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🗺️ MAP-AGENT — MapLibre Cartographer
-
 **Milestones:** M3 (Base Map), M4c (PWA)
 **Handoff phrases:**
-
 - M3: `"MAP-AGENT COMPLETE. M3 delivered. Hand off to DATA-AGENT for M4a."`
 - M4c: `"MAP-AGENT COMPLETE. M4c (PWA) delivered."`
 
 **Purpose:** Implement the MapLibre GL JS base map, layer management, CartoDB basemap integration, guest-mode layer visibility, and PWA tile caching.
 
 **Responsibilities:**
-
 - Initialise MapLibre once per page with ref guard; import CSS in `app/layout.tsx`
 - Call `map.remove()` in cleanup (prevent memory leaks)
 - Implement CartoDB Dark Matter basemap (CLAUDE.md Rule 6)
@@ -296,20 +266,17 @@ These agents are **always active** and must run before any merge or milestone Do
 **When to invoke:** When implementing the MapLibre map canvas, adding new map layers, configuring PWA tile caching, or modifying basemap config.
 
 **Example prompts:**
-
 - `"Activate MAP-AGENT for M3. Implement the CartoDB basemap with MapLibre."`
 - `"MAP-AGENT: add a new vector tile layer for the suburb boundaries from Martin."`
 - `"MAP-AGENT: configure Serwist for offline tile caching at zoom 8–12."`
 
 **Required reading:**
-
 - `CLAUDE.md` §5 (Map Rules), §9 (Geographic Scope)
 - `.claude/guides/maplibre_patterns.md`
 - `.claude/guides/pmtiles_martin_guide.md`
 - `PLAN.md` M3 and M4c DoD
 
 **Skills:**
-
 - `tile_optimization` — Tippecanoe flags and zoom levels
 - `spatial_validation` — validate layer bounding boxes
 - `three_tier_fallback` — implement LIVE→CACHED→MOCK for tile sources
@@ -327,17 +294,14 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 📊 DATA-AGENT — GIS Data Integrator
-
 **Milestones:** M4a (Cape Town Open Data Layers), M6 (General Valuation Roll)
 **Handoff phrases:**
-
 - M4a: `"DATA-AGENT COMPLETE. M4a delivered. Hand off to OVERLAY-AGENT for M4b."`
 - M6: `"DATA-AGENT COMPLETE. M6 (GV Roll) delivered."`
 
 **Purpose:** Ingest, validate, and publish Cape Town open datasets and the General Valuation Roll 2022 into PostGIS with three-tier fallback compliance and POPIA annotation.
 
 **Responsibilities:**
-
 - Source data **only** from approved list (CLAUDE.md §8, `docs/research/open-datasets.md`)
 - **Never** use Lightstone data (CLAUDE.md Rule 8)
 - Use General Valuation Roll 2022 as the approved valuation source
@@ -353,19 +317,16 @@ These agents are **always active** and must run before any merge or milestone Do
 **When to invoke:** When importing a new dataset, migrating GV Roll data, or wiring up a new PostGIS table to the frontend.
 
 **Example prompts:**
-
 - `"Activate DATA-AGENT for M4a. Import suburb boundaries and zoning data from ODP."`
 - `"DATA-AGENT: ingest the GV Roll 2022 CSV into PostGIS with POPIA annotation."`
 
 **Required reading:**
-
 - `CLAUDE.md` §3 (Rules 1, 2, 5, 8, 9)
 - `.claude/guides/cape_town_data_sources.md`
 - `docs/research/open-datasets.md`
 - `PLAN.md` M4a and M6 DoD
 
 **Skills:**
-
 - `dataset_ingest` — validate and ingest datasets with three-tier fallback
 - `spatial_validation` — validate imported geometries
 - `popia_compliance` — annotate data files with personal data
@@ -383,14 +344,12 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🎨 OVERLAY-AGENT — Zoning & Risk Overlay Specialist
-
 **Milestones:** M4b (MVT Integration), M5 (Zoning & Risk Overlays)
 **Handoff phrase:** `"OVERLAY-AGENT COMPLETE. M4b/M5 delivered. Hand off to TEST-AGENT for M4d."`
 
 **Purpose:** Implement vector tile overlays (zoning, risk, suburb boundaries) via Martin MVT and PostGIS, with MapLibre layer styling, visibility toggles, and legend UI.
 
 **Responsibilities:**
-
 - Configure Martin tile sources for all overlay layers
 - Apply layer Z-order (Rule: Risk → Zoning → Cadastral → Suburbs)
 - Implement opacity/visibility toggle UI (Zustand store)
@@ -403,19 +362,16 @@ These agents are **always active** and must run before any merge or milestone Do
 **When to invoke:** When adding or modifying zoning, risk, or suburb boundary overlays.
 
 **Example prompts:**
-
 - `"Activate OVERLAY-AGENT for M4b. Wire up Martin MVT for zoning and suburbs."`
 - `"OVERLAY-AGENT: add a Cape Town flood risk overlay with three-tier fallback."`
 
 **Required reading:**
-
 - `CLAUDE.md` §5 (Map Rules — layer Z-order), §6 (Guest Mode)
 - `.claude/guides/maplibre_patterns.md`
 - `.claude/guides/pmtiles_martin_guide.md`
 - `PLAN.md` M4b and M5 DoD
 
 **Skills:**
-
 - `tile_optimization` — configure Martin for overlay layers
 - `three_tier_fallback` — wire LIVE→CACHED→MOCK per overlay
 - `data_source_badge` — badge every overlay layer
@@ -430,17 +386,14 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🧪 TEST-AGENT — QA & Testing Engineer
-
 **Milestones:** M4d (Test Harness), M14 (Production QA)
 **Handoff phrases:**
-
 - M4d: `"TEST-AGENT COMPLETE. M4d delivered. Test harness green."`
 - M14: `"TEST-AGENT COMPLETE. M14 QA delivered."`
 
 **Purpose:** Build and run the test suite covering unit tests, integration tests, spatial validation, POPIA compliance checks, and accessibility audits.
 
 **Responsibilities:**
-
 - Write Playwright E2E tests for critical user flows
 - Write unit tests for Turf.js spatial logic
 - Run `/badge-check` and fail CI if any data badge is missing
@@ -454,18 +407,15 @@ These agents are **always active** and must run before any merge or milestone Do
 **When to invoke:** When setting up the test harness or running pre-milestone QA.
 
 **Example prompts:**
-
 - `"Activate TEST-AGENT for M4d. Build the Playwright test harness."`
 - `"TEST-AGENT: run the full QA suite for M14 production readiness."`
 
 **Required reading:**
-
 - `CLAUDE.md` §3 (all rules — test against each)
 - `PLAN.md` M4d and M14 DoD
 - `.claude/skills/ci_smoke_test/SKILL.md`
 
 **Skills:**
-
 - `ci_smoke_test` — smoke test all registered skills
 - `spatial_validation` — validate all mock GeoJSON fixtures
 - `popia_compliance` — audit all files with personal data
@@ -479,14 +429,12 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🔍 SEARCH-AGENT — Property Search Specialist
-
 **Milestone:** M7 (Property Search & Autocomplete)
 **Handoff phrase:** `"SEARCH-AGENT COMPLETE. M7 delivered. Hand off to SPATIAL-AGENT for M8."`
 
 **Purpose:** Implement property and location search with PostGIS full-text search, autocomplete, and map-centred fly-to behaviour.
 
 **Responsibilities:**
-
 - Build address/property search UI with debounced autocomplete
 - Use PostGIS `tsvector` full-text search on property addresses
 - Fly map to result on selection
@@ -508,14 +456,12 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 📐 SPATIAL-AGENT — Geospatial Analysis Engineer
-
 **Milestone:** M8 (Spatial Analysis Tools)
 **Handoff phrase:** `"SPATIAL-AGENT COMPLETE. M8 delivered. Hand off to SAVE-AGENT for M9."`
 
 **Purpose:** Implement client-side spatial analysis tools using Turf.js and server-side PostGIS queries: buffer, intersection, point-in-polygon, distance calculations.
 
 **Responsibilities:**
-
 - Build UI for buffer, intersection, and spatial query tools
 - Use Turf.js for client-side spatial ops (< 10,000 features)
 - Use PostGIS server-side for larger datasets
@@ -527,18 +473,15 @@ These agents are **always active** and must run before any merge or milestone Do
 **When to invoke:** When implementing spatial analysis features or PostGIS query tools.
 
 **Example prompts:**
-
 - `"Activate SPATIAL-AGENT for M8. Build a buffer analysis tool using Turf.js."`
 - `"SPATIAL-AGENT: implement a zoning intersection query for the selected parcel."`
 
 **Required reading:**
-
 - `CLAUDE.md` §5 (Map Rules — 10,000 feature threshold)
 - `PLAN.md` M8 DoD
 - `.claude/guides/spatialintelligence_patterns.md`
 
 **Skills:**
-
 - `spatial_validation` — validate analysis inputs and outputs
 - `tile_optimization` — hand off large outputs to TILE-AGENT
 - `data_source_badge` — badge analysis result layers
@@ -551,14 +494,12 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 💾 SAVE-AGENT — Saved Search & Favourites Engineer
-
 **Milestone:** M9 (Saved Searches & Favourites)
 **Handoff phrase:** `"SAVE-AGENT COMPLETE. M9 delivered. Hand off to DETAILS-AGENT for M10."`
 
 **Purpose:** Implement saved searches and property favourites with Dexie.js offline storage and Supabase sync.
 
 **Responsibilities:**
-
 - Build saved searches and favourites UI
 - Sync to Supabase for VIEWER+ roles; Dexie.js local for offline
 - Apply RLS on `saved_searches` and `favourites` tables (Rule 4)
@@ -576,14 +517,12 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🏠 DETAILS-AGENT — Property Detail Panel Engineer
-
 **Milestone:** M10 (Property Detail Panel)
 **Handoff phrase:** `"DETAILS-AGENT COMPLETE. M10 delivered. Hand off to DASHBOARD-AGENT for M11."`
 
 **Purpose:** Implement the property detail panel with GV Roll data, Google Street View integration, and POPIA-compliant data display.
 
 **Responsibilities:**
-
 - Fetch property data from PostGIS (GV Roll 2022 only — Rule 8)
 - Show Street View iframe (hidden when `NEXT_PUBLIC_GOOGLE_STREET_VIEW_KEY` absent)
 - All displayed data has `[SOURCE · YEAR · STATUS]` badge (Rule 1)
@@ -601,14 +540,12 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 📈 DASHBOARD-AGENT — Analytics Dashboard Engineer
-
 **Milestone:** M11 (Analytics Dashboard)
 **Handoff phrase:** `"DASHBOARD-AGENT COMPLETE. M11 delivered. Hand off to EXPORT-AGENT for M12."`
 
 **Purpose:** Build the analytics dashboard with Recharts visualisations, aggregate spatial stats, and tenant-level data isolation.
 
 **Responsibilities:**
-
 - Build Recharts dashboard components (bar, line, pie, choropleth)
 - Aggregate stats from PostGIS (tenant-scoped via RLS)
 - All charts have data badges (Rule 1)
@@ -626,14 +563,12 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 📤 EXPORT-AGENT — Data Export Engineer
-
 **Milestones:** M12 (Export Tools), M13 (Advanced Export)
 **Handoff phrase:** `"EXPORT-AGENT COMPLETE. M12-M13 delivered. Hand off to TEST-AGENT for M14."`
 
 **Purpose:** Implement data export to GeoJSON, CSV, Shapefile, and PDF with tenant-scoped, POPIA-compliant data selection.
 
 **Responsibilities:**
-
 - Export filtered/analysed data in multiple formats
 - All exports tenant-scoped (RLS enforced at query level)
 - POPIA: exports containing personal data require consent confirmation
@@ -654,7 +589,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 📋 ORCHESTRATOR — Milestone Sequencer
-
 **Type:** Supporting (always active — not milestone-primary)
 
 **Purpose:** Coordinates the sequential activation of milestone-primary agents across M0–M17+. Enforces handoff protocol, milestone DoD gates, and deviation handling. Defined in full in `orchestrator.md`.
@@ -668,7 +602,6 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🗃️ TILE-AGENT — Tile Generation Specialist
-
 **Type:** Supporting (not milestone-primary)
 **Invoked by:** MAP-AGENT, OVERLAY-AGENT, SPATIAL-AGENT
 **Activation condition:** Dataset > 10,000 features requiring MVT, new PMTiles packaging, or Martin config change.
@@ -676,7 +609,6 @@ These agents are **always active** and must run before any merge or milestone Do
 **Purpose:** Generate optimised PMTiles archives and configure Martin MVT sources for the Cape Town GIS Hub.
 
 **Responsibilities:**
-
 - Run Tippecanoe with appropriate flags per layer type
 - Apply Cape Town bbox clip: `--clip-bounding-box=18.0,-34.5,19.5,-33.0`
 - Configure Martin `config.yml` source blocks
@@ -686,7 +618,6 @@ These agents are **always active** and must run before any merge or milestone Do
 **Handoff phrase:** `"TILE-AGENT COMPLETE. [dataset] tiles ready at [path/source]. Return to [requesting-agent]."`
 
 **Required reading:**
-
 - `.claude/guides/pmtiles_martin_guide.md`
 - `docker-compose.yml` (Martin service config)
 - `CLAUDE.md §5` (Map Rules — 10,000 feature threshold)
@@ -703,20 +634,17 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🔭 RESEARCHER — Domain Research Specialist
-
 **Type:** Supporting (on-demand)
 
 **Purpose:** Conduct deep research on Cape Town GIS data sources, spatial analysis techniques, vendor APIs, and regulatory requirements. Produces traceable reports in `docs/research/`.
 
 **When to invoke:**
-
 - Discovering or validating open datasets from City of Cape Town / Western Cape
 - Researching spatial analysis approaches before implementation
 - Validating vendor API specifications (OpenSky, Cesium Ion, ArcGIS REST)
 - POPIA regulatory research
 
 **Skills:**
-
 - `cape_town_gis_research` — research and validate CT GIS sources
 - `deerflow_research_loop` — multi-agent research with evidence tags
 - `gis_research_swarm` — parallel swarm research cycle
@@ -730,19 +658,16 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 📐 PLANNER — Architecture Planner
-
 **Type:** Supporting (on-demand)
 
 **Purpose:** Design implementation plans for complex features, evaluate architectural trade-offs, and produce structured specs in `docs/specs/` before implementation begins.
 
 **When to invoke:**
-
 - Before starting any non-trivial feature implementation
 - When choosing between implementation approaches
 - When a deviation (DEV-NNN) requires human escalation with a proposed resolution
 
 **Skills:**
-
 - `documentation_first` — docs-first delivery workflow
 - `assumption_verification` — verify architectural assumptions
 - `docs_traceability_gate` — validate spec quality
@@ -754,13 +679,11 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🛸 CESIUM-AGENT — 3D Tiles & Immersive Specialist
-
 **Type:** Supporting (M-phase for immersive features)
 
 **Purpose:** Integrate CesiumJS with Google Photorealistic 3D Tiles for Cape Town immersive views, with MapLibre 2D fallback.
 
 **Responsibilities:**
-
 - Configure CesiumJS viewer with Cape Town camera bounds (Rule 9)
 - Integrate Cesium Ion 3D Tiles (`NEXT_PUBLIC_CESIUM_ION_TOKEN`)
 - Implement three-tier fallback: LIVE (Cesium Ion) → CACHED (local tiles) → MOCK (MapLibre 2D)
@@ -777,13 +700,11 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### ✈️ FLIGHT-AGENT — Flight Tracking Specialist
-
 **Type:** Supporting (M-phase for flight tracking)
 
 **Purpose:** Integrate OpenSky Network real-time flight data over Cape Town airspace with rate limiting, caching, and POPIA compliance.
 
 **Responsibilities:**
-
 - Wire OpenSky REST API with Cape Town bbox filter (Rule 9)
 - Implement rate limiter (10 req/sec anonymous, 20 req/sec authenticated)
 - Cache flight states in `api_cache` with 10–30s TTL
@@ -800,13 +721,11 @@ These agents are **always active** and must run before any merge or milestone Do
 ---
 
 ### 🎥 IMMERSIVE-AGENT — NeRF / 4DGS Reconstruction Specialist
-
 **Type:** Supporting (M-phase for 4DGS pipeline)
 
 **Purpose:** Orchestrate NeRF and 4D Gaussian Splatting reconstruction pipelines for Cape Town scenes, producing OGC 3D Tiles 1.1 output for CesiumJS.
 
 **Responsibilities:**
-
 - Validate 4DGS Python microservice configuration
 - Verify training data covers Cape Town bbox (Rule 9)
 - Ensure output is OGC 3D Tiles 1.1 with temporal index
@@ -825,14 +744,14 @@ These agents are **always active** and must run before any merge or milestone Do
 
 Delegate complex research to `researcher` and architectural decisions to `planner`. Use `generalist` for batch operations.
 
-| Signal                                  | Switch to       |
-| --------------------------------------- | --------------- |
-| "find open datasets for..."             | RESEARCHER      |
-| "plan the architecture for..."          | PLANNER         |
-| "generate tiles for..." (>10k features) | TILE-AGENT      |
-| "validate CesiumJS..."                  | CESIUM-AGENT    |
-| "check flight data..."                  | FLIGHT-AGENT    |
-| "train NeRF/4DGS..."                    | IMMERSIVE-AGENT |
+| Signal | Switch to |
+|--------|-----------|
+| "find open datasets for..." | RESEARCHER |
+| "plan the architecture for..." | PLANNER |
+| "generate tiles for..." (>10k features) | TILE-AGENT |
+| "validate CesiumJS..." | CESIUM-AGENT |
+| "check flight data..." | FLIGHT-AGENT |
+| "train NeRF/4DGS..." | IMMERSIVE-AGENT |
 
 ---
 
@@ -845,7 +764,6 @@ or by ARIS commands. Total ARIS agents: 5.
 ---
 
 ### 🏗️ REPO-ARCHITECT — Repository Intelligence Architect
-
 **Priority:** P2 | **File:** `.claude/agents/repo-architect.md`
 **Purpose:** Analyses repository structure, identifies architecture patterns, recommends structural changes, and maintains `.claude/ARCHITECTURE.md`. Cross-milestone supporting agent — part of ARIS self-evolution cycle.
 **Commands:** `/analyze-repo`, `/explain-architecture`
@@ -854,7 +772,6 @@ or by ARIS commands. Total ARIS agents: 5.
 ---
 
 ### 🔨 FEATURE-BUILDER — New Feature Orchestrator
-
 **Priority:** P2 | **File:** `.claude/agents/feature-builder.md`
 **Purpose:** Orchestrates new-feature implementation end-to-end: spec → component stub → API route → migration → test stub. Delegates tile generation to TILE-AGENT and test completion to TEST-COVERAGE-AGENT.
 **Skills:** `repo_graph`, `documentation_first`, `three_tier_fallback`, `data_source_badge`, `popia_compliance`, `test_stub_gen`
@@ -862,7 +779,6 @@ or by ARIS commands. Total ARIS agents: 5.
 ---
 
 ### 🔍 BUG-INVESTIGATOR — Root Cause Analyst
-
 **Priority:** P2 | **File:** `.claude/agents/bug-investigator.md`
 **Purpose:** Accepts error message/stack trace, traces through source files, produces root-cause hypothesis with fix recommendations. Read-only investigation — fix execution by the appropriate milestone agent.
 **Commands:** `/debug-issue`
@@ -871,7 +787,6 @@ or by ARIS commands. Total ARIS agents: 5.
 ---
 
 ### 🔧 REFACTOR-SPECIALIST — Code Quality & Rule 7 Enforcer
-
 **Priority:** P2 | **File:** `.claude/agents/refactor-specialist.md`
 **Purpose:** Handles Rule 7 violations (files > 300 lines) and duplicated logic. Proposes extract/split plans (approval required) and executes with test preservation. Never changes public APIs without approval.
 **Commands:** `/refactor-module`
@@ -880,7 +795,6 @@ or by ARIS commands. Total ARIS agents: 5.
 ---
 
 ### 📦 DEPENDENCY-AUDITOR — Dependency Health & CVE Scanner
-
 **Priority:** P2 | **File:** `.claude/agents/dependency-auditor.md`
 **Purpose:** Reads package.json, checks against CLAUDE.md §2 approved stack, runs npm audit, produces CRITICAL/HIGH/MEDIUM/LOW risk table. Read-only — recommends actions, human executes.
 **Commands:** `/analyze-repo` (triggers dependency check)
@@ -889,7 +803,6 @@ or by ARIS commands. Total ARIS agents: 5.
 ---
 
 ### ⚙️ WORKFLOW-AUTOMATOR — Developer Workflow Optimizer
-
 **Priority:** P3 | **File:** `.claude/agents/workflow-automator.md`
 **Purpose:** Identifies repetitive multi-step developer tasks; proposes or creates automation (scripts, hooks, commands). Part of ARIS self-evolution loop — creates new skills/commands when patterns emerge.
 **Commands:** `/update-docs`
@@ -897,61 +810,26 @@ or by ARIS commands. Total ARIS agents: 5.
 
 ---
 
-**Total agents: 33** (25 existing + 6 ARIS + 2 ECC-Integration)
-
----
-
-## 🔐 ECC-Integration Agents (Added 2026-03-17)
-
-These agents were added during the selective integration of `affaan-m/everything-claude-code`.
-They are on-demand supporting agents — not milestone-primary.
-
-<!--
-origin: affaan-m/everything-claude-code (selective adaptation)
-adaptation-summary: Scoped to GIS Hub rules, instinct categories, and existing skill registry.
--->
-
----
-
-### 🔐 SECURITY-AUDITOR-AGENT — Configuration & Code Security Auditor
-
-**Priority:** P2 | **File:** `.claude/agents/security-auditor-agent.md`
-**Purpose:** Scans Claude Code configuration (CLAUDE.md, settings.json, MCP configs, hooks, agent definitions) and source code for vulnerabilities. Runs AgentShield. Enforces Rules 3, 4, 5.
-**Commands:** `/security-scan`, `/agentshield-scan`
-**Skills:** `security_review`, `rls_audit`, `popia_compliance`
-**When to invoke:** New MCP server added, new agent defined, pre-production, or periodic security sweep.
-
----
-
-### 🧠 CONTINUOUS-LEARNING-AGENT — GIS Session Pattern Extractor
-
-**Priority:** P3 | **File:** `.claude/agents/continuous-learning-agent.md`
-**Purpose:** Extracts session patterns into confidence-scored instincts (`.claude/instincts/*.json`). Clusters instincts into skills via `/evolve` when thresholds are met.
-**Commands:** `/learn`, `/learn-eval`, `/instinct-status`, `/evolve`, `/skill-create`
-**Skills:** `continuous_learning_v2`, `continuous-learning-capegis`
-**When to invoke:** After milestone DoD sign-off, or manually with `/learn`.
+**Total agents: 31** (25 existing + 6 ARIS)
 
 ---
 
 ## agentSwitching Protocol — ARIS Extensions
 
-| Signal                                 | Switch to                 |
-| -------------------------------------- | ------------------------- |
-| "analyse the repo structure"           | REPO-ARCHITECT            |
-| "implement this feature spec"          | FEATURE-BUILDER           |
-| "this error / bug report..."           | BUG-INVESTIGATOR          |
-| "this file is too long / Rule 7"       | REFACTOR-SPECIALIST       |
-| "check our dependencies / CVE"         | DEPENDENCY-AUDITOR        |
-| "automate this repetitive task"        | WORKFLOW-AUTOMATOR        |
-| "security scan / agentshield"          | SECURITY-AUDITOR-AGENT    |
-| "extract patterns / learn / instincts" | CONTINUOUS-LEARNING-AGENT |
+| Signal | Switch to |
+|--------|-----------|
+| "analyse the repo structure" | REPO-ARCHITECT |
+| "implement this feature spec" | FEATURE-BUILDER |
+| "this error / bug report..." | BUG-INVESTIGATOR |
+| "this file is too long / Rule 7" | REFACTOR-SPECIALIST |
+| "check our dependencies / CVE" | DEPENDENCY-AUDITOR |
+| "automate this repetitive task" | WORKFLOW-AUTOMATOR |
 
 ---
 
 ## Registered Capabilities
 
 Full registries with detail, trigger keywords, and MCP server mappings:
-
 - **Skills →** [SKILLS.md](./SKILLS.md)
 - **Commands →** [COMMANDS.md](./COMMANDS.md)
 - **Hooks →** [HOOKS.md](./HOOKS.md)

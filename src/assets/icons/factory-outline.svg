@@ -1,8 +1,0 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Factory-Outline: Neomorphic Plump Factory (Commercial/Industrial) -->
-  <path d="M8,56 L56,56 L56,32 L44,44 L44,32 L32,44 L32,32 L20,44 L20,24 Q20,20 24,20 L28,20 L28,8 L40,8 L40,20 L8,20 Z" 
-        fill="none" stroke="#FB923C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-  <circle cx="34" cy="4" r="3" fill="none" stroke="#FB923C" stroke-width="1" opacity="0.6" />
-  <rect x="14" y="44" width="6" height="6" rx="1" fill="none" stroke="#FB923C" stroke-width="1.5" opacity="0.8" />
-  <rect x="44" y="44" width="6" height="6" rx="1" fill="none" stroke="#FB923C" stroke-width="1.5" opacity="0.8" />
-</svg>

@@ -23,31 +23,41 @@
     "doc-state": {
       "type": "stdio",
       "command": "node",
-      "args": ["mcp/doc-state/server.js"],
+      "args": [
+        "mcp/doc-state/server.js"
+      ],
       "description": "Distributed doc locking for multi-agent INDEX.md sync — P0 critical"
     },
     "formats": {
       "type": "stdio",
       "command": "node",
-      "args": ["mcp/formats/server.js"],
+      "args": [
+        "mcp/formats/server.js"
+      ],
       "description": "GIS format validation: Shapefile, GeoPackage, GeoJSON, .prj CRS parsing"
     },
     "cesium": {
       "type": "stdio",
       "command": "node",
-      "args": ["mcp/cesium/server.js"],
+      "args": [
+        "mcp/cesium/server.js"
+      ],
       "description": "CesiumJS 3D tile validation, camera bounds, bounding volume checks"
     },
     "openaware": {
       "type": "stdio",
       "command": "node",
-      "args": ["mcp/openaware/server.js"],
+      "args": [
+        "mcp/openaware/server.js"
+      ],
       "description": "Real-time flight tracking bbox filter via OpenSky Network"
     },
     "stitch": {
       "type": "stdio",
       "command": "node",
-      "args": ["mcp/stitch/server.js"],
+      "args": [
+        "mcp/stitch/server.js"
+      ],
       "env": {
         "NERFSTUDIO_PATH": "/usr/local/bin/ns-train"
       },
@@ -56,25 +66,33 @@
     "computerUse": {
       "type": "stdio",
       "command": "node",
-      "args": ["mcp/computerUse/server.js"],
+      "args": [
+        "mcp/computerUse/server.js"
+      ],
       "description": "Desktop automation for visual testing — prefer chrome-devtools for most tasks"
     },
     "opensky": {
       "type": "stdio",
       "command": "node",
-      "args": ["scripts/opensky-mcp-wrapper.js"],
+      "args": [
+        "scripts/opensky-mcp-wrapper.js"
+      ],
       "description": "OpenSky Network ADS-B flight queries with rate limiting — Cape Town airspace"
     },
     "gis-mcp": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["gis-mcp"],
+      "args": [
+        "gis-mcp"
+      ],
       "description": "Core GIS operations: geometry validation, CRS detection, bbox checks, spatial stats"
     },
     "gemini-deep-research": {
       "type": "stdio",
       "command": "node",
-      "args": [".gemini/extensions/gemini-deep-research/scripts/start.cjs"],
+      "args": [
+        ".gemini/extensions/gemini-deep-research/scripts/start.cjs"
+      ],
       "env": {
         "GEMINI_API_KEY": "${GEMINI_API_KEY}"
       },
@@ -83,7 +101,10 @@
     "context7": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"],
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
       "env": {
         "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
       },
@@ -92,7 +113,10 @@
     "exa": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "exa-mcp-server"],
+      "args": [
+        "-y",
+        "exa-mcp-server"
+      ],
       "env": {
         "EXA_API_KEY": "${EXA_API_KEY}"
       },
@@ -101,31 +125,50 @@
     "playwright": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest"],
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
       "description": "Playwright browser automation for E2E testing and UI validation"
     },
     "chrome-devtools": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp"],
+      "args": [
+        "-y",
+        "chrome-devtools-mcp"
+      ],
       "description": "Chrome DevTools Protocol: Lighthouse, network, DOM, performance, accessibility"
     },
     "docker": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "docker-mcp"],
+      "args": [
+        "-y",
+        "docker-mcp"
+      ],
       "description": "Docker container management for local dev stack (PostGIS, Martin, LocalStack)"
     },
     "localstack": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@localstack/localstack-mcp-server"],
+      "args": [
+        "-y",
+        "@localstack/localstack-mcp-server"
+      ],
       "description": "Local AWS service emulation — S3 bucket simulation for Supabase Storage fallbacks"
     },
     "vercel": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "--package", "@vercel/sdk", "--", "mcp", "start"],
+      "args": [
+        "-y",
+        "--package",
+        "@vercel/sdk",
+        "--",
+        "mcp",
+        "start"
+      ],
       "env": {
         "VERCEL_TOKEN": "${VERCEL_TOKEN}"
       },
@@ -155,7 +198,10 @@
     "nerfstudio": {
       "type": "stdio",
       "command": "python",
-      "args": ["-m", "nerfstudio.mcp_server"],
+      "args": [
+        "-m",
+        "nerfstudio.mcp_server"
+      ],
       "description": "Nerfstudio Python interface: training, COLMAP SfM, GPU monitoring — requires GPU"
     },
     "nano-banana": {
@@ -180,9 +226,6 @@
       "type": "sse",
       "url": "https://open-aware.qodo.ai/mcp",
       "description": "Qodo Open-Aware SSE MCP — code quality awareness"
-    },
-    "Sentry": {
-      "url": "https://mcp.sentry.dev/mcp/ferdi-fd/cape-gis"
     }
   }
 }
