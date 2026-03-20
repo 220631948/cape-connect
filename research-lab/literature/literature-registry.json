@@ -1,0 +1,155 @@
+{
+  "title": "CapeTown GIS Research Lab — Literature Registry",
+  "description": "Structured index of research documents from docs/research/",
+  "generated_at": "2026-03-05T15:36:00Z",
+  "total_documents": 51,
+  "categories": [
+    {
+      "category": "core-gis-infrastructure",
+      "description": "PostGIS, routing, map servers, tile serving",
+      "documents": [
+        { "file": "01_PostGIS_Core_Ecosystem.md", "topic": "PostGIS core ecosystem overview", "relevance": ["Phase B", "Phase J"] },
+        { "file": "02_Routing_pgRouting.md", "topic": "pgRouting for network analysis", "relevance": ["Phase C"] },
+        { "file": "03_MapServer.md", "topic": "MapServer WMS/WFS capabilities", "relevance": ["Phase G"] },
+        { "file": "martin-mvt-optimization.md", "topic": "Martin MVT tile optimization strategies", "relevance": ["Phase J"] }
+      ]
+    },
+    {
+      "category": "web-mapping-frontend",
+      "description": "MapLibre, OpenLayers, Leaflet, ArcGIS web integration",
+      "documents": [
+        { "file": "04_Web_Mapping_OpenLayers_Leaflet.md", "topic": "Web mapping library comparison", "relevance": ["Phase G"] },
+        { "file": "04b_ArcGIS_Web_Integration.md", "topic": "ArcGIS web integration patterns", "relevance": ["Phase G", "Phase J"] },
+        { "file": "10_MapLibre_NextJS_Integration.md", "topic": "MapLibre + Next.js integration guide", "relevance": ["Phase G", "Phase J"] },
+        { "file": "11_Google_Maps_Platform_Overview.md", "topic": "Google Maps platform capabilities", "relevance": ["Phase G"] },
+        { "file": "swarm-react-geospatial-visualization.md", "topic": "React-based geospatial visualization patterns", "relevance": ["Phase G"] }
+      ]
+    },
+    {
+      "category": "geospatial-ml-ai",
+      "description": "GeoAI, 3D Gaussian Splatting, NeRF, ControlNet, NL-to-spatial",
+      "documents": [
+        { "file": "06_GeoAI_RealTime_Integration.md", "topic": "GeoAI real-time integration architectures", "relevance": ["Phase A", "Phase C"] },
+        { "file": "3dgs-nerf-gis-research.md", "topic": "3DGS + NeRF for GIS applications", "relevance": ["Phase A", "Phase C"] },
+        { "file": "3dgs-nerf-research.md", "topic": "3D Gaussian Splatting and NeRF research review", "relevance": ["Phase A", "Phase C"] },
+        { "file": "controlnet-gis-reconstruction.md", "topic": "ControlNet for GIS scene reconstruction", "relevance": ["Phase A", "Phase C"] },
+        { "file": "controlnet-research.md", "topic": "ControlNet architecture and capabilities", "relevance": ["Phase A"] },
+        { "file": "nl-to-spatial-query.md", "topic": "Natural language to spatial query translation", "relevance": ["Phase A", "Phase C"] },
+        { "file": "cycle1-3dgs-runtime-compatibility-matrix.md", "topic": "3DGS runtime compatibility across platforms", "relevance": ["Phase D", "Phase J"] },
+        { "file": "cycle1-ai-pipeline-delta.md", "topic": "AI pipeline architecture changes", "relevance": ["Phase C", "Phase K"] }
+      ]
+    },
+    {
+      "category": "data-governance-formats",
+      "description": "Data formats, file types, ArcGIS/QGIS interop, licensing",
+      "documents": [
+        { "file": "gis-file-formats-research.md", "topic": "GIS file format comparison and best practices", "relevance": ["Phase B"] },
+        { "file": "arcgis-qgis-formats-research.md", "topic": "ArcGIS/QGIS format interoperability", "relevance": ["Phase B"] },
+        { "file": "cycle1-policy-licensing-delta.md", "topic": "Data licensing policy analysis", "relevance": ["Phase I"] }
+      ]
+    },
+    {
+      "category": "multitenancy-security",
+      "description": "RLS, RBAC, POPIA compliance, multi-tenant architecture",
+      "documents": [
+        { "file": "07_Multitenancy_Access_Views_ArcGIS_Hub.md", "topic": "Multi-tenant GIS architecture patterns", "relevance": ["Phase I"] },
+        { "file": "supabase-rls-performance.md", "topic": "Supabase RLS performance characteristics", "relevance": ["Phase I"] },
+        { "file": "popia-compliance-technology.md", "topic": "POPIA compliance in technology systems", "relevance": ["Phase I"] }
+      ]
+    },
+    {
+      "category": "pwa-offline",
+      "description": "Service workers, offline sync, PWA patterns",
+      "documents": [
+        { "file": "serwist-pwa-offline-patterns.md", "topic": "Serwist PWA offline-first patterns", "relevance": ["Phase J"] }
+      ]
+    },
+    {
+      "category": "python-geospatial",
+      "description": "Python geo stack, tooling, ETL",
+      "documents": [
+        { "file": "05_Python_Geo_Stack.md", "topic": "Python geospatial stack overview", "relevance": ["Phase D"] },
+        { "file": "swarm-python-geospatial-tooling.md", "topic": "Python geospatial tooling evaluation", "relevance": ["Phase D"] }
+      ]
+    },
+    {
+      "category": "intelligence-osint",
+      "description": "OpenSky, flight tracking, OSINT, spatial intelligence",
+      "documents": [
+        { "file": "opensky-cesium-osint.md", "topic": "OpenSky + Cesium OSINT capabilities", "relevance": ["Phase A", "Phase C"] },
+        { "file": "opensky-cesium-research.md", "topic": "OpenSky + Cesium integration research", "relevance": ["Phase C", "Phase J"] },
+        { "file": "cycle1-opensky-commercialization-constraints.md", "topic": "OpenSky API commercialization constraints", "relevance": ["Phase I"] },
+        { "file": "spatialintelligence-research.md", "topic": "spatialintelligence.ai platform analysis", "relevance": ["Phase A", "Phase G"] },
+        { "file": "spatialintelligence-deep-dive-2026-03-05.md", "topic": "Deep dive into spatialintelligence.ai capabilities", "relevance": ["Phase A", "Phase G"] },
+        { "file": "cycle1-spatialintelligence-delta.md", "topic": "spatialintelligence integration delta", "relevance": ["Phase G"] }
+      ]
+    },
+    {
+      "category": "infrastructure-devops",
+      "description": "Docker, LocalStack, CI/CD, agent orchestration",
+      "documents": [
+        { "file": "09_Local_Dev_LocalStack_Docker.md", "topic": "Local dev environment with Docker/LocalStack", "relevance": ["Phase D"] },
+        { "file": "copilot-cli-agent-orchestration.md", "topic": "Agent orchestration with Copilot CLI", "relevance": ["Phase K"] },
+        { "file": "litellm-proxy-research.md", "topic": "LiteLLM proxy for model routing", "relevance": ["Phase K"] }
+      ]
+    },
+    {
+      "category": "synthesis-reports",
+      "description": "Cross-cutting synthesis, validation, architecture",
+      "documents": [
+        { "file": "08_Executive_Summary_Recommendations.md", "topic": "Executive summary and strategic recommendations", "relevance": ["Phase A"] },
+        { "file": "cycle1-research-synthesis.md", "topic": "Cycle 1 research synthesis", "relevance": ["Phase A"] },
+        { "file": "gis-platform-synthesis.md", "topic": "GIS platform comparison synthesis", "relevance": ["Phase A"] },
+        { "file": "gis-research-swarm-autopilot-final-report.md", "topic": "Research swarm final report", "relevance": ["Phase A"] },
+        { "file": "gis-research-swarm-synthesis.md", "topic": "Research swarm synthesis", "relevance": ["Phase A"] },
+        { "file": "swarm-cross-validation-cycle1.md", "topic": "Cross-validation of research cycle 1", "relevance": ["Phase F"] },
+        { "file": "technical_architecture_extensions.md", "topic": "Technical architecture extension proposals", "relevance": ["Phase C"] },
+        { "file": "technical_specification_findings.md", "topic": "Technical specification findings", "relevance": ["Phase C"] },
+        { "file": "autonomous-gis-research.md", "topic": "Autonomous GIS system research", "relevance": ["Phase K"] },
+        { "file": "cycle1-aoi-validation-pack.md", "topic": "Area of interest validation package", "relevance": ["Phase F"] },
+        { "file": "cycle1-docs-only-retro.md", "topic": "Documentation-only retrospective", "relevance": ["Phase H"] },
+        { "file": "verification_report.md", "topic": "Verification report", "relevance": ["Phase F"] },
+        { "file": "copilot-vibecoding-research.md", "topic": "Copilot vibe-coding research findings", "relevance": ["Phase K"] },
+        { "file": "swarm-frappe-spatial-integrations.md", "topic": "Frappe framework spatial integrations", "relevance": ["Phase C"] }
+      ]
+    }
+  ],
+  "experiment_candidates": [
+    {
+      "id": "EXP-0001-building-segmentation",
+      "title": "Building Footprint Segmentation from Satellite Imagery (Cape Town)",
+      "hypothesis": "A fine-tuned UNet on Cape Town satellite imagery achieves IoU > 0.75 for building footprint extraction, outperforming generic pretrained models",
+      "datasets_needed": ["SpaceNet (Cape Town subset)", "OpenStreetMap building footprints"],
+      "literature_refs": ["06_GeoAI_RealTime_Integration.md", "3dgs-nerf-gis-research.md"],
+      "estimated_compute": "GPU, 4-8 hours",
+      "product_impact": "Automated building layer for M4 (Layer Management)"
+    },
+    {
+      "id": "EXP-0002-nl-spatial-query",
+      "title": "Natural Language to PostGIS Spatial Query Translation",
+      "hypothesis": "An LLM fine-tuned on spatial query examples can translate natural language questions about Cape Town properties to valid PostGIS SQL with >85% accuracy",
+      "datasets_needed": ["Synthetic NL-SQL pairs", "CoCT GV Roll schema"],
+      "literature_refs": ["nl-to-spatial-query.md"],
+      "estimated_compute": "CPU/GPU, 2-4 hours",
+      "product_impact": "Natural language search for M8 (Search)"
+    },
+    {
+      "id": "EXP-0003-offline-tile-optimization",
+      "title": "Optimal PMTiles Configuration for Mobile Offline GIS",
+      "hypothesis": "Tippecanoe tile generation with zoom-dependent simplification reduces tile bundle size by >50% while maintaining visual quality above perceptual threshold",
+      "datasets_needed": ["Cape Town suburb boundaries", "Zoning overlays", "Cadastral parcels"],
+      "literature_refs": ["martin-mvt-optimization.md", "serwist-pwa-offline-patterns.md"],
+      "estimated_compute": "CPU only, 1-2 hours",
+      "product_impact": "Offline tile bundles for M6 (PWA + Offline)"
+    },
+    {
+      "id": "EXP-0004-3dgs-cape-town",
+      "title": "3D Gaussian Splatting Reconstruction of Cape Town Landmarks",
+      "hypothesis": "3DGS reconstruction from publicly available photo collections produces navigable 3D scenes of Cape Town landmarks with PSNR > 25dB",
+      "datasets_needed": ["Public photo collections (Wikimedia Commons)", "LiDAR point clouds (if available)"],
+      "literature_refs": ["3dgs-nerf-research.md", "3dgs-nerf-gis-research.md", "controlnet-gis-reconstruction.md"],
+      "estimated_compute": "GPU, 8-24 hours",
+      "product_impact": "Immersive 3D views for M11+ (3D Visualization)"
+    }
+  ]
+}

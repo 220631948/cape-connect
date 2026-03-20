@@ -1,0 +1,35 @@
+{
+  "__generated_by": "rebootstrap_agent",
+  "__timestamp": "2026-03-04T14:18:47Z",
+  "removals": [
+    {
+      "path": ".github/copilot/hooks/copilot-hooks.json",
+      "reason": "All 4 hook categories (SessionStart, PreToolUse, PostToolUse, Stop) use [RALPH] prefix branding. References IMPLEMENTATION_PLAN.md instead of PLAN.md. Hook messages are echo-only with no functional guards — they print warnings but don't actually block destructive operations. The useful safety concepts (secret check, POPIA check, destructive guard) should be re-implemented as proper functional hooks in Phase 4.",
+      "action": "MOVE to .github_removed/20260304T141847Z/",
+      "replacement_planned": true,
+      "snippet": "{\n    \"hooks\": {\n        \"SessionStart\": [\n            {\n                \"type\": \"command\","
+    }
+  ],
+  "not_removed": [
+    {
+      "path": ".github/copilot/copilot-instructions.md",
+      "reason": "Has Ralph Wiggum branding and wrong PostgreSQL version, but also contains valuable SA GIS standards (CRS rules, POPIA tagging, PMTiles strategy, attribution, ZAR formatting). Categorized as ENHANCE instead — will be cleaned and updated in Phase 4 rather than removed.",
+      "action": "ENHANCE in-place (Phase 4)",
+      "issues_found": [
+        "Ralph Wiggum Protocol branding throughout",
+        "PostgreSQL 18 (should be 15)",
+        "anime.js avatar system (not in approved stack)",
+        "shadcn/ui reference (not in approved stack)",
+        "Ralph-style error messages guidance"
+      ],
+      "useful_content_preserved": [
+        "South African GIS Standards section (CRS, POPIA, attribution)",
+        "Three-tier fallback strategy",
+        "File size < 300 lines rule",
+        "Strict TypeScript (no any)",
+        "PWA/loadshedding resilience guidance"
+      ]
+    }
+  ],
+  "note": "These files will be MOVED (not deleted) to _removed/ directories. Replacements will be generated in Phase 4."
+}

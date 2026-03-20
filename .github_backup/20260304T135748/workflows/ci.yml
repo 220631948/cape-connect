@@ -1,0 +1,44 @@
+name: GIS Platform CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install Dependencies
+      run: npm install
+      
+    - name: Run Linter
+      run: npm run lint --if-present
+      
+    - name: Run Tests
+      run: npm run test --if-present
+      
+    - name: Build Application
+      run: npm run build --if-present
+      
+    # Supabase Local DB Testing Step (Optional in CI)
+    - name: Setup Supabase CLI
+      uses: supabase/setup-cli@v1
+      with:
+        version: latest
+        
+    - name: Verify DB Migrations
+      run: |
+        cd supabase
+        # Note: This requires Docker to be running in the runner
+        # supabase start
+        # supabase db reset

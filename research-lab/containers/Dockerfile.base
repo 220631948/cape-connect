@@ -1,0 +1,28 @@
+FROM python:3.11-slim-bookworm
+
+LABEL maintainer="CapeTown GIS Research Lab"
+LABEL description="Base research environment — CPU-only experiments (EXP-001, EXP-003, EXP-004)"
+
+# System dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gdal-bin \
+    libgdal-dev \
+    libproj-dev \
+    libspatialindex-dev \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV GDAL_CONFIG=/usr/bin/gdal-config
+ENV PROJ_LIB=/usr/share/proj
+
+WORKDIR /workspace
+
+COPY requirements-research.txt .
+RUN pip install --no-cache-dir -r requirements-research.txt
+
+# Non-root user for security
+RUN useradd -m -u 1001 researcher
+USER researcher
+
+ENTRYPOINT ["python"]

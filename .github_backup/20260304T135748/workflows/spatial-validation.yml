@@ -1,0 +1,66 @@
+# __generated_by: rebootstrap_agent
+# __timestamp: 2026-03-04T10:39:43Z
+# __note: DO NOT MERGE until human review
+#
+# Spatial Validation Workflow — Cape Town GIS Hub
+# Runs TypeScript type checks and a build dry-run on every push/PR to main.
+# See CLAUDE.md for project rules (zero-tolerance typecheck, no API keys in source).
+
+name: Spatial Validation
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  typecheck:
+    name: TypeScript Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript type check (zero tolerance — CLAUDE.md §2)
+        run: npx tsc --noEmit
+
+  build-dry-run:
+    name: Next.js Build Dry Run
+    runs-on: ubuntu-latest
+    needs: typecheck
+    env:
+      # Provide dummy values so Next.js required-var checks pass without real secrets.
+      # These are safe placeholder strings — no real credentials.
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (no lint — lint runs in ci.yml)
+        run: npx next build --no-lint
+        env:
+          # Optional vars — absent means features are hidden, not broken (CLAUDE.md §7)
+          MARTIN_URL: ""
+          MAPBOX_TOKEN: ""
+          NEXT_PUBLIC_GOOGLE_STREET_VIEW_KEY: ""
+          NEXT_PUBLIC_SENTRY_DSN: ""

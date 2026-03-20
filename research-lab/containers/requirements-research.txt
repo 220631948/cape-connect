@@ -1,0 +1,56 @@
+# Geospatial ML Research — Python Requirements
+# Pin versions for reproducibility. Update with care.
+
+# Core geospatial
+geopandas==1.0.1
+shapely==2.0.6
+fiona==1.10.1
+pyproj==3.7.0
+rasterio==1.4.3
+rtree==1.3.0
+
+# GDAL bindings (match system GDAL version)
+GDAL>=3.6.0,<4.0.0
+
+# Spatial analysis
+scipy==1.14.1
+scikit-learn==1.6.1
+
+# Data handling
+pandas==2.2.3
+numpy==2.1.3
+pyarrow==18.1.0
+
+# Visualization
+matplotlib==3.9.3
+seaborn==0.13.2
+folium==0.18.0
+
+# Jupyter
+jupyterlab==4.3.4
+ipywidgets==8.1.5
+
+# ML (CPU-only by default; uncomment torch-gpu for GPU)
+# torch==2.5.1
+# torchvision==0.20.1
+# torchgeo==0.6.1
+
+# Experiment tracking
+optuna==4.1.0
+
+# Reproducibility
+dvc==3.56.0
+
+# Utilities
+tqdm==4.67.1
+click==8.1.7
+pyyaml==6.0.2
+jsonschema==4.23.0
+requests==2.32.3
+
+# Spatial econometrics (EXP-003, EXP-004)
+esda==2.5.1
+libpysal==4.9.2
+spreg==1.4.2
+xgboost==2.0.3
+shap==0.44.1

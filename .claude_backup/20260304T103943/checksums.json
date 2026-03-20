@@ -1,0 +1,320 @@
+{
+  "ts": "20260304T103943",
+  "files": [
+    {
+      "path": ".claude_backup/20260304T103943/### \ud83d\udd0c Plugins",
+      "sha256": "60d9a7cbb95fe71fd0d23cd9fdc4e2d909c0aa4926cfd5847bc9e5a05b358240",
+      "size_bytes": 1841
+    },
+    {
+      "path": ".claude_backup/20260304T103943/orchestrator.md",
+      "sha256": "d23d24ac686b67c668e37f9589ace21fc513619ea3f3a0e295d36f061734b35a",
+      "size_bytes": 3713
+    },
+    {
+      "path": ".claude_backup/20260304T103943/config.md",
+      "sha256": "b9b253b3df413d80073783e2b46c7b03c2b6bac01c8f9b8ab04226f5165d39c6",
+      "size_bytes": 2282
+    },
+    {
+      "path": ".claude_backup/20260304T103943/settings.json",
+      "sha256": "005accbed22aa713bee167832d3f499524698b31e4cf962a34ed85f0d63e3b71",
+      "size_bytes": 3675
+    },
+    {
+      "path": ".claude_backup/20260304T103943/settings.local.json",
+      "sha256": "a2ec55cfd2cd180165c3599cec2cd0a4588859063cb1f025db17495c28eff4e8",
+      "size_bytes": 317
+    },
+    {
+      "path": ".claude_backup/20260304T103943/commands/new-migration.md",
+      "sha256": "94ad9057e0517406f02e5179c22887ef24a61f51d7c9a8b9b134285fcd579e95",
+      "size_bytes": 1281
+    },
+    {
+      "path": ".claude_backup/20260304T103943/commands/audit-popia.md",
+      "sha256": "b1e1659f059c3bd7b1664da16334a4c23ae95e18d8f83b9244b7eda38ed898f0",
+      "size_bytes": 1064
+    },
+    {
+      "path": ".claude_backup/20260304T103943/commands/milestone-status.md",
+      "sha256": "63b62dbeb6e7bf2cb49b2f0c00fa022bded57ee4953095813b78c7fcea3b2f96",
+      "size_bytes": 1115
+    },
+    {
+      "path": ".claude_backup/20260304T103943/commands/new-component.md",
+      "sha256": "7741509ef83f38d7a60d37751cbaea6952fafc7bd11a06f03a75f36e0520bfb1",
+      "size_bytes": 1405
+    },
+    {
+      "path": ".claude_backup/20260304T103943/commands/check-remit.md",
+      "sha256": "b32fd52ae6109a56b97cdb54d6562ac85294aa186d696484e8e71e596084edf1",
+      "size_bytes": 1050
+    },
+    {
+      "path": ".claude_backup/20260304T103943/commands/verify-sources.md",
+      "sha256": "9dda82cb7a6489145f8cc6ca37f94a76ea67045e0e7a57da887794ae523e90ce",
+      "size_bytes": 1200
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/search-agent.md",
+      "sha256": "c45655c384af693ecd9dcb341f4014d0fef0aabea1d7ffe0c45f05fb776c9a03",
+      "size_bytes": 1994
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/details-agent.md",
+      "sha256": "663a9ee0f508978c7dd4fb23ac30bbb1c978ec06b74e463f80c69bcc1e14bc4e",
+      "size_bytes": 2380
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/export-agent.md",
+      "sha256": "b876dbc98305f161e7c113ae29c91023d432f9a83005c68ba18ea5a369ae98dc",
+      "size_bytes": 2303
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/data-agent.md",
+      "sha256": "2f90f393f29f6c7551dac7afd2cc5cde3a18a8cc5c811eb06bc3a444b7f4eb14",
+      "size_bytes": 2737
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/dashboard-agent.md",
+      "sha256": "d9bcf34ac04e6d1d24b04b393cfef1fd8db034c4b85a78e6d9aee5587919e364",
+      "size_bytes": 2122
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/spatial-agent.md",
+      "sha256": "45455ac7a6b6cf30831d033d9d4ab351d627b1ba54e31dd2f9796fd8f2c1d7de",
+      "size_bytes": 2241
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/save-agent.md",
+      "sha256": "e9f4f3fce9853b5b199818d33c31c0cbdaf7ef0c55a8e5710b3a9b65ba770388",
+      "size_bytes": 2195
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/db-agent.md",
+      "sha256": "12ed434cf3ddd862b09a52214b902d536eae9794196f2dea2e259ed75ae2fb7f",
+      "size_bytes": 2861
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/overlay-agent.md",
+      "sha256": "c9d4cad63fa418e239b1d7a6adac245070b43808952dcad91166ce0f05ca956c",
+      "size_bytes": 2659
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/test-agent.md",
+      "sha256": "807c7765123a0d6da7bc4eb06b66182f52aaca7c5c0e960f0ae4518bf45a07ac",
+      "size_bytes": 2524
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/map-agent.md",
+      "sha256": "873c2353503fccdc35ade9f286b0a6ff4aa5190fde325ffdfd6558fb7a1dbc00",
+      "size_bytes": 2729
+    },
+    {
+      "path": ".claude_backup/20260304T103943/agents/auth-agent.md",
+      "sha256": "00dcd900d932e4d1f68a00322354bfdc7879c058debddf81a71c5cbe5638b6ba",
+      "size_bytes": 2795
+    },
+    {
+      "path": ".claude_backup/20260304T103943/guides/cape_town_data_sources.md",
+      "sha256": "0c024f8ff7360f7c365756c0bb02096dfed539ece3a614947eecbbf6e278f950",
+      "size_bytes": 2594
+    },
+    {
+      "path": ".claude_backup/20260304T103943/guides/popia_quick_reference.md",
+      "sha256": "8f4660f78f662af4489b96ab9c308d628473057b3fdb7f427b46e47c3fae5d55",
+      "size_bytes": 3386
+    },
+    {
+      "path": ".claude_backup/20260304T103943/guides/spatial_constraints.md",
+      "sha256": "0977fc3093be8ea9d137ead7dd513b260317cb013d5f214c4459720f4db5fa5d",
+      "size_bytes": 3029
+    },
+    {
+      "path": ".claude_backup/20260304T103943/skills/mock_to_live_validation/SKILL.md",
+      "sha256": "f3eb8805ab33b3f569a68abfad25d9d23880cf18a65a9eec6eae529948c2829c",
+      "size_bytes": 2641
+    },
+    {
+      "path": ".claude_backup/20260304T103943/skills/documentation_first/SKILL.md",
+      "sha256": "ffe59e186c0bba0a2ef5cdca43d71fd10bbc950383a4cb971b55e8c103a5beb0",
+      "size_bytes": 2391
+    },
+    {
+      "path": ".claude_backup/20260304T103943/skills/assumption_verification/SKILL.md",
+      "sha256": "5abd0a077f8c2546a87d05cc8ccbbd13b90226ba64461a2de1f65260415f4876",
+      "size_bytes": 2568
+    },
+    {
+      "path": ".claude_backup/20260304T103943/skills/rls_audit/SKILL.md",
+      "sha256": "c5066514ef49091d0db8bd5bdbf2a7239de0ff1943b4aff404f2406b3ae11359",
+      "size_bytes": 2742
+    },
+    {
+      "path": ".claude_backup/20260304T103943/skills/three_tier_fallback/SKILL.md",
+      "sha256": "2d521afab11c7daf2c689f54d0a14ab7e5f971ca2c2233732463b1deed1e5917",
+      "size_bytes": 2537
+    },
+    {
+      "path": ".claude_backup/20260304T103943/skills/popia_compliance/SKILL.md",
+      "sha256": "c5b316184247aa2d127d7d25993fd9b996f5a75c0e4876b0cdc67966b3efa19d",
+      "size_bytes": 3249
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot-instructions.md",
+      "sha256": "8d2201ebfcfeb7d19c4f34f15cb55ea64712132ac03f567f5c899464c69b0618",
+      "size_bytes": 3382
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/copilot-instructions.md",
+      "sha256": "e99050f561d467f3f5d3e2cece3f6beec7e32f5038562d2701a009a8e9b40cdd",
+      "size_bytes": 3327
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/instructions/supabase.instructions.md",
+      "sha256": "376726113ef716e2c6f22f07b16bd59eee27617bebee109d8d76759e5e483ce7",
+      "size_bytes": 987
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/instructions/nextjs.instructions.md",
+      "sha256": "731f75a32f79763c23950a2b8028deb6a3bf14704564cf915e36dfa640105bad",
+      "size_bytes": 840
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/instructions/maplibre.instructions.md",
+      "sha256": "a37f9f08aae8c6ddabdd3292ef561a565703bdd56db5d29e839416cefcd7ef6f",
+      "size_bytes": 1031
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/instructions/popia-security.instructions.md",
+      "sha256": "b6976e5d64753fd48f632cd20e6834438338665b7f9fd64c04f0ff5cb666b0be",
+      "size_bytes": 1578
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/instructions/typescript.instructions.md",
+      "sha256": "61811b9e5398478ea194d37ef679d1b85322ddba3cdbd2d32394f151b3798a31",
+      "size_bytes": 1247
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/spatial-agent.agent.md",
+      "sha256": "2d1bce0e043f5c2eb7dd28319bab1f34ee58a7a6c5645c4b10796c2c760f8dfd",
+      "size_bytes": 936
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/save-agent.agent.md",
+      "sha256": "019d6899eebba46ecf0f27dcbacc1ec92d1942696085182400614760a48bb364",
+      "size_bytes": 767
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/test-agent.agent.md",
+      "sha256": "0a1d1f62be4f5cf52419d8d855a5e8d3125c7be2faff4dc453ec1f34db6be7ac",
+      "size_bytes": 1417
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/overlay-agent.agent.md",
+      "sha256": "affd71f90e0513c0f596e77a575ec384fa4587c8ca4912a28dc27d865968e6be",
+      "size_bytes": 1026
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/details-agent.agent.md",
+      "sha256": "a88aca4f3a9f8be4217df5b65f499470120f8c3a49c3952008625f5d3aac1d61",
+      "size_bytes": 797
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/export-agent.agent.md",
+      "sha256": "1c7583f6a8547a40bde62979f82c7c328bb31fcfc5863c9b9781a3f63fcb8ef9",
+      "size_bytes": 760
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/dashboard-agent.agent.md",
+      "sha256": "63754beab7f1bc5daf940672396eca293cf980f2eda2c29a88ca867f8924bc93",
+      "size_bytes": 763
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/auth-agent.agent.md",
+      "sha256": "42429363016c90f7aab20e883bbac738c4d7b6282cc1c8b39819d3be8b08412c",
+      "size_bytes": 1309
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/search-agent.agent.md",
+      "sha256": "08818f8c3d96b7e90a0a55512082b17a4dea71a9a0b39d199e7c147af285e48e",
+      "size_bytes": 951
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/data-agent.agent.md",
+      "sha256": "a7d04188487c1378e72a8a7c110e15691851377b808ea058e9a3ea909aeb5240",
+      "size_bytes": 1479
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/db-agent.agent.md",
+      "sha256": "052fc580064639560be02a52191c0a85b76ef79aaeab0b9cb952b21b1af6337f",
+      "size_bytes": 1388
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/agents/map-agent.agent.md",
+      "sha256": "bf6c2d2a73ae48c7e5f0547c1fe589044c5b58032e5e8a598fdaaa391a0fb691",
+      "size_bytes": 1303
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/prompts/new-component.prompt.md",
+      "sha256": "1157f0ef56abe07a0955061a5e8b79d0132b8ff662e896c575fc5a8d6b13ce6d",
+      "size_bytes": 1000
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/prompts/new-migration.prompt.md",
+      "sha256": "4869fcf8e695b308084a205c8b5608be7635c0fd8b6c0e9a82a395b7713698b6",
+      "size_bytes": 746
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/prompts/popia-check.prompt.md",
+      "sha256": "fd72bbb5f758b1af7b1c7c90b8593729d21227d50f3aa6d8eef11398037c6e59",
+      "size_bytes": 1052
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/prompts/verify-endpoint.prompt.md",
+      "sha256": "12c0a61ac5005de3e615500606d8b4d46ce40c002e2fae4cb0f56d9e9e59f0b4",
+      "size_bytes": 948
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/prompts/design-feature.prompt.md",
+      "sha256": "42bb5ba916a383a26b632878e6dd77aa5d747b68f8aff1031f5677fffec83c9a",
+      "size_bytes": 1051
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/hooks/copilot-hooks.json",
+      "sha256": "8cffe18fe72f29e523bf4e082504cb86f92cbe582a9e2f9ae0d7ca652007532d",
+      "size_bytes": 1579
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/skills/mock_to_live_validation/SKILL.md",
+      "sha256": "ffe351aa754f8f36921cd808dd04cb892525454666f6f3d433a483bced45f4bd",
+      "size_bytes": 1103
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/skills/assumption_verification/SKILL.md",
+      "sha256": "7bbc0cf363a2efb04f795d24445dc544d81ce44a1cb558b16cb735466677b294",
+      "size_bytes": 980
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/skills/cape_town_gis_research/SKILL.md",
+      "sha256": "09f1a97fe8da8c1d1a0b3c24dafaf3bb103b809b83b33dbfe586417e60e9ef00",
+      "size_bytes": 1180
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/skills/documentation_first_design/SKILL.md",
+      "sha256": "f0a99dbeccc5d67fd5185bdaee67a6c31048ca8b30761f6ec54689faa489f24e",
+      "size_bytes": 1381
+    },
+    {
+      "path": ".github_backup/20260304T103943/copilot/skills/popia_compliance/SKILL.md",
+      "sha256": "bb001f919eb3a56d1169230d1e850d5ef600e5bc7d7fd26e5a7f2c39f21ea56d",
+      "size_bytes": 1288
+    },
+    {
+      "path": ".github_backup/20260304T103943/workflows/ci.yml",
+      "sha256": "fbe40a538c7d2c17d949486d5bcf672fb23376de9d07992d03a7eec969e9fc53",
+      "size_bytes": 955
+    }
+  ]
+}

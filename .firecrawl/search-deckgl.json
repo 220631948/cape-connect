@@ -1,0 +1,26 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://github.com/visgl/deck.gl/releases",
+        "title": "Releases · visgl/deck.gl - GitHub",
+        "description": "v9.3.0-alpha.1. 4 days ago · v9.3.0-alpha.1 · eb5dc77 ; v9.2.11. last week · v9.2.11 · 35adca6 ; v9.2.10. 2 weeks ago · v9.2.10 · 7527990.",
+        "position": 1,
+        "category": "github"
+      },
+      {
+        "url": "https://deck.gl/docs/whats-new",
+        "title": "What's New | deck.gl",
+        "description": "deck.gl v9.2​. Release date: October 7, 2025. New widgets. WebGPU layers. Interleaved ...",
+        "position": 2
+      },
+      {
+        "url": "https://deck.gl/",
+        "title": "Home | deck.gl",
+        "description": "deck.gl is a GPU-powered framework for visual exploratory data analysis of large datasets. A Layered Approach to Data Visualization.",
+        "position": 3
+      }
+    ]
+  }
+}

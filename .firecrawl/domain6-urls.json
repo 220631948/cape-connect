@@ -1,0 +1,98 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://pytorch.org/blog/geospatial-deep-learning-with-torchgeo/",
+        "title": "Geospatial deep learning with TorchGeo",
+        "description": "TorchGeo is a PyTorch domain library providing datasets, samplers, transforms, and pre-trained models specific to geospatial data.",
+        "position": 1
+      },
+      {
+        "url": "https://arxiv.org/html/2510.02572v1",
+        "title": "Geospatial Machine Learning Libraries",
+        "description": "This chapter presents a comprehensive overview of GeoML libraries, analyzing their evolution, core functionalities, and the current ecosystem.",
+        "position": 2
+      },
+      {
+        "url": "https://github.com/torchgeo/torchgeo",
+        "title": "TorchGeo: datasets, samplers, transforms, and pre-trained ...",
+        "description": "TorchGeo is a PyTorch domain library, similar to torchvision, providing datasets, samplers, transforms, and pre-trained models specific to geospatial data.",
+        "position": 3,
+        "category": "github"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=MVysfhlgxSs",
+        "title": "Python for Modern Geospatial AI & Computer Vision",
+        "description": "Learn how to filter and display Sentinel-2 satellite imagery in Google Earth Engine (GEE) in this complete 2026 tutorial.",
+        "position": 4
+      },
+      {
+        "url": "https://medium.com/@geografif/geospatial-deep-learning-using-torchgeo-and-custom-datasets-2adae17f2df4",
+        "title": "Geospatial Deep Learning using TorchGeo and Custom ...",
+        "description": "This article aims to provide a straightforward tutorial to train a deep learning model using custom datasets with TorchGeo and PyTorch Lightning.",
+        "position": 5
+      },
+      {
+        "url": "https://towardsdatascience.com/artificial-intelligence-for-geospatial-analysis-with-pytorchs-torchgeo-part-1-52d17e409f09/",
+        "title": "Artificial Intelligence for Geospatial Analysis with Pytorch's ...",
+        "description": "TorchGeo is a PyTorch domain library providing datasets, samplers, transforms, and pre-trained models specific to geospatial data.",
+        "position": 6
+      },
+      {
+        "url": "https://www.geowgs84.ai/post/torchgeo-for-beginners-unlocking-ai-in-geospatial-applications",
+        "title": "TorchGeo - Unlocking AI in Geospatial Applications",
+        "description": "TorchGeo is a powerful open-source Python library built on PyTorch, designed to simplify deep learning workflows for geospatial data.",
+        "position": 7
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=ItdAD_Hx3Tk",
+        "title": "The Future of Geospatial AI: Emerging Tools and Real ...",
+        "description": "The Geospatial AI & Data Interoperability Summit 2025 brings together industry leaders to explore how AI and data interoperability are ...",
+        "position": 8
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=0sOs24APz8c",
+        "title": "Predictions and Innovation for 2026 | Geoawesome Meetup",
+        "description": "The webinar brings together experts from Kili Technology, Mapbox, and Carto to discuss how geospatial AI is evolving and what to expect by ...",
+        "position": 9
+      },
+      {
+        "url": "https://arxiv.org/html/2603.02386v1",
+        "title": "Advancing Earth Observation Through Machine Learning",
+        "description": "TorchGeo is a PyTorch-based domain library that provides datasets, samplers, transforms and pre-trained models with the goal of making it easy ...",
+        "position": 10
+      },
+      {
+        "url": "https://medium.com/pytorch/raster-vision-a-geospatial-deep-learning-framework-cd69ba840a83",
+        "title": "Raster Vision: A Geospatial Deep Learning Framework",
+        "description": "Raster Vision knows how to handle geospatial data and will do it for you. It will rasterize and vectorize, download and upload, analyze and normalize, chip and ...",
+        "position": 11
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=J2oVVEQt0pc",
+        "title": "Geospatial data segmentation with pytorch and torchgeo",
+        "description": "In this notebook we will learn how to use deep learning algorithms to do semantic segmentation.",
+        "position": 12
+      },
+      {
+        "url": "https://www.geowgs84.ai/post/deep-learning-for-geospatial-analysis-best-practices-code-samples",
+        "title": "Deep Learning for Geospatial Analysis: Best Practices & ...",
+        "description": "This blog examines deep learning for geospatial analysis, covering best practices, architectures, training methods, and sample Python code.",
+        "position": 13
+      },
+      {
+        "url": "https://towardsdatascience.com/artificial-intelligence-for-geospatial-analysis-with-pytorchs-torchgeo-part-3-7521131f30b1/",
+        "title": "Artificial Intelligence for Geospatial Analysis with Pytorch's ...",
+        "description": "Artificial Intelligence for Geospatial Analysis with Pytorch's TorchGeo (Part 3). An end-to-end deep learning geospatial segmentation project ...",
+        "position": 14
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Tihm2NsoQK4",
+        "title": "Lab 1a. Introduction to Deep Learning for Geospatial Data ...",
+        "description": "Summary In this video, we introduce the fundamentals of deep learning for geospatial data analysis, with a focus on the key concepts, ...",
+        "position": 15
+      }
+    ]
+  }
+}

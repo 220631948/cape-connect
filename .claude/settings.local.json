@@ -35,8 +35,7 @@
       "WebFetch(domain:registry.npmjs.org)",
       "Bash(PROJECT=\"/home/mr/Desktop/Geographical Informations Systems \\(GIS\\)\"\necho \"==========================================\"\necho \"VERIFICATION 1: .claude/agents/ contents\"\necho \"==========================================\"\nls -la \"$PROJECT/.claude/agents/\" | head -40\necho \"\"\necho \"Total agent files: $\\(ls \"$PROJECT/.claude/agents/\"*.md | wc -l\\)\"\necho \"Symlinked agents:  $\\(ls -la \"$PROJECT/.claude/agents/\"*.md | grep \"^l\" | wc -l\\)\"\necho \"Regular agents:    $\\(ls -la \"$PROJECT/.claude/agents/\"*.md | grep \"^-\" | wc -l\\)\")",
       "Bash(PROJECT=\"/home/mr/Desktop/Geographical Informations Systems \\(GIS\\)\" __NEW_LINE_d1e595ec86dbf35c__ echo \"==========================================\" echo \"VERIFICATION 2: .claude/skills/ contents\" echo \"==========================================\" ls -la \"$PROJECT/.claude/skills/\")",
-      "Bash(cd \"/home/mr/Desktop/Geographical Informations Systems \\(GIS\\)\" && gh pr close 2 --repo 220631948/cape-connect --comment \"Content incorporated directly into infra-fix branch \\(improved versions merged in docs\\(claude\\): ARIS — incorporate improved agent/skill/command versions commit\\). Closing as superseded.\" 2>&1)",
-      "Bash(git status --short | grep \"^[A-Z][A-Z]\" | head -10 && echo \"---remaining conflicts---\" && git diff --check 2>&1 | head -10)"
+      "Bash(cd \"/home/mr/Desktop/Geographical Informations Systems \\(GIS\\)\" && gh pr close 2 --repo 220631948/cape-connect --comment \"Content incorporated directly into infra-fix branch \\(improved versions merged in docs\\(claude\\): ARIS — incorporate improved agent/skill/command versions commit\\). Closing as superseded.\" 2>&1)"
     ]
   },
   "hooks": {
@@ -108,7 +107,6 @@
       }
     ]
   },
-  "outputStyle": "Explanatory",
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": true

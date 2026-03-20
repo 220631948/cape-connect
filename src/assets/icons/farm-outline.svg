@@ -1,0 +1,6 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Farm-Outline -->
+  <path d="M12,52 L12,30 L32,15 L52,30 L52,52 Q52,54 50,54 L14,54 Q12,54 12,52 Z" 
+        fill="none" stroke="#A3E635" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="4 2" />
+  <path d="M12,30 L32,15 L52,30" fill="none" stroke="#A3E635" stroke-width="2" stroke-linecap="round" />
+</svg>

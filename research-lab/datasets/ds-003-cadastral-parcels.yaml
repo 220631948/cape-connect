@@ -1,0 +1,62 @@
+id: ds-003
+name: CoCT Cadastral Parcels
+version: latest
+source_url: https://odp-cctegis.opendata.arcgis.com/datasets/cadastral-parcels
+source_type: arcgis_rest
+license:
+  name: Open Government Licence (South Africa)
+  url: https://odp.capetown.gov.za/pages/open-government-licence
+  commercial_use: true
+  research_use: true
+  redistribution: true
+crs: EPSG:4326
+geometry_type: Polygon
+schema:
+  columns:
+    - name: erf_no
+      type: text
+      pii: false
+      description: Unique erf number — primary join key to GV Roll (ds-001)
+    - name: suburb
+      type: text
+      pii: false
+      description: Official suburb name
+    - name: area_sqm
+      type: float
+      pii: false
+      description: Parcel area in square metres
+    - name: geometry
+      type: geometry
+      pii: false
+      description: Polygon boundary of the cadastral parcel in EPSG:4326
+size_estimate:
+  rows: ~900000
+  bytes: ~500MB
+  format: GeoJSON
+privacy_sensitivity: 2
+popia_flag: true
+popia_notes: >
+  erf_no alone is not PII, but joining erf_no to the GV Roll Full_Names column
+  (before PII stripping) or to any external ownership registry would constitute
+  re-identification and is prohibited.
+  COMBINATION RISK: erf_no (this dataset) + owner name (GV Roll pre-strip or
+  Deeds Office records) = personal information under POPIA Section 1.
+  Rule: GV Roll + Cadastral joins must occur only within the secured DB layer;
+  the combined result must never be exported with owner fields.
+  Do NOT expose any owner-name columns that may appear in older ArcGIS snapshots.
+refresh_frequency: weekly
+cache_ttl: "7 days"
+bounding_box:
+  west: 18.0
+  south: -34.5
+  east: 19.5
+  north: -33.0
+tags: [cadastral, parcels, spatial, polygon, erf]
+notes: >
+  The ArcGIS FeatureService receives continuous updates from CoCT survey records.
+  Rendered at zoom >= 14 only per CLAUDE.md Map Rules.
+  Served to the MapLibre client via Martin MVT tiles (Z-order: cadastral layer,
+  above suburbs and below zoning overlay).
+  Viewport buffer of 20% applied when requesting tiles.
+  If the FeatureService returns owner-related columns (e.g., OWNER_NAME), drop
+  them immediately in the ETL transform step — never store in production tables.

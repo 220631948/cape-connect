@@ -1,0 +1,10 @@
+{
+  "tokens": [
+    {
+      "name": "token-sheet",
+      "files": ["token-sheet.svg"],
+      "job_id": "TALPH-FIX-011",
+      "rationale": "Comprehensive design token reference sheet showing the full Midnight Crayon palette, typography scale, spacing system, and border radii. Designed as a high-fidelity systematic truth."
+    }
+  ]
+}

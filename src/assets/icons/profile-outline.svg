@@ -1,0 +1,5 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Profile-Outline -->
+  <circle cx="32" cy="22" r="10" fill="none" stroke="#5B8DEF" stroke-width="2.5" stroke-dasharray="2 2" />
+  <path d="M12,52 Q12,40 32,40 T52,52" fill="none" stroke="#5B8DEF" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 2" />
+</svg>

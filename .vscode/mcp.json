@@ -1,0 +1,105 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "node",
+      "args": [
+        "/home/mr/.local/lib/node_modules/@upstash/context7-mcp/dist/index.js"
+      ],
+      "env": {
+        "CONTEXT7_API_KEY": "${input:CONTEXT7_API_KEY}"
+      },
+      "enabled": true
+    },
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server"],
+      "env": {
+        "EXA_API_KEY": "${input:EXA_API_KEY}"
+      },
+      "enabled": true
+    },
+    "docker": {
+      "command": "npx",
+      "args": ["-y", "docker-mcp"],
+      "enabled": true
+    },
+    "open-aware": {
+      "type": "sse",
+      "url": "https://open-aware.qodo.ai/mcp",
+      "enabled": true
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${input:GITHUB_PERSONAL_ACCESS_TOKEN}"
+      },
+      "enabled": true
+    },
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp",
+      "enabled": true
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"],
+      "enabled": true
+    },
+    "sequentialthinking": {
+      "type": "stdio",
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "danielapatin/sequentialthinking:latest",
+        "-transport",
+        "stdio"
+      ],
+      "enabled": true
+    },
+    "gis-mcp": {
+      "command": "uvx",
+      "args": ["gis-mcp"],
+      "enabled": true
+    },
+    "carto": {
+      "type": "http",
+      "url": "${input:CARTO_MCP_URL}",
+      "enabled": true
+    }
+  },
+  "inputs": [
+    {
+      "id": "CONTEXT7_API_KEY",
+      "type": "promptString",
+      "description": "Context7 API key",
+      "password": true
+    },
+    {
+      "id": "EXA_API_KEY",
+      "type": "promptString",
+      "description": "Exa search API key",
+      "password": true
+    },
+    {
+      "id": "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "type": "promptString",
+      "description": "GitHub Personal Access Token (copilot + repo scopes) for GitHub Copilot MCP",
+      "password": true
+    },
+    {
+      "id": "CARTO_MCP_URL",
+      "type": "promptString",
+      "description": "CARTO MCP Server URL (format: https://<region>.api.carto.com/mcp/<account_id>). Get it from CARTO Workspace → Developers → Workflow API & MCP Server.",
+      "password": false
+    }
+  ],
+  "servers": {
+    "Sentry": {
+      "url": "https://mcp.sentry.dev/mcp/ferdi-fd/cape-gis",
+      "type": "http"
+    }
+  }
+}

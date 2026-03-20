@@ -1,0 +1,25 @@
+# post-deploy-white-label.hook
+
+Regenerates branding assets and theme files after a deployment or a tenant configuration change.
+
+## Triggers
+
+- `post-deploy`
+- `tenant-config-update`
+
+## Instructions
+
+1.  **Detect Changes**: Identify if `tenants` table configuration or branding files have changed.
+2.  **Invoke Theme Skill**: Call `white-label-theming.skill` for every active tenant.
+3.  **Asset Refresh**: 
+    - Purge CDN caches for tenant-specific CSS and images.
+    - Trigger a rebuild of the Next.js static pages that use tenant branding.
+4.  **Verification**: Confirm that the correct logo and primary color are active on the tenant's custom domain.
+5.  **Logging**: Log the status of asset regeneration for each tenant in the `audit_log`.
+
+## Example Usage
+
+"Regenerating assets for 12 tenants after v1.2.0 deploy... 
+Tenant 'Pam-Golding-Elite': SUCCESS. 
+Tenant 'City-Planners': SUCCESS. 
+Assets purged and ready."

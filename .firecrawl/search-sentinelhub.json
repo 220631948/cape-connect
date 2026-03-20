@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://www.planet.com/pricing/",
+        "title": "Flexible Pricing for Satellite Imagery & Data",
+        "description": "Discover Planet's transparent and scalable pricing for high-resolution satellite imagery, analytics, and monitoring solutions. Tailored plans to meet your ...",
+        "position": 1
+      },
+      {
+        "url": "https://creodias.eu/pricing/sh-pricing/",
+        "title": "Sentinel Hub Pricing",
+        "description": "Sentinel Hub Pricing ; Processing units 30 000/month 300/minute. Requests 100 000/month 300/minute, Processing units 70 000/month 500/minute. Requests 700 000/ ...",
+        "position": 2
+      },
+      {
+        "url": "https://www.sentinel-hub.com/faq/how-much-will-an-image-cost/",
+        "title": "How much will an image cost?",
+        "description": "Just to illustrate, a Pleiades quota package will cost you 100 euro, giving you 11 km2 to process, which you can use in the following ways: 1 order of 11 km2 ...",
+        "position": 3
+      }
+    ]
+  }
+}

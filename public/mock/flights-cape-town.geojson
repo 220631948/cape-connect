@@ -1,0 +1,90 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.6023, -33.9645]
+      },
+      "properties": {
+        "icao24": "006f9e",
+        "callsign": "FA102",
+        "heading": 45,
+        "altitude": 3500,
+        "velocity": 220,
+        "on_ground": false,
+        "origin_country": "South Africa",
+        "last_contact": 1741651200
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.4892, -33.8012]
+      },
+      "properties": {
+        "icao24": "00a1f4",
+        "callsign": "SAA323",
+        "heading": 180,
+        "altitude": 8500,
+        "velocity": 240,
+        "on_ground": false,
+        "origin_country": "South Africa",
+        "last_contact": 1741651215
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.7834, -34.1023]
+      },
+      "properties": {
+        "icao24": "00b3c2",
+        "callsign": "4Z205",
+        "heading": 315,
+        "altitude": 5000,
+        "velocity": 200,
+        "on_ground": false,
+        "origin_country": "South Africa",
+        "last_contact": 1741651230
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [19.1234, -33.7234]
+      },
+      "properties": {
+        "icao24": "00c4d1",
+        "callsign": "MN401",
+        "heading": 270,
+        "altitude": 9000,
+        "velocity": 250,
+        "on_ground": false,
+        "origin_country": "South Africa",
+        "last_contact": 1741651245
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.3456, -34.2345]
+      },
+      "properties": {
+        "icao24": "00d5e8",
+        "callsign": "N/A",
+        "heading": 90,
+        "altitude": 600,
+        "velocity": 65,
+        "on_ground": false,
+        "origin_country": "South Africa",
+        "last_contact": 1741651260
+      }
+    }
+  ]
+}

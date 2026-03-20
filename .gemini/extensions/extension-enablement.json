@@ -1,0 +1,132 @@
+{
+  "gemini-deep-research": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "open-aware": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "google-maps-platform": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "frontend-design": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "conductor": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "gemini-cli-security": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "code-review": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "github": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "chrome-devtools-mcp": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "gemini-kit": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "gemini-cli-prompt-library": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "mcp-toolbox-for-databases": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "exa-mcp-server": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "context7": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "huggingface-skills": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "mcp-server-browserbase": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "google-workspace": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "skill-porter": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "sonarqube-mcp-server": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "Stitch": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "ralph": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "genkit": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "antigravity-swarm": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "vercel-mcp": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "oh-my-gemini": {
+    "overrides": [
+      "/root/*"
+    ]
+  },
+  "git-expert": {
+    "overrides": [
+      "/root/*"
+    ]
+  }
+}

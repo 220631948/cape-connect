@@ -1,0 +1,103 @@
+id: EXP-001
+name: Suburb Boundary Baseline
+version: "1.0.0"
+status: PROPOSED
+created: "2026-03-09"
+phase: C
+
+hypothesis: >
+  OSM suburb polygons for the City of Cape Town Metro area match CoCT official
+  boundaries within 50 m Hausdorff distance tolerance for >= 90% of polygons.
+
+description: >
+  Geometric comparison (no ML training) between OSM suburb boundaries and CoCT
+  official administrative boundaries. Establishes a spatial reference baseline
+  required before running any ML experiments. Validates data quality of ds-004
+  and ds-003 within the project bounding box.
+
+bounding_box:
+  west: 18.0
+  south: -34.5
+  east: 19.5
+  north: -33.0
+  crs: EPSG:4326
+
+datasets:
+  - id: ds-003
+    name: CoCT Cadastral Parcels
+    role: reference (ground truth)
+    split: full (no train/test split — geometric comparison only)
+    version: "2023"
+  - id: ds-004
+    name: OSM Amenities — Cape Town Metro
+    role: candidate boundaries
+    split: full
+    version: "2024-03"
+
+model:
+  type: geometric_comparison
+  algorithm: Hausdorff distance + IoU
+  libraries:
+    - shapely>=2.0
+    - geopandas>=0.14
+    - pyproj>=3.6
+  training_required: false
+
+training_config:
+  seed: 42
+  augmentations: []
+  hyperparameters: {}
+
+compute:
+  cpu: 2
+  gpu: 0
+  memory_gb: 4
+  estimated_duration: "< 1 hour"
+  container: "capegis-research:base"
+
+metrics:
+  primary:
+    - name: hausdorff_distance_median_m
+      threshold: 50
+      direction: lower_is_better
+  secondary:
+    - name: iou_mean
+      threshold: 0.85
+      direction: higher_is_better
+    - name: pct_polygons_within_50m
+      threshold: 0.90
+      direction: higher_is_better
+
+statistical_tests:
+  - Shapiro-Wilk (normality of distance distribution)
+  - Wilcoxon signed-rank test vs 50 m null hypothesis
+  confidence_intervals: 95%
+
+checkpoints:
+  save_policy: results_only
+  artifacts:
+    - results/boundary_comparison.geojson
+    - results/metrics_summary.json
+    - notebooks/EXP-001-analysis.ipynb
+
+provenance:
+  code_commit: TBD
+  environment_hash: TBD
+  dataset_versions:
+    ds-003: "2023"
+    ds-004: "2024-03"
+
+popia:
+  sensitive: false
+  pii_fields: []
+  pre_processing_required: none
+
+teardown:
+  cleanup_tmp: true
+  estimated_cost_usd: 0.00
+
+notes: >
+  EXP-001 has no ML training component — it is a data quality validation experiment.
+  Results gate EXP-002 and EXP-003 by confirming spatial reference integrity.
+  If > 10% of polygons exceed 50 m Hausdorff distance, investigate CRS mismatch
+  before proceeding.

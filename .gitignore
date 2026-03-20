@@ -9,11 +9,9 @@ node_modules/
 
 # Build output
 .next/
-.next_*/
 out/
 dist/
 build/
-
 
 # OS & editor artifacts
 .DS_Store
@@ -80,5 +78,9 @@ __pycache__/
 *.pyo
 .venv/
 venv/
-.claude_backup/
-.claude_removed/
+
+# Sentry Config File
+.env.sentry-build-plugin
+
+# Git worktrees for Claude
+worktrees/

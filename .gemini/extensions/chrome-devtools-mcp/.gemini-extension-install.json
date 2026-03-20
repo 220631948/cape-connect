@@ -1,0 +1,6 @@
+{
+  "source": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+  "type": "github-release",
+  "autoUpdate": true,
+  "releaseTag": "chrome-devtools-mcp-v0.18.1"
+}

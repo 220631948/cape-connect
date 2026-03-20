@@ -1,8 +1,4 @@
 {
-  "enabledPlugins": {
-    "notebooklm-connector@claude-code-zero": true,
-    "claude-mem@thedotmack": true
-  },
   "mcpServers": {
     "nano-banana": {
       "httpUrl": "https://nano-banana.googleapis.com/mcp",
@@ -14,43 +10,30 @@
     },
     "chrome-devtools": {
       "command": "npx",
-      "args": [
-        "-y",
-        "chrome-devtools-mcp"
-      ]
+      "args": ["-y", "chrome-devtools-mcp"]
     },
     "stitch": {
       "command": "node",
-      "args": [
-        "mcp/stitch/server.js"
-      ],
+      "args": ["mcp/stitch/server.js"],
       "env": {
         "NERFSTUDIO_PATH": "/usr/local/bin/ns-train"
       }
     },
     "computerUse": {
       "command": "node",
-      "args": [
-        "mcp/computerUse/server.js"
-      ]
+      "args": ["mcp/computerUse/server.js"]
     },
     "openaware": {
       "command": "node",
-      "args": [
-        "mcp/openaware/server.js"
-      ]
+      "args": ["mcp/openaware/server.js"]
     },
     "cesium": {
       "command": "node",
-      "args": [
-        "mcp/cesium/server.js"
-      ]
+      "args": ["mcp/cesium/server.js"]
     },
     "formats": {
       "command": "node",
-      "args": [
-        "mcp/formats/server.js"
-      ]
+      "args": ["mcp/formats/server.js"]
     },
     "filesystem": {
       "command": "npx",
@@ -70,23 +53,14 @@
     },
     "vercel": {
       "command": "npx",
-      "args": [
-        "-y",
-        "--package",
-        "@vercel/sdk",
-        "--",
-        "mcp",
-        "start"
-      ],
+      "args": ["-y", "--package", "@vercel/sdk", "--", "mcp", "start"],
       "env": {
         "VERCEL_TOKEN": "${VERCEL_TOKEN}"
       }
     },
     "gemini-deep-research": {
       "command": "node",
-      "args": [
-        ".gemini/extensions/gemini-deep-research/scripts/start.cjs"
-      ],
+      "args": [".gemini/extensions/gemini-deep-research/scripts/start.cjs"],
       "env": {
         "GEMINI_API_KEY": "${GEMINI_API_KEY}"
       }
@@ -102,31 +76,19 @@
     },
     "exa": {
       "command": "npx",
-      "args": [
-        "-y",
-        "exa-mcp-server"
-      ]
+      "args": ["-y", "exa-mcp-server"]
     },
     "playwright": {
       "command": "npx",
-      "args": [
-        "-y",
-        "playwright-mcp-server"
-      ]
+      "args": ["-y", "playwright-mcp-server"]
     },
     "docker": {
       "command": "npx",
-      "args": [
-        "-y",
-        "docker-mcp"
-      ]
+      "args": ["-y", "docker-mcp"]
     },
     "localstack": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@localstack/localstack-mcp-server"
-      ]
+      "args": ["-y", "@localstack/localstack-mcp-server"]
     },
     "sequentialthinking": {
       "command": "docker",
@@ -141,35 +103,59 @@
     },
     "gis-mcp": {
       "command": "uvx",
-      "args": [
-        "gis-mcp"
-      ]
+      "args": ["gis-mcp"]
     },
     "doc-state": {
       "command": "node",
-      "args": [
-        "mcp/doc-state/server.js"
-      ]
+      "args": ["mcp/doc-state/server.js"]
     },
     "cesium-ion": {
       "type": "sse",
       "url": "https://mcp.cesium.com/sse",
       "headers": {
-        "Authorization": "Bearer ${COPILOT_MCP_CESIUM_ION_TOKEN}"
+        "Authorization": "Bearer ${CESIUM_ION_TOKEN}"
       }
     },
     "opensky": {
       "command": "node",
-      "args": [
-        "scripts/opensky-mcp-wrapper.js"
-      ]
+      "args": ["scripts/opensky-mcp-wrapper.js"]
     },
     "nerfstudio": {
       "command": "python",
-      "args": [
-        "-m",
-        "nerfstudio.mcp_server"
-      ]
+      "args": ["-m", "nerfstudio.mcp_server"]
+    },
+    "arcgis": {
+      "command": "npx",
+      "args": ["-y", "@esri/arcgis-mcp-server"],
+      "env": {
+        "ARCGIS_CLIENT_ID": "${ARCGIS_CLIENT_ID}",
+        "ARCGIS_CLIENT_SECRET": "${ARCGIS_CLIENT_SECRET}"
+      }
     }
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx prettier --write \"$CLAUDE_TOOL_INPUT_PATH\" 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_INPUT_PATH\" == *.sql ]]; then pg_format -i \"$CLAUDE_TOOL_INPUT_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "notebooklm-connector@claude-code-zero": true
   }
 }

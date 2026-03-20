@@ -1,0 +1,24 @@
+# pre-commit-gis-validation.hook
+
+Validates all GeoJSON files, coordinate reference systems, and spatial schemas before a commit is allowed.
+
+## Triggers
+
+- `pre-commit`
+
+## Instructions
+
+1.  **File Filtering**: Scan for `.geojson`, `.json` (if in data directories), and `.sql` migration files.
+2.  **GeoJSON Syntax**: Run a GeoJSON validator to ensure syntax is correct.
+3.  **CRS Check**: Verify that all GeoJSON coordinates are in EPSG:4326.
+4.  **Bounding Box Validation**: Confirm that points and polygons fall within the Western Cape bounding box:
+    - Longitude: 17.85 to 23.30
+    - Latitude: -34.83 to -31.05
+5.  **SQL Schema Check**: Ensure all geometry columns in new migrations specify a SRID (e.g., `GEOMETRY(Polygon, 4326)`).
+6.  **Blocking**: If any check fails, block the commit and output error details.
+
+## Example Usage
+
+"Validating 3 changed GeoJSON files... 
+Error: 'constantia_parcels.geojson' contains coordinates outside the Western Cape bounding box. 
+Commit blocked."

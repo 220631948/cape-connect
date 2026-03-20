@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection",
+  "name": "mock_traffic_incidents",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "id": "accident-n2", "magnitudeOfDelay": 4, "iconCategory": 2, "length": 500, "delay": 600, "description": "Accident on N2 Outbound" },
+      "geometry": { "type": "LineString", "coordinates": [[18.441, -33.935], [18.450, -33.940]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "jam-n1", "magnitudeOfDelay": 2, "iconCategory": 1, "length": 2500, "delay": 180, "description": "Heavy traffic N1 Inbound" },
+      "geometry": { "type": "LineString", "coordinates": [[18.500, -33.890], [18.470, -33.900], [18.450, -33.910]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": "roadwork-m5", "magnitudeOfDelay": 1, "iconCategory": 3, "length": 1000, "delay": 60, "description": "Roadworks M5 Southbound" },
+      "geometry": { "type": "LineString", "coordinates": [[18.480, -33.950], [18.482, -33.960]] }
+    }
+  ]
+}
