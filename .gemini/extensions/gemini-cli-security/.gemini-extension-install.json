@@ -1,6 +1,0 @@
-{
-  "source": "https://github.com/gemini-cli-extensions/security",
-  "type": "github-release",
-  "autoUpdate": true,
-  "releaseTag": "v0.4.0"
-}

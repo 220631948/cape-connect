@@ -1,6 +1,0 @@
-{
-  "source": "https://github.com/github/github-mcp-server",
-  "type": "github-release",
-  "autoUpdate": true,
-  "releaseTag": "v0.31.0"
-}

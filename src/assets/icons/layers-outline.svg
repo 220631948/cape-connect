@@ -1,6 +1,0 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Layers-Outline: Whimsical Wobbly Tiles -->
-  <path d="M32,10 L54,20 L32,30 L10,20 Z" fill="none" stroke="#5B8DEF" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 2" />
-  <path d="M10,28 L32,38 L54,28" fill="none" stroke="#5B8DEF" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 2" />
-  <path d="M10,42 L32,52 L54,42" fill="none" stroke="#5B8DEF" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 2" />
-</svg>
