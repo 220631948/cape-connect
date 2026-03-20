@@ -1,0 +1,81 @@
+// Copyright © 2025, Oracle and/or its affiliates.
+package oraclesql_test
+
+import (
+	"testing"
+
+	"github.com/google/go-cmp/cmp"
+	"github.com/googleapis/genai-toolbox/internal/server"
+	"github.com/googleapis/genai-toolbox/internal/testutils"
+	"github.com/googleapis/genai-toolbox/internal/tools/oracle/oraclesql"
+)
+
+func TestParseFromYamlOracleSql(t *testing.T) {
+	ctx, err := testutils.ContextWithNewLogger()
+	if err != nil {
+		t.Fatalf("unexpected error: %s", err)
+	}
+	tcs := []struct {
+		desc string
+		in   string
+		want server.ToolConfigs
+	}{
+		{
+			desc: "basic example with statement and auth",
+			in: `
+            kind: tools
+            name: get_user_by_id
+            type: oracle-sql
+            source: my-oracle-instance
+            description: Retrieves user details by ID.
+            statement: "SELECT id, name, email FROM users WHERE id = :1"
+            authRequired:
+                - my-google-auth-service
+            `,
+			want: server.ToolConfigs{
+				"get_user_by_id": oraclesql.Config{
+					Name:         "get_user_by_id",
+					Type:         "oracle-sql",
+					Source:       "my-oracle-instance",
+					Description:  "Retrieves user details by ID.",
+					Statement:    "SELECT id, name, email FROM users WHERE id = :1",
+					AuthRequired: []string{"my-google-auth-service"},
+				},
+			},
+		},
+		{
+			desc: "example with parameters and template parameters",
+			in: `
+            kind: tools
+            name: get_orders
+            type: oracle-sql
+            source: db-prod
+            description: Gets orders for a customer with optional filtering.
+            statement: "SELECT * FROM ${SCHEMA}.ORDERS WHERE customer_id = :customer_id AND status = :status"
+            `,
+			want: server.ToolConfigs{
+				"get_orders": oraclesql.Config{
+					Name:         "get_orders",
+					Type:         "oracle-sql",
+					Source:       "db-prod",
+					Description:  "Gets orders for a customer with optional filtering.",
+					Statement:    "SELECT * FROM ${SCHEMA}.ORDERS WHERE customer_id = :customer_id AND status = :status",
+					AuthRequired: []string{},
+				},
+			},
+		},
+	}
+	for _, tc := range tcs {
+		t.Run(tc.desc, func(t *testing.T) {
+			// Parse contents
+			_, _, _, got, _, _, err := server.UnmarshalResourceConfig(ctx, testutils.FormatYaml(tc.in))
+			if err != nil {
+				t.Fatalf("unable to unmarshal: %s", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Fatalf("incorrect parse: diff %v", diff)
+			}
+		})
+	}
+
+}

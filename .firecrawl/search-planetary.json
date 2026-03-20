@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://azure.microsoft.com/en-us/pricing/details/planetary-computer-pro/",
+        "title": "Microsoft Planetary Computer Pro - Pricing",
+        "description": "Understand pricing for your cloud solution. Request a pricing quote. Get free cloud services and a $200 credit to explore Azure for 30 days. Try Azure for free.",
+        "position": 1
+      },
+      {
+        "url": "https://azure.microsoft.com/en-us/products/planetary-computer-pro",
+        "title": "Microsoft Planetary Computer Pro",
+        "description": "Discover Microsoft Planetary Computer Pro, a secure, scalable geospatial data platform with AI-powered analytics to enhance business decision-making.",
+        "position": 2
+      },
+      {
+        "url": "https://learn.microsoft.com/en-us/azure/planetary-computer/microsoft-planetary-computer-pro-overview",
+        "title": "Microsoft Planetary Computer Pro Features and Capabilities",
+        "description": "Microsoft Planetary Computer Pro is a geospatial data management service built on top of Azure's hyperscale infrastructure and ecosystem.",
+        "position": 3
+      }
+    ]
+  }
+}

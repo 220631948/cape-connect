@@ -1,0 +1,43 @@
+{
+    "__generated_by": "rebootstrap_agent",
+    "__timestamp": "2026-03-04T14:51:00Z",
+    "__vibe": "spatialintelligence.ai + 4DGS baby mode",
+    "hooks": {
+        "SessionStart": [
+            {
+                "type": "command",
+                "command": "grep -q '^\\.env' .gitignore 2>/dev/null && echo '[CAPEGIS] ok .env is gitignored' >&2 || echo '[CAPEGIS] WARN: .env may not be gitignored - check .gitignore' >&2; [ -f PLAN.md ] && echo '[CAPEGIS] ok PLAN.md found' >&2 || echo '[CAPEGIS] WARN: PLAN.md missing' >&2; MILESTONE=$(grep -m1 'CURRENT_PHASE\\|Last milestone\\|## M[0-9]' PLAN.md 2>/dev/null | head -1); echo \"[CAPEGIS] Milestone: ${MILESTONE:-unknown}\" >&2"
+            }
+        ],
+        "PreToolUse": [
+            {
+                "type": "command",
+                "command": "FILE=\"${TOOL_INPUT_PATH:-${TOOL_INPUT_FILE:-}}\"; if [ -n \"$FILE\" ]; then case \"$FILE\" in *.ts|*.tsx) LINES=$(wc -l < \"$FILE\" 2>/dev/null || echo 0); [ \"$LINES\" -gt 300 ] && echo \"[CAPEGIS] ✗ WARN: $FILE already has $LINES lines (limit 300, CLAUDE.md Rule 7)\" >&2 || true ;; *migrations*|supabase/migrations/*.sql) BASENAME=$(basename \"$FILE\"); echo \"$BASENAME\" | grep -qE '^[0-9]{14}_' || echo \"[CAPEGIS] ✗ WARN: Migration filename '$BASENAME' does not match YYYYMMDDHHMMSS_ convention\" >&2 ;; esac; fi"
+            },
+            {
+                "type": "command",
+                "command": "FILE=\"${TOOL_INPUT_PATH:-${TOOL_INPUT_FILE:-}}\"; CONTENT=\"${TOOL_INPUT_CONTENT:-}\"; if [ -n \"$CONTENT\" ]; then echo \"$CONTENT\" | grep -qE '(eyJ[A-Za-z0-9_-]{20,}[.][A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9]{20,}|service_role[^=]*=ey|https://[a-z0-9]{20,}[.]supabase[.]co)' && echo '[CAPEGIS] BLOCK: Potential hardcoded API key detected. Use environment variables only (CLAUDE.md Rule 3).' >&2 || true; fi"
+            }
+        ],
+        "PostToolUse": [
+            {
+                "type": "command",
+                "command": "LEAKED=$(git grep -E '(supabase[.]co|sk-[A-Za-z0-9]{20,}|SUPABASE_SERVICE_ROLE_KEY\\s*=\\s*[a-z])' --include='*.ts' --include='*.tsx' --include='*.js' --include='*.env' -l 2>/dev/null); if [ -n \"$LEAKED\" ]; then echo '[CAPEGIS] SECRET LEAK detected in:' >&2; echo \"$LEAKED\" | sed 's/^/  /' >&2; else echo '[CAPEGIS] ok No secret leaks found in tracked source files' >&2; fi"
+            },
+            {
+                "type": "command",
+                "command": "FILE=\"${TOOL_INPUT_PATH:-${TOOL_INPUT_FILE:-}}\"; if echo \"$FILE\" | grep -qE '\\.(sql)$' && echo \"$FILE\" | grep -q 'migration'; then grep -qi 'CREATE TABLE' \"$FILE\" 2>/dev/null && { grep -qi 'ENABLE ROW LEVEL SECURITY' \"$FILE\" || echo \"[CAPEGIS] WARN: Migration '$FILE' has CREATE TABLE but no ENABLE ROW LEVEL SECURITY (CLAUDE.md Rule 4)\" >&2; } || true; fi"
+            },
+            {
+                "type": "command",
+                "command": "FILE=\"${TOOL_INPUT_PATH:-${TOOL_INPUT_FILE:-}}\"; if [ -n \"$FILE\" ] && echo \"$FILE\" | grep -qE '^(docs|\\.claude|\\.gemini|\\.github)/' && ! echo \"$FILE\" | grep -qE '(^|/)(INDEX\\.md|CHANGELOG_AUTO\\.md)$'; then ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd); python3 \"$ROOT/scripts/sync_doc_indexes.py\" --changed \"$FILE\" >/dev/null 2>&1 || echo \"[CAPEGIS] WARN: auto-doc sync failed for $FILE\" >&2; fi"
+            }
+        ],
+        "Stop": [
+            {
+                "type": "command",
+                "command": "PLAN_CHANGED=$(git diff --name-only 2>/dev/null | grep -c 'PLAN.md' || echo 0); [ \"$PLAN_CHANGED\" -gt 0 ] && echo '[CAPEGIS] ok PLAN.md has uncommitted changes (remember to commit)' >&2 || echo '[CAPEGIS] info PLAN.md unchanged this session' >&2; DIRTY=$(git diff --name-only 2>/dev/null); if [ -n \"$DIRTY\" ]; then echo '[CAPEGIS] Uncommitted tracked changes:' >&2; echo \"$DIRTY\" | sed 's/^/  /' >&2; else echo '[CAPEGIS] ok No uncommitted tracked changes' >&2; fi"
+            }
+        ]
+    }
+}

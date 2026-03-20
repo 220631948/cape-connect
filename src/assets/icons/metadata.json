@@ -1,0 +1,106 @@
+{
+  "icons": [
+    {
+      "name": "home",
+      "files": ["home-light.svg", "home-dark.svg", "home-outline.svg"],
+      "job_id": "TALPH-FIX-001",
+      "rationale": "Plump neomorphic house representing the dashboard root."
+    },
+    {
+      "name": "layers",
+      "files": ["layers-light.svg", "layers-dark.svg", "layers-outline.svg"],
+      "job_id": "TALPH-FIX-002",
+      "rationale": "Stacked neomorphic tiles representing GIS data layers."
+    },
+    {
+      "name": "analysis",
+      "files": ["analysis-light.svg", "analysis-dark.svg", "analysis-outline.svg"],
+      "job_id": "TALPH-FIX-003",
+      "rationale": "Magnifying glass with a crayon wiggle inside the lens."
+    },
+    {
+      "name": "profile",
+      "files": ["profile-light.svg", "profile-dark.svg", "profile-outline.svg"],
+      "job_id": "TALPH-FIX-004",
+      "rationale": "Squishy silhouette icon for user profiles."
+    },
+    {
+      "name": "add",
+      "files": ["add-light.svg", "add-dark.svg", "add-outline.svg"],
+      "job_id": "TALPH-FIX-005",
+      "rationale": "Plump plus sign for adding new data layers."
+    },
+    {
+      "name": "save",
+      "files": ["save-light.svg", "save-dark.svg", "save-outline.svg"],
+      "job_id": "TALPH-FIX-006",
+      "rationale": "Neomorphic cloud icon for saving map views."
+    },
+    {
+      "name": "export",
+      "files": ["export-light.svg", "export-dark.svg", "export-outline.svg"],
+      "job_id": "TALPH-FIX-007",
+      "rationale": "Bouncy arrow icon for exporting spatial data."
+    },
+    {
+      "name": "vessel",
+      "files": ["vessel-light.svg", "vessel-dark.svg", "vessel-outline.svg"],
+      "job_id": "TALPH-FIX-011",
+      "rationale": "Neomorphic cargo ship representing maritime logistics layers."
+    },
+    {
+      "name": "farm",
+      "files": ["farm-light.svg", "farm-dark.svg", "farm-outline.svg"],
+      "job_id": "TALPH-FIX-012",
+      "rationale": "Plump neomorphic barn representing agricultural and environmental layers."
+    },
+    {
+      "name": "tree",
+      "files": ["tree-light.svg", "tree-dark.svg", "tree-outline.svg"],
+      "job_id": "TALPH-FIX-014",
+      "rationale": "Plump neomorphic tree for environmental and parks layers."
+    },
+    {
+      "name": "water",
+      "files": ["water-light.svg", "water-dark.svg", "water-outline.svg"],
+      "job_id": "TALPH-FIX-015",
+      "rationale": "Wavy neomorphic water icon for hydrology and infrastructure layers."
+    },
+    {
+      "name": "road",
+      "files": ["road-light.svg", "road-dark.svg", "road-outline.svg"],
+      "job_id": "TALPH-FIX-016",
+      "rationale": "Perspective road icon for transport and infrastructure layers."
+    },
+    {
+      "name": "power",
+      "files": ["power-light.svg", "power-dark.svg", "power-outline.svg"],
+      "job_id": "TALPH-FIX-017",
+      "rationale": "Lightning bolt tower for electrical infrastructure layers."
+    },
+    {
+      "name": "school",
+      "files": ["school-light.svg", "school-dark.svg", "school-outline.svg"],
+      "job_id": "TALPH-FIX-018",
+      "rationale": "Plump schoolhouse for social and educational facilities."
+    },
+    {
+      "name": "hospital",
+      "files": ["hospital-light.svg", "hospital-dark.svg", "hospital-outline.svg"],
+      "job_id": "TALPH-FIX-019",
+      "rationale": "Medical cross silhouette for health services and social layers."
+    },
+    {
+      "name": "shop",
+      "files": ["shop-light.svg", "shop-dark.svg", "shop-outline.svg"],
+      "job_id": "TALPH-FIX-020",
+      "rationale": "Shopping bag icon for retail and commercial land use."
+    },
+    {
+      "name": "factory",
+      "files": ["factory-light.svg", "factory-dark.svg", "factory-outline.svg"],
+      "job_id": "TALPH-FIX-021",
+      "rationale": "Sawtooth roof icon for industrial and commercial zones."
+    }
+  ]
+}

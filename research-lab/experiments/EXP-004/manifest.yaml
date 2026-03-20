@@ -1,0 +1,135 @@
+id: EXP-004
+name: GV Roll Valuation Anomaly Detection
+version: "1.0.0"
+status: PROPOSED
+created: "2026-03-09"
+phase: F
+
+hypothesis: >
+  Spatial autocorrelation analysis (Local Moran's I / LISA) can identify
+  statistically significant under/over-valued parcels in the CoCT General
+  Valuation Roll 2022, flagging >= 5% of parcels as spatial outliers for
+  human review.
+
+description: >
+  Spatial econometric analysis of property valuations using PySAL/esda. No ML
+  training; statistical spatial models only. PII stripping of Full_Names is
+  mandatory before any data ingestion. Output is a set of flagged ERF numbers
+  (no owner data) ranked by anomaly score, suitable for valuation QA workflows.
+
+bounding_box:
+  west: 18.0
+  south: -34.5
+  east: 19.5
+  north: -33.0
+  crs: EPSG:4326
+
+datasets:
+  - id: ds-001
+    name: CoCT GV Roll 2022 (PII-stripped)
+    role: primary analysis dataset
+    pii_strip_required: true
+    pii_columns: [Full_Names]
+    strip_policy: in_memory_before_any_db_load
+    blocker: "OQ-003/018 — confirm column headers before running"
+    fields_used:
+      - Erf_Nr
+      - Suburb
+      - Zone_Code
+      - Market_Val
+      - Category_D
+      - Extent_Of
+  - id: ds-003
+    name: CoCT Cadastral Parcels
+    role: spatial geometry for ERF join
+    join_key: erf_nr
+
+model:
+  type: spatial_autocorrelation
+  algorithms:
+    - name: Global Moran's I
+      library: esda
+      role: global spatial structure
+    - name: Local Moran's I (LISA)
+      library: esda
+      role: local anomaly detection
+    - name: Spatial Lag Model
+      library: spreg
+      role: regression controlling for spatial dependence
+  libraries:
+    - esda>=2.5
+    - libpysal>=4.9
+    - spreg>=1.4
+    - geopandas>=0.14
+    - pandas>=2.0
+    - scipy>=1.11
+
+training_config:
+  seed: 42
+  target: Market_Val (log-transformed)
+  spatial_weights:
+    type: Queen contiguity
+    k_nearest_fallback: 8
+  significance_threshold: 0.05
+  multiple_testing_correction: FDR (Benjamini-Hochberg)
+
+compute:
+  cpu: 4
+  gpu: 0
+  memory_gb: 8
+  estimated_duration: "1 hour"
+  container: "capegis-research:base"
+
+metrics:
+  primary:
+    - name: morans_i_global
+      direction: informational
+    - name: pct_parcels_flagged
+      expected_range: [0.03, 0.10]
+  secondary:
+    - name: recall_known_anomalies
+      note: requires manually labelled ground truth (if available)
+    - name: false_positive_rate
+
+statistical_tests:
+  - Global Moran's I permutation test (n=999)
+  - Local Moran's I with FDR correction
+  - Spatial lag model Lagrange Multiplier diagnostics
+
+checkpoints:
+  save_policy: results_only
+  artifacts:
+    - results/lisa_flagged_erfs.csv
+    - results/metrics_summary.json
+    - results/lisa_map.geojson
+    - notebooks/EXP-004-analysis.ipynb
+
+provenance:
+  code_commit: TBD
+  environment_hash: TBD
+  dataset_versions:
+    ds-001: "2022"
+    ds-003: "2023"
+
+popia:
+  sensitive: true
+  pii_fields: [Full_Names]
+  pre_processing_required: |
+    MANDATORY: Strip Full_Names (and any owner fields) in-memory BEFORE any operation.
+    Never write raw GV Roll CSV to disk during experiment. Use strip_pii() helper.
+    See compliance/audits/LICENSE_POPIA_AUDIT.md §3.2 for code reference.
+  output_restriction: |
+    Output files (lisa_flagged_erfs.csv, lisa_map.geojson) must contain only:
+    Erf_Nr, anomaly_score, lisa_category (HH/LL/HL/LH), p_value, suburb.
+    NO owner names, contact information, or re-identifiable combinations.
+  blocker: "OQ-003/018: Confirm column headers before running EXP-004"
+  audit_trail: compliance/audits/EXP-004-popia-audit.md
+
+teardown:
+  cleanup_tmp: true
+  delete_raw_csv_from_disk: true
+  estimated_cost_usd: 0.00
+
+product_integration: >
+  Output flagged ERFs feed into the Valuation QA workflow (TENANT_ADMIN role only).
+  Display badge: [CoCT GV Roll 2022 · CACHED] when results are loaded from api_cache.

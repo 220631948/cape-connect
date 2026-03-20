@@ -1,0 +1,26 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://github.com/urbica/martin/releases",
+        "title": "Releases · maplibre/martin",
+        "description": "Martin now supports the MapLibre Tiles Specification. This means that if you want to serve MLT based tiles with this tileserver, you now can. Read more about ...",
+        "position": 1,
+        "category": "github"
+      },
+      {
+        "url": "https://maplibre.org/martin/installation/",
+        "title": "Installation - Martin Tile Server Documentation",
+        "description": "Installation. Prerequisites. If using Martin with PostgreSQL database, you must install PostGIS with at least v3.0+. Postgis v3.1+ is recommended.",
+        "position": 2
+      },
+      {
+        "url": "https://docs.rs/crate/martin/latest",
+        "title": "martin 1.3.1",
+        "description": "Martin is a tile server and a set of tools able to generate vector tiles on the fly from large PostgreSQL databases, and serve tiles from PMTiles and MBTiles ...",
+        "position": 3
+      }
+    ]
+  }
+}

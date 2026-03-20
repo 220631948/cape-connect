@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Fuselage: vertical ellipse centred at 16,16, nose pointing UP (y=6) -->
+  <ellipse cx="16" cy="16" rx="2" ry="10" fill="#ffffff"/>
+  <!-- Wings: swept back from mid-fuselage -->
+  <polygon points="16,14 4,20 16,18" fill="#ffffff"/>
+  <polygon points="16,14 28,20 16,18" fill="#ffffff"/>
+  <!-- Tail fins: at the bottom of the fuselage -->
+  <polygon points="16,24 11,28 16,26" fill="#ffffff"/>
+  <polygon points="16,24 21,28 16,26" fill="#ffffff"/>
+</svg>

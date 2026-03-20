@@ -1,0 +1,99 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://ogcapi.ogc.org/features/",
+        "title": "OGC API - Features",
+        "description": "OGC API - Features is a multi-part standard that offers the capability to create, modify, and query spatial data on the Web and specifies requirements and ...",
+        "position": 1
+      },
+      {
+        "url": "https://www.reddit.com/r/gis/comments/w1yl39/fastgeofeature_a_geospatial_api_to_serve_data_via/",
+        "title": "A geospatial api to serve data via the OGC Features ...",
+        "description": "FastGeofeature allows you to serve data from a series of PostgreSQL servers via OGC Features standards. This allows you to expose your data ...",
+        "position": 2
+      },
+      {
+        "url": "https://github.com/hasura/graphql-engine/issues/10536",
+        "title": "Issue #10536 · hasura/graphql-engine - Output OGC API",
+        "description": "We could run pg_featureservor GeoServer next to hasura to publish our geodata via an ogc compliant rest api. However this approach has two major ...",
+        "position": 3,
+        "category": "github"
+      },
+      {
+        "url": "https://pro.arcgis.com/en/pro-app/latest/help/data/services/use-ogc-api-services.htm",
+        "title": "Use an OGC API service",
+        "description": "You can add an OGC API Features or OGC API Tiles service to a map by selecting the layer in the OGC API server connection and dragging it onto the map, or by ...",
+        "position": 4
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=jfaizvF5S4I",
+        "title": "a Simple and Fast OGC Features and Tiles API for PostGIS",
+        "description": "Using Postgres/PostGIS as datasource and FastAPI/Pydantic for the web framework, TiPG is a lightweight application which user can include ...",
+        "position": 5
+      },
+      {
+        "url": "https://docs.ogc.org/is/20-057/20-057.html",
+        "title": "OGC API - Tiles - Part 1: Core",
+        "description": "Instead of a fixed Web interface, OGC API — Tiles focuses on simple reusable REST API building blocks which can be described using the OpenAPI specification.",
+        "position": 6
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=kE4NqLiCOUg",
+        "title": "Simple and Fast OGC API Servers for PostGIS ...",
+        "description": "Vincent Sarago from Development Seed gives an overview and in depth demo of an open-source project for geospatial services written in Python ...",
+        "position": 7
+      },
+      {
+        "url": "https://av.tib.eu/media/66576",
+        "title": "TiPg: a Simple and Fast OGC Features and Tiles API for PostGIS",
+        "description": "Using Postgres/PostGIS as datasource and FastAPI/Pydantic for the web framework, TiPG is a lightweight application which user can include into their own FastAPI ...",
+        "position": 8
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=LC-jmuYmJSE",
+        "title": "Serving OGC API Features/Tiles from Postgres with TiPG",
+        "description": "David Bitner discusses TiPG, an OGC API features service that serves OGC features and tiles directly from Postgres and PostGIS databases.",
+        "position": 9
+      },
+      {
+        "url": "https://features.developer.ogc.org/",
+        "title": "OGC API - Features",
+        "description": "Lists the collections of data on the server that can be queried, and each describes basic information about the geospatial data collection.",
+        "position": 10
+      },
+      {
+        "url": "https://ogcapi.ogc.org/features/overview.html",
+        "title": "OGC API - Features - Overview",
+        "description": "OGC API - Features. OGC API standards define modular API building blocks to spatially enable Web APIs in a consistent way.",
+        "position": 11
+      },
+      {
+        "url": "https://github.com/microsoft/ogc-api-fast-features",
+        "title": "microsoft/ogc-api-fast-features",
+        "description": "OGC Features API implementation built in Python using FastAPI, compliant with OGC API - Features - Part 1: Core, and inspired by pygeoapi.",
+        "position": 12,
+        "category": "github"
+      },
+      {
+        "url": "https://ogcapi.ogc.org/",
+        "title": "OGC API",
+        "description": "OGC APIs are designed to make it easy for ANYONE to provide and use geospatial data on the web, and to integrate this data with ANY other type of information.",
+        "position": 13
+      },
+      {
+        "url": "https://www.ogc.org/standards/ogcapi-features/",
+        "title": "OGC API Features Standard | REST API for Geospatial ...",
+        "description": "The OGC API Features Standard defines RESTful interfaces for discovering, querying, and retrieving geospatial feature data using modern Web API patterns.",
+        "position": 14
+      },
+      {
+        "url": "https://www.ogc.org/standards/ogcapi-tiles/",
+        "title": "OGC API Tiles Standard | REST API for Map Tile Services",
+        "description": "The OGC API Tiles Standard defines RESTful interfaces for retrieving tiled geospatial data, enabling interoperable map tile access with modern Web API ...",
+        "position": 15
+      }
+    ]
+  }
+}

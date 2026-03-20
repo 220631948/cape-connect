@@ -1,0 +1,23 @@
+{
+  "name": "capegis-core-governance",
+  "description": "Governance-first skill bundle for docs quality gates, assumptions, POPIA checks, and RLS verification.",
+  "version": "1.0.0",
+  "author": {
+    "name": "CapeTown GIS Hub"
+  },
+  "license": "MIT",
+  "keywords": [
+    "gis",
+    "governance",
+    "compliance",
+    "popia",
+    "rls"
+  ],
+  "category": "governance",
+  "tags": [
+    "cape-town",
+    "copilot-cli",
+    "multitenant"
+  ],
+  "skills": "skills/"
+}

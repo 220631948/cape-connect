@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://postgis.net/documentation/getting_started/install_windows/released_versions/",
+        "title": "Latest Released Version",
+        "description": "Latest Released Version. PostGIS 3.6.2 was released Feb 6th, 2026. Windows PostGIS Bundle 3.6.2 installers for PostgreSQL 14-18 was released Mar 16th, 2026.",
+        "position": 1
+      },
+      {
+        "url": "https://postgis.net/2026/02/PostGIS-Patch-Releases/",
+        "title": "PostGIS Patch Releases",
+        "description": "PostGIS Patch Releases. Feb 9, 2026 release 3 3.1 3.2 3.3 3.4 3.5 3.6. The PostGIS development team is pleased to provide bug fix releases for PostGIS 3.0 - ...",
+        "position": 2
+      },
+      {
+        "url": "https://clickhouse.com/blog/state-of-geospatial-march-2026",
+        "title": "State of Geospatial in ClickHouse in March 2026",
+        "description": "Everything you need to know about ClickHouse as a geospatial analytics engine: its type system, indexing grids, strengths, and limitations.",
+        "position": 3
+      }
+    ]
+  }
+}

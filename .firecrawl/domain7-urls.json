@@ -1,0 +1,49 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog",
+        "title": "Earth Engine Data Catalog",
+        "description": "Earth Engine's public data catalog includes a variety of standard Earth science raster datasets. You can import these datasets into your script environment ...",
+        "position": 1
+      },
+      {
+        "url": "https://earthengine.google.com/",
+        "title": "Google Earth Engine",
+        "description": "Google Earth Engine combines a multi-petabyte catalog of satellite imagery and geospatial datasets with planetary-scale analysis capabilities.",
+        "position": 2
+      },
+      {
+        "url": "https://medium.com/google-earth/from-the-product-lead-whats-coming-to-google-earth-in-2026-3bf87320dfb9",
+        "title": "What's coming to Google Earth in 2026",
+        "description": "In 2026, we are revolutionizing geospatial visualization again by empowering you to see more of your data on Google Earth. We know the real ...",
+        "position": 3
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=8NWn1_pyolo",
+        "title": "How to Filter and Display Sentinel-2 Satellite Imagery (2026)",
+        "description": "Learn how to filter and display Sentinel-2 satellite imagery in Google Earth Engine (GEE) in this complete 2026 tutorial.",
+        "position": 4
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/tags/satellite-imagery",
+        "title": "Datasets tagged satellite-imagery in Earth Engine",
+        "description": "This dataset provides a complete 15 m resolution image mosaic of the Greenland ice sheet derived from Landsat 7 ETM+ and RADARSAT-1 SAR imagery from the years ...",
+        "position": 5
+      },
+      {
+        "url": "https://medium.com/google-earth/new-year-new-google-earth-major-upgrades-for-faster-sustainable-data-driven-decisions-in-2026-e6a835d8cb30",
+        "title": "New Year, New Google Earth: Major Upgrades for Faster, Sustainable ...",
+        "description": "We are transforming the world's most trusted map into a no-code geospatial analysis tool that powers faster, sustainable, data-driven decisions.",
+        "position": 6
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/docs/release-notes",
+        "title": "Earth Engine release notes",
+        "description": "Tier quotas will take effect for all projects (regardless of tier selection date) on April 27, 2026. Learn more. January 13, 2026. Earth Engine Data Catalog.",
+        "position": 7
+      }
+    ]
+  }
+}

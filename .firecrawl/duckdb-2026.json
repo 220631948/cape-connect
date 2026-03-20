@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://duckdb.org/2026/03/09/announcing-duckdb-150.html",
+        "title": "Announcing DuckDB 1.5.0",
+        "description": "The v1.4.0 LTS line (“Andium”) will keep receiving updates until its end-of-life in September 2026. We are proud to release ...",
+        "position": 1
+      },
+      {
+        "url": "https://medium.com/@Praxen/duckdb-extensions-youll-actually-use-in-2026-bd0ea86a359f",
+        "title": "DuckDB Extensions You'll Actually Use in 2026 | by Praxen - Medium",
+        "description": "A curated DuckDB extensions pack for 2026: httpfs, Iceberg, Delta, scanners, JSON/Excel, spatial, FTS, vectors — plus how to install and use ...",
+        "position": 2
+      },
+      {
+        "url": "https://duckdb.org/docs/stable/core_extensions/spatial/overview.html",
+        "title": "Spatial Extension - DuckDB",
+        "description": "The spatial extension provides support for geospatial data processing in DuckDB. For an overview of the extension, see our blog post.",
+        "position": 3
+      }
+    ]
+  }
+}

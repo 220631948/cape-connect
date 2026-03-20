@@ -1,0 +1,41 @@
+# Geospatial ML Research — Base Dockerfile
+# CapeTown GIS Research Lab — Reproducible Environment
+#
+# Usage:
+#   docker build -t capegis-research:latest -f containers/Dockerfile.research .
+#   docker run --rm -it capegis-research:latest bash
+
+FROM python:3.11-slim-bookworm AS base
+
+LABEL maintainer="CapeTown GIS Research Lab"
+LABEL description="Reproducible geospatial ML research environment"
+
+# System dependencies for GDAL and geospatial libs
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gdal-bin \
+    libgdal-dev \
+    libgeos-dev \
+    libproj-dev \
+    libspatialindex-dev \
+    build-essential \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set GDAL config
+ENV GDAL_CONFIG=/usr/bin/gdal-config
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+ENV C_INCLUDE_PATH=/usr/include/gdal
+
+WORKDIR /lab
+
+# Python dependencies
+COPY containers/requirements-research.txt /lab/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy experiment code
+COPY . /lab/
+
+# Default: start Jupyter for interactive research
+EXPOSE 8888
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]

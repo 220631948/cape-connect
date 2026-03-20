@@ -1,0 +1,7 @@
+{
+  "C01600440000000100000": { "parcel_id": "C01600440000000100000", "city_valuation_zar": 2500000, "gv_year": 2024, "suburb": "Woodstock", "zone_code": "R1" },
+  "C01600440000000200000": { "parcel_id": "C01600440000000200000", "city_valuation_zar": 3200000, "gv_year": 2024, "suburb": "Woodstock", "zone_code": "R1" },
+  "C01600440000000300000": { "parcel_id": "C01600440000000300000", "city_valuation_zar": 1850000, "gv_year": 2024, "suburb": "Woodstock", "zone_code": "R1" },
+  "C01600440000000400000": { "parcel_id": "C01600440000000400000", "city_valuation_zar": 4100000, "gv_year": 2024, "suburb": "Woodstock", "zone_code": "GB1" },
+  "C01600440000000500000": { "parcel_id": "C01600440000000500000", "city_valuation_zar": 2900000, "gv_year": 2024, "suburb": "Woodstock", "zone_code": "MU2" }
+}

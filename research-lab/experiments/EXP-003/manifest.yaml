@@ -1,0 +1,140 @@
+id: EXP-003
+name: Flood-Risk Proxy Model
+version: "1.0.0"
+status: PROPOSED
+created: "2026-03-09"
+phase: E
+
+hypothesis: >
+  Digital Elevation Model (DEM) + impervious surface features predict NDVI-inferred
+  flood extent at suburb level with AUC-ROC >= 0.80 using gradient boosting
+  (XGBoost).
+
+description: >
+  Regression/classification experiment using terrain and land-cover features to
+  produce a suburb-level flood-risk proxy. No ground-truth flood extent data
+  is available; NDVI depression and low-lying terrain serve as proxy labels.
+  Output is a ranked list of at-risk suburbs with confidence intervals, suitable
+  for display as a risk overlay layer in the GIS hub.
+
+bounding_box:
+  west: 18.0
+  south: -34.5
+  east: 19.5
+  north: -33.0
+  crs: EPSG:4326
+
+datasets:
+  - id: coct-dem-2020
+    name: CoCT Digital Elevation Model 2020
+    role: terrain features
+    resolution_m: 5
+    source: CoCT Open Data Portal
+    license: Open Government Licence (SA)
+  - id: sanbi-vegmap
+    name: SANBI VEGMAP National Vegetation Map
+    role: land cover / NDVI proxy labels
+    source: https://bgis.sanbi.org/SpatialDataset/Detail/666
+    license: CC BY 4.0
+  - id: saws-rainfall
+    name: SAWS Historical Rainfall (Cape Town stations)
+    role: precipitation features
+    source: South African Weather Service
+    license: Open Government Licence (SA)
+  - id: ds-002
+    name: CoCT IZS Zoning (impervious surface proxy)
+    role: imperviousness proxy features
+    split:
+      strategy: spatial_block_cv
+      block_size_km: 5
+      n_folds: 5
+
+model:
+  type: suburb_level_classification
+  algorithms:
+    - name: LogisticRegression
+      role: baseline
+    - name: XGBoostClassifier
+      role: primary
+  libraries:
+    - xgboost>=2.0
+    - scikit-learn>=1.3
+    - shap>=0.44
+    - rasterio>=1.3
+    - geopandas>=0.14
+    - scipy>=1.11
+
+training_config:
+  seed: 42
+  target: binary_flood_risk (NDVI < 0.2 in low-lying area, elevation < 10 m asl)
+  features:
+    terrain:
+      - elevation_mean
+      - elevation_min
+      - slope_mean
+      - flow_accumulation
+    land_cover:
+      - ndvi_mean_summer
+      - ndvi_mean_winter
+      - impervious_fraction
+    rainfall:
+      - annual_mean_mm
+      - p95_24h_mm
+  hyperparameters:
+    n_estimators: [100, 200, 500]
+    max_depth: [3, 5, 7]
+    learning_rate: [0.01, 0.1]
+  sweep_strategy: grid_search
+  cv_folds: 5
+
+compute:
+  cpu: 4
+  gpu: 0
+  memory_gb: 8
+  estimated_duration: "2 hours"
+  container: "capegis-research:base"
+
+metrics:
+  primary:
+    - name: auc_roc
+      threshold: 0.80
+      direction: higher_is_better
+  secondary:
+    - name: precision_at_k_suburbs
+      k: 10
+      direction: higher_is_better
+    - name: brier_score
+      direction: lower_is_better
+    - name: calibration_ece
+      direction: lower_is_better
+  shap: true
+
+statistical_tests:
+  - Bootstrap confidence intervals (n=1000)
+  - Spatial autocorrelation of residuals (Moran's I on errors)
+  confidence_intervals: 95%
+
+checkpoints:
+  save_policy: best_model_only
+  artifacts:
+    - results/flood_risk_suburbs.geojson
+    - results/metrics_summary.json
+    - results/shap_summary.png
+    - notebooks/EXP-003-analysis.ipynb
+
+provenance:
+  code_commit: TBD
+  environment_hash: TBD
+
+popia:
+  sensitive: false
+  pii_fields: []
+  pre_processing_required: none
+
+teardown:
+  cleanup_tmp: true
+  estimated_cost_usd: 0.50
+
+product_integration: >
+  Output `flood_risk_suburbs.geojson` maps to the Risk Overlay layer (Z-order position 2).
+  Display badge: [CoCT DEM 2020 · SANBI VEGMAP · MOCK] until model is validated.

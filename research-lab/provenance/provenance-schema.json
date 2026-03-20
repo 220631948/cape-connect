@@ -1,0 +1,50 @@
+{
+  "$schema": "https://capegis.com/schemas/provenance/v1.0.0.json",
+  "description": "JSON-LD Provenance schema for CapeTown GIS Research Lab experiment artifacts",
+  "template_version": "1.0.0",
+  "example": {
+    "@context": {
+      "prov": "http://www.w3.org/ns/prov#",
+      "schema": "https://schema.org/",
+      "capegis": "https://capegis.com/ns/lab#"
+    },
+    "@type": "prov:Entity",
+    "capegis:exp_id": "EXP-NNN",
+    "capegis:run_id": "run-YYYY-MM-DD-HH",
+    "prov:wasGeneratedBy": {
+      "@type": "prov:Activity",
+      "prov:startedAtTime": "YYYY-MM-DDTHH:MM:SSZ",
+      "prov:endedAtTime": "YYYY-MM-DDTHH:MM:SSZ",
+      "capegis:git_commit": "sha1:FULL_SHA",
+      "capegis:container_image": "capegis-research:TAG",
+      "capegis:container_digest": "sha256:DIGEST",
+      "capegis:seed": 42,
+      "capegis:python_version": "3.11.x"
+    },
+    "prov:used": [
+      {
+        "@type": "prov:Entity",
+        "capegis:dataset_id": "ds-001",
+        "capegis:dataset_version": "2022",
+        "capegis:checksum_sha256": "DATASET_SHA256",
+        "capegis:pii_stripped": true
+      }
+    ],
+    "capegis:primary_metric": {
+      "name": "metric_name",
+      "value": 0.0,
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "seed": 42
+    },
+    "capegis:artifacts": [
+      {
+        "path": "results/metrics_summary.json",
+        "sha256": "ARTIFACT_SHA256",
+        "mime_type": "application/json"
+      }
+    ],
+    "capegis:popia_compliant": true,
+    "capegis:pii_in_outputs": false
+  }
+}

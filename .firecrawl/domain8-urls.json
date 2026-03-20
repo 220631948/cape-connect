@@ -1,0 +1,99 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://planetarycomputer.microsoft.com/catalog",
+        "title": "Data Catalog | Planetary Computer - Microsoft",
+        "description": "The Planetary Computer Data Catalog includes petabytes of environmental monitoring data, in consistent, analysis-ready formats. All of the datasets below can be ...",
+        "position": 1
+      },
+      {
+        "url": "https://www.earthdata.nasa.gov/data/catalog",
+        "title": "Data Catalog | NASA Earthdata",
+        "description": "The data set provides near-global coverage and supports studies of land, ice, and cryospheric surface processes sensitive to σ⁰ , including ...",
+        "position": 2
+      },
+      {
+        "url": "https://earthexplorer.usgs.gov/",
+        "title": "USGS EarthExplorer",
+        "description": "Query and order satellite images, aerial photographs, and cartographic products through the U.S. Geological Survey.",
+        "position": 3
+      },
+      {
+        "url": "https://github.com/opengeos/Planetary-Computer-Catalog",
+        "title": "The Microsoft Planetary Computer Catalog in CSV format",
+        "description": "The Microsoft Planetary Computer platform hosts a lot of publicly available geospatial datasets. This repo compiles the list of all geospatial datasets on ...",
+        "position": 4,
+        "category": "github"
+      },
+      {
+        "url": "https://planetarycomputer.microsoft.com/dataset/landsat-c2-l1",
+        "title": "Landsat Collection 2 Level-1 | Planetary Computer - Microsoft",
+        "description": "This dataset represents the global archive of Level-1 data from Landsat Collection 2 acquired by the Multispectral Scanner System onboard Landsat 1 through ...",
+        "position": 5
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog",
+        "title": "Earth Engine Data Catalog",
+        "description": "Earth Engine's public data catalog includes a variety of standard Earth science raster datasets. You can import these datasets into your script environment ...",
+        "position": 6
+      },
+      {
+        "url": "https://www.earthdata.nasa.gov/news/blog/harmonized-landsat-sentinel-2-hls-data-now-available-microsofts-planetary-computer",
+        "title": "Harmonized Landsat and Sentinel-2 (HLS) Data Now ...",
+        "description": "This article discusses the inclusion of HLS data into Microsoft Azure.",
+        "position": 7
+      },
+      {
+        "url": "https://www.usgs.gov/landsat-missions/landsat-data-access",
+        "title": "Landsat Data Access | U.S. Geological Survey",
+        "description": "EarthExplorer (EE) is a graphical interface that can be used to define areas of interest by selecting an area on the map, or entering an address, zip code, or ...",
+        "position": 8
+      },
+      {
+        "url": "https://github.com/giswqs/geospatial-data-catalogs/blob/master/pc_catalog.tsv",
+        "title": "geospatial-data-catalogs/pc_catalog.tsv at master",
+        "description": "A list of open geospatial datasets available on AWS, Earth Engine, Planetary Computer, NASA CMR, and STAC Index - geospatial-data-catalogs/pc_catalog.tsv at ...",
+        "position": 9,
+        "category": "github"
+      },
+      {
+        "url": "https://planetarycomputer.microsoft.com/dataset/group/landsat",
+        "title": "Landsat Collection | Planetary Computer - Microsoft",
+        "description": "Overview. The Landsat program has been imaging the Earth since 1972, providing a comprehensive, continuous archive of the Earth's surface.",
+        "position": 10
+      },
+      {
+        "url": "https://data.nasa.gov/",
+        "title": "NASA Open Data Portal: Welcome",
+        "description": "Data.nasa.gov is NASA's publicly available metadata repository, hosting diverse datasets related to science, space exploration, aeronautics, and more.",
+        "position": 11
+      },
+      {
+        "url": "https://planetarycomputer.microsoft.com/docs/concepts/data-catalog/",
+        "title": "Data Catalog - Documentation | Planetary Computer",
+        "description": "The Planetary Computer provides key geospatial and conservation datasets, free of charge and powered by the Azure cloud.",
+        "position": 12
+      },
+      {
+        "url": "https://www.usgs.gov/landsat-missions/landsat-collections",
+        "title": "Landsat Collections | U.S. Geological Survey",
+        "description": "Landsat Collection 2 remains available. Please access the Landsat Collection 2 webpage for information about Collection 2 data and science products. Landsat ...",
+        "position": 13
+      },
+      {
+        "url": "https://www.earthdata.nasa.gov/news/blog/harmonized-landsat-sentinel-2-hls-data-now-available-microsofts-planetary-computer",
+        "title": "Harmonized Landsat and Sentinel-2 (HLS) Data Now Available on ...",
+        "description": "This article discusses the inclusion of HLS data into Microsoft Azure.",
+        "position": 14
+      },
+      {
+        "url": "https://planetarycomputer.microsoft.com/catalog?filter=GOES",
+        "title": "Data Catalog | Planetary Computer - Microsoft",
+        "description": "The Planetary Computer Data Catalog includes petabytes of environmental monitoring data, in consistent, analysis-ready formats.",
+        "position": 15
+      }
+    ]
+  }
+}

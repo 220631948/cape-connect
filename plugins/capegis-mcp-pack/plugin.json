@@ -1,0 +1,22 @@
+{
+  "name": "capegis-mcp-pack",
+  "description": "MCP server profile for docs lookup, web research, and browser automation in GIS Copilot workflows.",
+  "version": "1.0.0",
+  "author": {
+    "name": "CapeTown GIS Hub"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "context7",
+    "exa",
+    "playwright"
+  ],
+  "category": "tooling",
+  "tags": [
+    "copilot-cli",
+    "mcp",
+    "gis"
+  ],
+  "mcpServers": ".mcp.json"
+}

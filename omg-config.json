@@ -1,0 +1,16 @@
+{
+  "toolFilter": {
+    "enabled": true,
+    "modes": {
+      "researcher": {
+        "allowed": "*"
+      },
+      "architect": {
+        "allowed": "*"
+      },
+      "executor": {
+        "allowed": "*"
+      }
+    }
+  }
+}

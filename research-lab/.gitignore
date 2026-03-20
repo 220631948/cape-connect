@@ -1,0 +1,33 @@
+# Research Lab — Git Ignore
+# Raw and processed data should not be committed
+datasets/raw/
+datasets/processed/
+
+# Model checkpoints and large artifacts
+experiments/*/checkpoints/
+experiments/*/artifacts/
+experiments/*/logs/
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.h5
+*.pkl
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Docker build artifacts
+containers/*.tar
+
+# Temporary files
+*.tmp
+*.bak

@@ -1,0 +1,36 @@
+{
+    "hooks": {
+        "SessionStart": [
+            {
+                "type": "command",
+                "command": "echo '[RALPH] 🐛 Session started. Read AGENTS.md for build/run commands. Read IMPLEMENTATION_PLAN.md for current state. Remember: search first, one task per loop, full implementations only.' >&2"
+            }
+        ],
+        "PreToolUse": [
+            {
+                "type": "command",
+                "command": "echo '[RALPH SAFETY] Before file write: (1) Did you SEARCH FIRST? (2) Is this a FULL implementation (no stubs)? (3) Is this within your allowed remit?' >&2"
+            },
+            {
+                "type": "command",
+                "command": "echo '[RALPH DESTRUCTIVE GUARD] Before bash: check for rm -rf, DROP, TRUNCATE, reset migrations, unapproved package installs. STOP if destructive.' >&2"
+            }
+        ],
+        "PostToolUse": [
+            {
+                "type": "command",
+                "command": "echo '[RALPH SECRET CHECK] Check for API keys, Supabase URLs, service keys, passwords. Replace with env vars if found.' >&2"
+            },
+            {
+                "type": "command",
+                "command": "echo '[RALPH POPIA] If file handles personal data, ensure [POPIA] header is present.' >&2"
+            }
+        ],
+        "Stop": [
+            {
+                "type": "command",
+                "command": "echo '[RALPH SESSION END] Before stopping: (1) IMPLEMENTATION_PLAN.md updated? (2) AGENTS.md still lean? (3) Committed? (4) Bugs documented?' >&2"
+            }
+        ]
+    }
+}

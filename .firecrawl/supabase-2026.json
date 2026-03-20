@@ -1,0 +1,26 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://github.com/orgs/supabase/discussions/43465",
+        "title": "Developer Update - March 2026 · supabase",
+        "description": "Log Drains are now available on Pro. Send your Postgres, Auth, Storage, Edge Functions, and Realtime logs to Datadog, Grafana Loki, Sentry, ...",
+        "position": 1,
+        "category": "github"
+      },
+      {
+        "url": "https://supabase.com/docs/guides/database/extensions/postgis",
+        "title": "PostGIS: Geo queries | Supabase Docs",
+        "description": "PostGIS is a Postgres extension that allows you to interact with Geo data within Postgres. You can sort your data by geographic location, get data within ...",
+        "position": 2
+      },
+      {
+        "url": "https://supabase.com/",
+        "title": "Supabase | The Postgres Development Platform.",
+        "description": "Supabase is the Postgres development platform. Start your project with a Postgres database, Authentication, instant APIs, Edge Functions, Realtime ...",
+        "position": 3
+      }
+    ]
+  }
+}

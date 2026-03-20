@@ -1,0 +1,23 @@
+{
+  "name": "capegis-immersive-intelligence",
+  "description": "Immersive GIS skill pack for Cesium 3D Tiles, NeRF/3DGS workflows, 4D replay, and flight intelligence overlays.",
+  "version": "1.0.0",
+  "author": {
+    "name": "CapeTown GIS Hub"
+  },
+  "license": "MIT",
+  "keywords": [
+    "cesium",
+    "3dgs",
+    "nerf",
+    "4dgs",
+    "opensky"
+  ],
+  "category": "spatial-ai",
+  "tags": [
+    "cape-town",
+    "copilot-cli",
+    "immersive"
+  ],
+  "skills": "skills/"
+}

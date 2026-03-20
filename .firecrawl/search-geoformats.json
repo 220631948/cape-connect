@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://medium.com/radiant-earth-insights/performance-explorations-of-geoparquet-and-duckdb-84c0185ed399",
+        "title": "Performance Explorations of GeoParquet (and DuckDB) - Medium",
+        "description": "GeoParquet is quite consistently faster and produces smaller output. And DuckDB has proven to be very promising in its speed and flexibility as a processing ...",
+        "position": 1
+      },
+      {
+        "url": "https://www.linkedin.com/pulse/flatgeobuf-vs-geoparquet-apache-iceberg-ogc-cloud-ingo-simonis-v0aue",
+        "title": "FlatGeoBuf vs. GeoParquet vs. Apache Iceberg vs. OGC API-Features",
+        "description": "This comparison examines their technical data format, access patterns, scalability, and interoperability differences.",
+        "position": 2
+      },
+      {
+        "url": "https://docs.ogc.org/per/24-044.pdf",
+        "title": "[PDF] Testbed 20 High-Performance Geospatial Computing Optimized ...",
+        "description": "Benchmarking cloud-optimized formats, specifically Cloud Optimized GeoTIFF (COG),. GeoZarr, and GeoParquet, in High Performance Computing (HPC) ...",
+        "position": 3
+      }
+    ]
+  }
+}

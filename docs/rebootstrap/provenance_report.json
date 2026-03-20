@@ -1,0 +1,172 @@
+{
+  "__generated_by": "rebootstrap_agent",
+  "__timestamp": "2026-03-04T14:08:16.115034+00:00",
+  "scan_scope": [
+    ".claude/",
+    ".github/",
+    ".copilot/"
+  ],
+  "markers_searched": [
+    "awesome[-_]claude",
+    "awesome[-_]copilot",
+    "hesreallyhim",
+    "anthropic (as origin/source)",
+    "claude-starter-kit",
+    "claudekit",
+    "claude-code (as project name)",
+    "maplibre-template",
+    "pmtiles-starter",
+    "maplibre-starter",
+    "old-cesium-example",
+    "spatialintelligence.ai",
+    "4DGS",
+    "cesium",
+    "source_url to external repos",
+    "origin: headers to community repos",
+    "ralph wiggum (legacy project)",
+    "__generated_by header check",
+    "project-alignment check (Cape Town/PostGIS/Supabase/MapLibre)"
+  ],
+  "files_scanned": 73,
+  "community_artifacts_found": [
+    {
+      "file": ".github/copilot/copilot-instructions.md",
+      "type": "legacy_project_artifact",
+      "origin": "Ralph Wiggum PWA (prior project iteration)",
+      "evidence": [
+        "Ralph Wiggum Protocol branding throughout",
+        "References anime.js avatar (not in current stack)",
+        "Lists PostgreSQL 18 (project uses 15)",
+        "Lists shadcn/ui (not in current stack)",
+        "Ralph-style error messages pattern",
+        "Interactive Avatar (Ralph Buddy) section"
+      ],
+      "project_alignment": "PARTIAL \u2014 contains some valid references (MapLibre, Supabase, POPIA, EPSG:4326) but wrapped in obsolete Ralph Wiggum persona",
+      "recommendation": "REPLACE with project-aligned copilot-instructions.md matching .github/copilot-instructions.md (root level)",
+      "severity": "MEDIUM"
+    },
+    {
+      "file": ".github/copilot/hooks/copilot-hooks.json",
+      "type": "legacy_project_artifact",
+      "origin": "Ralph Wiggum PWA (prior project iteration)",
+      "evidence": [
+        "[RALPH] prefix in SessionStart hook",
+        "[RALPH SAFETY] prefix in PreToolUse hooks",
+        "[RALPH DESTRUCTIVE GUARD] prefix in PreToolUse hooks",
+        "[RALPH SECRET CHECK] prefix in PostToolUse hooks",
+        "[RALPH POPIA] prefix in PostToolUse hooks",
+        "[RALPH SESSION END] prefix in Stop hooks",
+        "References IMPLEMENTATION_PLAN.md (old file name, now PLAN.md)"
+      ],
+      "project_alignment": "PARTIAL \u2014 safety logic is sound (POPIA check, secret check, destructive guard) but branding is obsolete",
+      "recommendation": "REBRAND hooks from [RALPH] to [CAPEGIS], update IMPLEMENTATION_PLAN.md ref to PLAN.md",
+      "severity": "LOW"
+    }
+  ],
+  "security_notes": [
+    {
+      "file": ".copilot/mcp-config.json",
+      "issue": "Contains hardcoded API keys/tokens (context7, exa, vercel)",
+      "recommendation": "Move secrets to environment variables or .env; this file should not be committed with live credentials",
+      "severity": "HIGH"
+    }
+  ],
+  "project_aligned_artifacts": [
+    {
+      "directory": ".claude/agents/",
+      "count": 13,
+      "description": "All 13 agent definitions reference Cape Town GIS stack (PostGIS, Supabase, MapLibre, POPIA)",
+      "has_generated_by_header": [
+        "tile-agent.md"
+      ]
+    },
+    {
+      "directory": ".claude/commands/",
+      "count": 9,
+      "description": "Custom slash commands for capegis workflows (POPIA audit, badge check, spatial validation, etc.)",
+      "has_generated_by_header": [
+        "optimize-tiles.md",
+        "badge-check.md",
+        "validate-spatial.md"
+      ]
+    },
+    {
+      "directory": ".claude/guides/",
+      "count": 5,
+      "description": "Cape Town data sources, MapLibre patterns, PMTiles/Martin guide, POPIA reference, spatial constraints",
+      "has_generated_by_header": [
+        "pmtiles_martin_guide.md",
+        "maplibre_patterns.md"
+      ]
+    },
+    {
+      "directory": ".claude/skills/",
+      "count": 9,
+      "description": "Skills for data badges, spatial validation, RLS audit, POPIA, three-tier fallback, tile optimization",
+      "has_generated_by_header": [
+        "data_source_badge/SKILL.md",
+        "spatial_validation/SKILL.md",
+        "tile_optimization/SKILL.md"
+      ]
+    },
+    {
+      "directory": ".claude/",
+      "files": [
+        "config.md",
+        "orchestrator.md",
+        "settings.json",
+        "settings.local.json"
+      ],
+      "description": "Project configuration files referencing capegis stack"
+    },
+    {
+      "directory": ".github/copilot/agents/",
+      "count": 12,
+      "description": "Copilot agent definitions mirroring .claude/agents/ for capegis"
+    },
+    {
+      "directory": ".github/copilot/instructions/",
+      "count": 5,
+      "description": "Stack-specific instructions (MapLibre, Next.js, POPIA, Supabase, TypeScript)"
+    },
+    {
+      "directory": ".github/copilot/prompts/",
+      "count": 5,
+      "description": "Reusable prompts for capegis workflows (component, migration, POPIA check, etc.)"
+    },
+    {
+      "directory": ".github/copilot/skills/",
+      "count": 5,
+      "description": "Copilot skills (assumption verification, Cape Town GIS research, documentation first, mock-to-live, POPIA)"
+    },
+    {
+      "directory": ".github/workflows/",
+      "count": 2,
+      "description": "CI and spatial-validation workflows",
+      "has_generated_by_header": [
+        "spatial-validation.yml"
+      ]
+    },
+    {
+      "file": ".github/copilot-instructions.md",
+      "description": "Root-level copilot instructions \u2014 fully project-aligned with capegis stack"
+    }
+  ],
+  "rebootstrap_agent_tagged_files": [
+    ".claude/commands/optimize-tiles.md",
+    ".claude/commands/badge-check.md",
+    ".claude/commands/validate-spatial.md",
+    ".claude/agents/tile-agent.md",
+    ".claude/guides/pmtiles_martin_guide.md",
+    ".claude/guides/maplibre_patterns.md",
+    ".claude/skills/data_source_badge/SKILL.md",
+    ".claude/skills/spatial_validation/SKILL.md",
+    ".claude/skills/tile_optimization/SKILL.md",
+    ".github/workflows/spatial-validation.yml"
+  ],
+  "external_template_markers_found": false,
+  "external_repo_urls_found": false,
+  "cesium_4dgs_references_found": false,
+  "confidence": "HIGH",
+  "summary": "Scanned 73 files across .claude/, .github/, and .copilot/. Zero community template markers found (no awesome-claude, awesome-copilot, hesreallyhim, claude-starter-kit, cesium, 4DGS, or external repo URLs). Two legacy artifacts remain from the Ralph Wiggum PWA iteration: .github/copilot/copilot-instructions.md (Ralph Wiggum Protocol branding) and .github/copilot/hooks/copilot-hooks.json ([RALPH] hook prefixes). Both contain partially valid project logic but need rebranding to capegis. One security concern: .copilot/mcp-config.json contains hardcoded API keys. All other 71 files are fully project-aligned with Cape Town GIS stack references."
+}

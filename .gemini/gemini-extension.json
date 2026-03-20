@@ -1,0 +1,250 @@
+{
+  "name": "cape-town-gis-platform",
+  "version": "1.1.0",
+  "description": "Professional white-label, multi-tenant Web GIS platform focused on property intelligence in Cape Town and the Western Cape.",
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp"
+      ]
+    },
+    "stitch": {
+      "command": "node",
+      "args": [
+        "./mcp/stitch/server.js"
+      ],
+      "env": {
+        "NERFSTUDIO_PATH": "/usr/local/bin/ns-train"
+      }
+    },
+    "computerUse": {
+      "command": "node",
+      "args": [
+        "./mcp/computerUse/server.js"
+      ]
+    },
+    "openaware": {
+      "command": "node",
+      "args": [
+        "./mcp/openaware/server.js"
+      ]
+    },
+    "cesium": {
+      "command": "node",
+      "args": [
+        "./mcp/cesium/server.js"
+      ]
+    },
+    "formats": {
+      "command": "node",
+      "args": [
+        "./mcp/formats/server.js"
+      ]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/mr/Desktop/Geographical Informations Systems (GIS)"
+      ]
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:postgres@localhost:5432/capegis"
+      ]
+    },
+    "vercel": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "--package",
+        "@vercel/sdk",
+        "--",
+        "mcp",
+        "start"
+      ],
+      "env": {
+        "VERCEL_TOKEN": "${VERCEL_TOKEN}"
+      }
+    },
+    "gemini-deep-research": {
+      "command": "node",
+      "args": [
+        ".gemini/extensions/gemini-deep-research/scripts/start.cjs"
+      ],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      }
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp",
+        "--api-key",
+        "${CONTEXT7_API_KEY}"
+      ]
+    },
+    "exa": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "exa-mcp-server"
+      ]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "playwright-mcp-server"
+      ]
+    },
+    "docker": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "docker-mcp"
+      ]
+    },
+    "localstack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@localstack/localstack-mcp-server"
+      ]
+    },
+    "sequentialthinking": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "danielapatin/sequentialthinking:latest",
+        "-transport",
+        "stdio"
+      ]
+    },
+    "gis-mcp": {
+      "command": "uvx",
+      "args": [
+        "gis-mcp"
+      ]
+    },
+    "doc-state": {
+      "command": "node",
+      "args": [
+        "./mcp/doc-state/server.js"
+      ]
+    },
+    "cesium-ion": {
+      "type": "sse",
+      "url": "https://mcp.cesium.com/sse",
+      "headers": {
+        "Authorization": "Bearer ${COPILOT_MCP_CESIUM_ION_TOKEN}"
+      }
+    },
+    "opensky": {
+      "command": "node",
+      "args": [
+        "scripts/opensky-mcp-wrapper.js"
+      ]
+    },
+    "nerfstudio": {
+      "command": "python",
+      "args": [
+        "-m",
+        "nerfstudio.mcp_server"
+      ]
+    }
+  },
+  "commands": [
+    {
+      "path": ".gemini/extensions/gemini-kit/commands"
+    }
+  ],
+  "skills": [
+    {
+      "path": ".gemini/skills"
+    },
+    {
+      "path": ".gemini/extensions/gemini-kit/skills"
+    }
+  ],
+  "hooks": {
+    "SessionStart": [
+      {
+        "name": "gis-context-init",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/context-injector.js",
+        "timeout": 5000,
+        "description": "Initialize GIS project context and session memory"
+      }
+    ],
+    "BeforeAgent": [
+      {
+        "name": "gis-context-injection",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/context-injector.js",
+        "timeout": 10000,
+        "description": "Inject GIS project rules and task status"
+      }
+    ],
+    "BeforeTool": [
+      {
+        "name": "gis-safety-guard",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/safety-guard.js",
+        "timeout": 15000,
+        "description": "Project-specific safety checks for GIS operations"
+      }
+    ],
+    "AfterAgent": [
+      {
+        "name": "gis-output-validator",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/output-validator.js",
+        "timeout": 10000,
+        "description": "Validate GIS project specific response formats"
+      }
+    ],
+    "AfterTool": [
+      {
+        "name": "gis-doc-index-sync",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/doc-index-sync.js",
+        "timeout": 15000,
+        "description": "Synchronize monitored documentation indexes after file changes"
+      },
+      {
+        "name": "gis-tool-observer",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/tool-observer.js",
+        "timeout": 5000,
+        "description": "Log tool executions and attach structured metadata"
+      }
+    ],
+    "SessionEnd": [
+      {
+        "name": "gis-session-memory",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/session-memory.js",
+        "timeout": 5000,
+        "description": "Persist session learnings and GIS metadata"
+      }
+    ]
+  },
+  "agents": [
+    {
+      "path": ".gemini/agents"
+    },
+    {
+      "path": ".gemini/extensions/gemini-kit/agents"
+    }
+  ]
+}

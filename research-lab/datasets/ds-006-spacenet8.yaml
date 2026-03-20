@@ -1,0 +1,56 @@
+id: ds-006
+name: SpaceNet 8 — Building Footprints (ML Training Dataset)
+version: "8"
+source_url: https://registry.opendata.aws/spacenet/
+source_type: manual
+license:
+  name: CC BY-SA 4.0
+  url: https://creativecommons.org/licenses/by-sa/4.0/
+  commercial_use: true
+  research_use: true
+  redistribution: conditional
+crs: EPSG:4326
+geometry_type: Polygon
+schema:
+  columns:
+    - name: building_id
+      type: integer
+      pii: false
+      description: Unique building identifier within the SpaceNet dataset
+    - name: geometry
+      type: geometry
+      pii: false
+      description: Polygon footprint of the building in EPSG:4326
+    - name: image_id
+      type: text
+      pii: false
+      description: Source satellite imagery tile identifier
+    - name: area_sqm
+      type: float
+      pii: false
+      description: Building footprint area in square metres
+size_estimate:
+  rows: ~800000
+  bytes: ~5GB
+  format: GeoJSON
+privacy_sensitivity: 1
+popia_flag: false
+refresh_frequency: static
+cache_ttl: "1 year"
+bounding_box:
+  west: -180.0
+  south: -90.0
+  east: 180.0
+  north: 90.0
+tags: [spacenet, ml, building-footprints, satellite, training-data, phase-2]
+notes: >
+  Global dataset hosted on AWS S3 as an open dataset (s3://spacenet-dataset/).
+  Relevant AOIs for this project: Sub-Saharan Africa imagery that overlaps
+  with Cape Town metro (confirm exact tile coverage before use).
+  Intended use: ML training baseline for the EXP building segmentation pipeline
+  (immersive-reconstruction-agent, Phase 2 / M8+).
+  CC BY-SA 4.0 share-alike applies to derived datasets — any model or dataset
+  produced using SpaceNet 8 as training data must be released under the same licence.
+  Attribution required: "Building footprints derived from SpaceNet 8 dataset,
+  licensed under CC BY-SA 4.0."
+  Download via AWS CLI: aws s3 ls s3://spacenet-dataset/ --no-sign-request

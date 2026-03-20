@@ -1,0 +1,87 @@
+{
+    "mcpServers": {
+        "context7": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-context7"
+            ],
+            "env": {
+                "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+            }
+        },
+        "exa": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-exa"
+            ],
+            "env": {
+                "EXA_API_KEY": "${EXA_API_KEY}"
+            }
+        },
+        "docker": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-docker"
+            ]
+        },
+        "localstack": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@localstack/mcp-server"
+            ]
+        },
+        "sequentialthinking": {
+            "command": "docker",
+            "args": [
+                "run",
+                "--rm",
+                "-i",
+                "danielapatin/sequentialthinking:latest",
+                "-transport",
+                "stdio"
+            ]
+        },
+        "gis-mcp": {
+            "command": "uvx",
+            "args": [
+                "gis-mcp"
+            ]
+        },
+        "chrome-devtools": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "chrome-devtools-mcp"
+            ]
+        },
+        "computerUse": {
+            "command": "node",
+            "args": [
+                "./mcp/computerUse/server.js"
+            ]
+        },
+        "vercel": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-vercel"
+            ]
+        },
+        "stitch": {
+            "command": "node",
+            "args": [
+                "./mcp/stitch/server.js"
+            ]
+        },
+        "openaware": {
+            "command": "node",
+            "args": [
+                "./mcp/openaware/server.js"
+            ]
+        }
+    }
+}

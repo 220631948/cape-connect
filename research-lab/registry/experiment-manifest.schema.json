@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Experiment Manifest",
+  "description": "Schema for a reproducible geospatial experiment in the CapeTown GIS Research Lab",
+  "type": "object",
+  "required": ["id", "hypothesis", "datasets", "metrics", "provenance"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^EXP-[0-9]{4}-[a-z0-9-]+$",
+      "description": "Unique experiment ID (e.g., EXP-0001-building-segmentation)"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "hypothesis": {
+      "type": "string",
+      "description": "What is being tested — must be falsifiable"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "approved", "running", "completed", "failed", "archived"]
+    },
+    "datasets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["manifest_id", "split"],
+        "properties": {
+          "manifest_id": { "type": "string" },
+          "split": { "type": "string", "enum": ["train", "val", "test", "full"] },
+          "version": { "type": "string" }
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "architecture": { "type": "string", "description": "e.g., UNet, Mask R-CNN, ViT" },
+        "framework": { "type": "string", "enum": ["pytorch", "tensorflow", "onnx", "scikit-learn", "custom"] },
+        "pretrained": { "type": "string", "description": "Pretrained model checkpoint path or ID" }
+      }
+    },
+    "training_config": {
+      "type": "object",
+      "properties": {
+        "epochs": { "type": "integer" },
+        "batch_size": { "type": "integer" },
+        "learning_rate": { "type": "number" },
+        "optimizer": { "type": "string" },
+        "augmentations": { "type": "array", "items": { "type": "string" } },
+        "seed": { "type": "integer", "description": "Random seed for reproducibility" },
+        "early_stopping": {
+          "type": "object",
+          "properties": {
+            "metric": { "type": "string" },
+            "patience": { "type": "integer" }
+          }
+        }
+      }
+    },
+    "compute_profile": {
+      "type": "object",
+      "properties": {
+        "cpu_cores": { "type": "integer" },
+        "gpu": { "type": "string", "description": "GPU model or 'none'" },
+        "ram_gb": { "type": "integer" },
+        "container_image": { "type": "string" },
+        "estimated_runtime_hours": { "type": "number" }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": { "type": "string", "description": "e.g., IoU, F1, mAP, RMSE" },
+        "secondary": { "type": "array", "items": { "type": "string" } },
+        "statistical_test": { "type": "string", "description": "e.g., paired t-test, Wilcoxon" },
+        "confidence_level": { "type": "number", "default": 0.95 }
+      }
+    },
+    "checkpoints": {
+      "type": "object",
+      "properties": {
+        "save_every_n_epochs": { "type": "integer" },
+        "keep_best_n": { "type": "integer" },
+        "artifact_path": { "type": "string" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["git_commit"],
+      "properties": {
+        "git_commit": { "type": "string" },
+        "git_branch": { "type": "string" },
+        "environment_hash": { "type": "string" },
+        "dataset_versions": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "created_at": { "type": "string", "format": "date-time" },
+        "created_by": { "type": "string" }
+      }
+    },
+    "results": {
+      "type": "object",
+      "properties": {
+        "metrics_values": { "type": "object", "additionalProperties": { "type": "number" } },
+        "artifacts": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "string" },
+        "completed_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "teardown": {
+      "type": "object",
+      "properties": {
+        "cleanup_commands": { "type": "array", "items": { "type": "string" } },
+        "estimated_cost_usd": { "type": "number" }
+      }
+    }
+  }
+}

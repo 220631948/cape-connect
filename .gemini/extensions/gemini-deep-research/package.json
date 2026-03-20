@@ -1,0 +1,48 @@
+{
+  "name": "gemini-deep-research",
+  "version": "0.2.5",
+  "description": "A deep research extension for Gemini CLI",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node scripts/start.cjs",
+    "build": "node build.mjs",
+    "build:dev": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
+    "test:mime-types": "ts-node scripts/test-mime-types.ts",
+    "lint": "eslint src/",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allenhutchison/gemini-cli-deep-research.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/allenhutchison/gemini-cli-deep-research/issues"
+  },
+  "homepage": "https://github.com/allenhutchison/gemini-cli-deep-research#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.2.3",
+    "esbuild": "^0.27.3",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "jest": "^30.2.0",
+    "prettier": "^3.8.1",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.55.0"
+  },
+  "dependencies": {
+    "@allenhutchison/gemini-utils": "^0.5.0",
+    "@google/genai": "^1.41.0",
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "zod": "^4.3.6"
+  }
+}

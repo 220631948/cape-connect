@@ -1,0 +1,72 @@
+{
+  "note": "Planned MCP servers for CapeTown GIS Hub. Not active — see milestone deps below. All credentials via COPILOT_MCP_ env vars (CLAUDE.md Rule 3).",
+  "planned_servers": {
+    "cesium-ion": {
+      "purpose": "Manage Cesium ion 3D tilesets and assets for CesiumJS integration. Enables tileset upload, metadata query, and asset lifecycle management directly from Copilot agents.",
+      "milestone": "M4b",
+      "milestone_note": "Unlock after M4b DoD confirmed in PLAN.md (CesiumJS 3D tile layer live on map).",
+      "transport": "sse",
+      "expected_url": "https://mcp.cesium.com/sse",
+      "env_vars": {
+        "COPILOT_MCP_CESIUM_ION_TOKEN": "Cesium ion access token from https://ion.cesium.com/tokens"
+      },
+      "auth_pattern": "Bearer token in Authorization header",
+      "agents": ["cesium-agent", "map-agent"],
+      "activation_steps": [
+        "Obtain Cesium ion token at https://ion.cesium.com/tokens",
+        "Add COPILOT_MCP_CESIUM_ION_TOKEN to GitHub repo secrets",
+        "Uncomment cesium-ion block in .github/copilot/mcp.json",
+        "Confirm M4b milestone DoD with human reviewer"
+      ]
+    },
+
+    "opensky": {
+      "purpose": "Query OpenSky Network REST API for ADS-B flight state vectors over Cape Town airspace (bounding box 18.0,-34.5 to 19.5,-33.0). Runs as a local stdio wrapper that handles auth and rate-limiting.",
+      "milestone": "M5+",
+      "milestone_note": "Unlock after M5 DoD confirmed in PLAN.md (real-time flight overlay functional).",
+      "transport": "stdio",
+      "expected_command": "node scripts/opensky-mcp-wrapper.js",
+      "env_vars": {
+        "COPILOT_MCP_OPENSKY_USERNAME": "OpenSky Network account username (https://opensky-network.org)",
+        "COPILOT_MCP_OPENSKY_PASSWORD": "OpenSky Network account password — use app-specific password if available"
+      },
+      "auth_pattern": "HTTP Basic auth injected by wrapper script; credentials never passed on command line",
+      "agents": ["flight-tracking-agent", "data-agent"],
+      "rate_limits": "Authenticated: 400 credits/day (4s per state vector request). Wrapper must enforce local throttle.",
+      "fallback": "LIVE -> api_cache (Supabase) -> public/mock/opensky-cape-town.geojson (CLAUDE.md Rule 2)",
+      "activation_steps": [
+        "Register at https://opensky-network.org",
+        "Add COPILOT_MCP_OPENSKY_USERNAME + _PASSWORD to GitHub repo secrets",
+        "Implement scripts/opensky-mcp-wrapper.js (see flight-tracking-agent for spec)",
+        "Uncomment opensky block in .github/copilot/mcp.json",
+        "Confirm M5 milestone DoD with human reviewer"
+      ]
+    },
+
+    "nerfstudio": {
+      "purpose": "Orchestrate NeRF and 3D Gaussian Splatting (3DGS) scene reconstruction jobs via Nerfstudio Python API. Allows Copilot agents to submit training jobs, query status, and retrieve output assets for Cape Town scene reconstruction.",
+      "milestone": "Phase 2",
+      "milestone_note": "Phase 2 scope TBD in PLAN.md. Requires GPU server with Nerfstudio installed.",
+      "transport": "stdio",
+      "expected_command": "python -m nerfstudio.mcp_server",
+      "env_vars": {
+        "COPILOT_MCP_NERFSTUDIO_HOST": "Hostname/IP of the Nerfstudio GPU server (e.g. nerfstudio.capegis.internal)",
+        "COPILOT_MCP_NERFSTUDIO_API_KEY": "API key for Nerfstudio server auth (generate via server admin)"
+      },
+      "auth_pattern": "API key passed via env; wrapper connects to NERFSTUDIO_HOST over SSH tunnel or VPN",
+      "agents": ["immersive-reconstruction-agent", "spatial-agent"],
+      "infra_requirements": [
+        "NVIDIA GPU server (RTX 3090 / A100 minimum for 3DGS)",
+        "Nerfstudio >= 1.1 installed with CUDA support",
+        "Network reachability from GitHub Actions runner or local dev machine"
+      ],
+      "activation_steps": [
+        "Provision GPU server and install Nerfstudio",
+        "Generate API key and configure Nerfstudio MCP server module",
+        "Add COPILOT_MCP_NERFSTUDIO_HOST + _API_KEY to GitHub repo secrets",
+        "Uncomment nerfstudio block in .github/copilot/mcp.json",
+        "Confirm Phase 2 scope sign-off with human reviewer"
+      ]
+    }
+  }
+}

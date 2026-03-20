@@ -1,0 +1,50 @@
+{
+  "success": true,
+  "data": {
+    "web": [
+      {
+        "url": "https://gdal.org/gdal.pdf",
+        "title": "[PDF] GDAL Documentation",
+        "description": "GDAL is a translator library for raster and vector geospatial data formats that is released under an MIT style Open.",
+        "position": 1
+      },
+      {
+        "url": "https://github.com/pka/awesome-georust",
+        "title": "pka/awesome-georust - GitHub",
+        "description": "A curated list of awesome geospatial software, libraries, tools and resources, written in Rust. Rust, a language empowering everyone to build reliable and ...",
+        "position": 2,
+        "category": "github"
+      },
+      {
+        "url": "https://lib.rs/science/geo",
+        "title": "Geospatial - Lib.rs",
+        "description": "FlatCityBuf is a library for reading and writing CityJSON with FlatBuffers. Contains code derived from FlatGeobuf (BSD-2-Clause) for spatial indexing. v0.7.6 ...",
+        "position": 3
+      },
+      {
+        "url": "https://forrest.nyc/cloud-native-geospatial-formats-geoparquet-zarr-cog-and-pmtiles-explained/",
+        "title": "Cloud Native Geospatial Formats: GeoParquet, Zarr, COG, and ...",
+        "description": "This essay is going to dive into four formats that are enabling the shift to cloud-native geospatial: GeoParquet, Zarr, Cloud Optimized GeoTIFF ...",
+        "position": 4
+      },
+      {
+        "url": "https://talks.osgeo.org/foss4g-2022/schedule/v/0.13/",
+        "title": "FOSS4G 2022 general tracks - pretalx - OSGeo",
+        "description": "This talk presents recent developments towards supporting other track data, including examples from sports tracking (movement in real space, extracted from ...",
+        "position": 5
+      },
+      {
+        "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/NEWS.md",
+        "title": "https://raw.githubusercontent.com/OSGeo/gdal/maste...",
+        "description": "* New 'gdal' command line interface capabilities: - gdal vector update - gdal vector sort (#13351) - gdal dataset check * Add E57 read-only raster driver to ...",
+        "position": 6
+      },
+      {
+        "url": "https://www.trifields.jp/qgis-plugins-601",
+        "title": "QGIS プラグイン一覧 - トライフィールズ",
+        "description": "オープンソースソフトウェアの地図情報システムの一つであるQGISのプラグインの一覧をご紹介します。英語での説明.",
+        "position": 7
+      }
+    ]
+  }
+}
