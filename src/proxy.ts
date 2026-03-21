@@ -4,7 +4,7 @@
  * @compliance POPIA: Enforcing access control on PII and spatial data.
  */
 
-import { createServerClient, type CookieOptions } from '@supabase/auth-helpers-nextjs';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import { verifyImpersonationToken } from '@/lib/auth/impersonation-token';
 import { isAdminRole } from '@/lib/auth/roles';

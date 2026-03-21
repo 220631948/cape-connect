@@ -5,7 +5,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/auth-helpers-nextjs';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { getRequestMetadata, logImpersonationActionIfNeeded } from '@/lib/auth/admin-session';
 import { isAdminRole } from '@/lib/auth/roles';
 

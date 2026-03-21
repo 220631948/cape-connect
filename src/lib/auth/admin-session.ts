@@ -10,7 +10,7 @@
  * Subject rights: access ✓ | correction ✓ | deletion ✓ | objection ✓
  */
 
-import { createServerClient, type CookieOptions } from '@supabase/auth-helpers-nextjs';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
 import { type ImpersonationTokenClaims, verifyImpersonationToken } from './impersonation-token';
 import { type RoleProfile, isAdminRole } from './roles';

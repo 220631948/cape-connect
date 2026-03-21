@@ -4,7 +4,7 @@
  */
 
 import {NextRequest, NextResponse} from 'next/server';
-import {type CookieOptions, createServerClient} from '@supabase/auth-helpers-nextjs';
+import {type CookieOptions, createServerClient} from '@supabase/ssr';
 import {validateBody} from '@/lib/validation';
 import {declineInvitationSchema} from '@/lib/validation/schemas/invitations';
 

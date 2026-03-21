@@ -7,8 +7,8 @@
 import {NextResponse} from 'next/server';
 import {z} from 'zod';
 
-export type ValidationSuccess<T> = { success: true; data: T };
-export type ValidationFailure = { success: false; response: NextResponse };
+export type ValidationSuccess<T> = { success: true; data: T; response?: undefined };
+export type ValidationFailure = { success: false; response: NextResponse; data?: undefined };
 export type ValidationResult<T> = ValidationSuccess<T> | ValidationFailure;
 
 /**

@@ -4,7 +4,7 @@
  * @compliance POPIA: Handling server-side user sessions and PII.
  */
 
-import { createServerClient, type CookieOptions } from '@supabase/auth-helpers-nextjs';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 
