@@ -315,20 +315,37 @@ async def intersection_query(
     if layer_name not in allowed_layers:
         raise ValueError(f"Layer '{layer_name}' is not in the allowed layer list.")
 
+    # Map external layer names to fixed, hard-coded table identifiers.
+    # This ensures that only known-safe identifiers are ever interpolated
+    # into the SQL text, breaking the taint flow from user input.
+    layer_to_table = {
+        "parcels": "parcels",
+        "suburbs": "suburbs",
+        "watercourses": "watercourses",
+        "flood_risk_zones": "flood_risk_zones",
+        "heritage_sites": "heritage_sites",
+        "trading_bays": "trading_bays",
+        "slope_data": "slope_data",
+        "zoning": "zoning",
+    }
+    table_name = layer_to_table[layer_name]
+
     result = await session.execute(
-        text(f"""
+        text(
+            f"""
             SELECT
                 ST_AsGeoJSON(t.geom)::json AS geometry,
                 t.id,
                 t.properties
-            FROM {layer_name} t
+            FROM {table_name} t
             WHERE t.tenant_id = :tenant_id
               AND ST_Intersects(
                   t.geom,
                   ST_SetSRID(ST_GeomFromGeoJSON(:geojson), 4326)
               )
             LIMIT 1000
-        """),
+        """
+        ),
         {"geojson": geojson_str, "tenant_id": tenant_id},
     )
     rows = result.fetchall()
