@@ -9,12 +9,12 @@
 
 ## Current Session State
 
-| Field                | Value                                 |
-|----------------------|---------------------------------------|
-| **Last Updated**     | 2026-03-21                            |
-| **Active Milestone** | MP4 — WFS/WMS OGC Services (COMPLETE) |
-| **Active Agent**     | OGC-SERVICES-AGENT                    |
-| **Phase**            | OGC_SERVICES → COMPLETE               |
+| Field                | Value                                          |
+|----------------------|------------------------------------------------|
+| **Last Updated**     | 2026-03-21                                     |
+| **Active Milestone** | MP5 — Celery Workers + ML Pipelines (COMPLETE) |
+| **Active Agent**     | ML-PIPELINE-AGENT                              |
+| **Phase**            | CELERY_ML → COMPLETE                           |
 
 ---
 
@@ -168,6 +168,23 @@
 - [x] OGC router registered in main.py
 - [x] Public collections unauthenticated; tenant collections require api_key
 
+### MP5 — Celery Workers + ML Pipelines (COMPLETE ✓)
+
+**Agent:** ML-PIPELINE-AGENT
+**Deliverables:**
+
+- [x] `tasks/celery_app.py`: Celery instance with Railway Redis, 4 queues (spatial/raster/import/cache), beat schedule
+- [x] `tasks/flood_risk.py`: TWI weighted overlay (DEM + CHIRPS + soil permeability), COG output
+- [x] `tasks/heat_island.py`: Mono-window LST from Landsat 8/9 Band 10, heat island classification
+- [x] `tasks/anomaly_detection.py`: Isolation Forest (6 features, contamination=0.05), inline <50ms inference
+- [x] `tasks/nl_spatial_query.py`: Claude API NL→PostGIS, JSON validation, SQL injection prevention, 50/hr rate limit
+- [x] `tasks/lulc_classification.py`: Prithvi-100M with HLS bands (NOT standard S2 L2A), 7-class Cape Town schema
+- [x] `api/routes/jobs.py`: GET/POST/DELETE /jobs with pagination, tenant isolation, Celery dispatch
+- [x] `api/routes/ml.py`: 7 ML endpoints (anomaly predict/batch/train, NL query, flood/heat/LULC triggers)
+- [x] OQ-NEW-E RESOLVED: No Cape Flats informal settlement polygons on HDX — SAM deferred to Phase 2
+- [x] `tests/test_mp5_celery.py`: 70 tests — all passing (242 total)
+- [x] Jobs and ML routers registered in main.py
+
 ---
 
 ## Session Handoff Protocol
@@ -179,7 +196,7 @@
 3. Ensure all verification checks pass
 4. Document any deviations in `docs/PLAN_DEVIATIONS.md`
 
-**Next Agent:** OGC-SERVICES-AGENT → MP4 complete. Next: prompt-6 agent
+**Next Agent:** ML-PIPELINE-AGENT → MP5 complete. Next: prompt-7 (QA)
 **Next Document:** `docs/SESSION_LOG.md` entry required
 
 ---
