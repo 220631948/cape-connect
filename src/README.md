@@ -82,6 +82,34 @@ The app renders geospatial data through two synchronized viewers:
 Camera positions are kept in sync via `CameraSync.ts`. Vector tile layers from Martin are connected through
 `MartinSource.tsx`.
 
+### Raster COG Serving (GCP Hybrid Offload)
+
+Raster data (satellite imagery, DEMs, NDVI composites) is served from **GCS africa-south1** via HTTP 206 Range
+Requests — not from Supabase Storage. This eliminates full-file downloads and reduces bandwidth costs.
+
+| Component               | File                                           | Description                                                                    |
+|-------------------------|------------------------------------------------|--------------------------------------------------------------------------------|
+| **CogLayer**            | `components/map/layers/CogLayer.tsx`           | MapLibre raster layer loading PMTiles/COGs via `NEXT_PUBLIC_RASTER_BASE_URL`   |
+| **TemporalScrubber**    | `components/map/controls/TemporalScrubber.tsx` | STAC timeline slider for temporal raster queries                               |
+| **RasterStorageClient** | `lib/storage/raster-storage-client.ts`         | GCS-backed drop-in replacement for `supabase.storage` calls                    |
+| **Zonal Stats RPC**     | `lib/raster/zonal-stats-rpc.ts`                | Supabase RPC call triggering BigQuery ST_REGIONSTATS() for user-drawn polygons |
+
+**CesiumJS** terrain tiles use `UrlTemplateImageryProvider` pointing to the GCS public URL:
+
+```ts
+const provider = new Cesium.UrlTemplateImageryProvider({
+  url: `${process.env.NEXT_PUBLIC_GCS_PUBLIC_URL}/terrain/{z}/{x}/{y}.png`,
+  minimumLevel: 0,
+  maximumLevel: 18,
+});
+```
+
+**MapLibre** raster layers load COGs via the Cloud Run proxy or direct GCS URLs. PMTiles are recommended for all Cape
+Town raster layers to eliminate per-tile request charges.
+
+**E2E Validation:** `src/__tests__/e2e/cog-range-requests.spec.ts` intercepts network traffic and asserts HTTP 206
+responses, proving COG range requests are functioning.
+
 ### Offline-First Architecture
 
 | Technology            | Role                                                          |
