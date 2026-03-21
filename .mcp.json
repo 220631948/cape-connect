@@ -8,7 +8,7 @@
         "@modelcontextprotocol/server-filesystem",
         "/home/mr/Desktop/Geographical Informations Systems (GIS)"
       ],
-      "description": "Scoped filesystem read/write for project root — required by all agents (P0)"
+      "description": "Scoped filesystem read/write for project root \u2014 required by all agents (P0)"
     },
     "postgres": {
       "type": "stdio",
@@ -18,7 +18,7 @@
         "@modelcontextprotocol/server-postgres",
         "postgresql://postgres:postgres@localhost:5432/capegis"
       ],
-      "description": "PostGIS/PostgreSQL query execution — requires local PostGIS container (P0)"
+      "description": "PostGIS/PostgreSQL query execution \u2014 requires local PostGIS container (P0)"
     },
     "doc-state": {
       "type": "stdio",
@@ -26,7 +26,7 @@
       "args": [
         "mcp/doc-state/server.js"
       ],
-      "description": "Distributed doc locking for multi-agent INDEX.md sync — P0 critical"
+      "description": "Distributed doc locking for multi-agent INDEX.md sync \u2014 P0 critical"
     },
     "formats": {
       "type": "stdio",
@@ -61,7 +61,7 @@
       "env": {
         "NERFSTUDIO_PATH": "/usr/local/bin/ns-train"
       },
-      "description": "NeRF/3DGS pipeline orchestration — requires nerfstudio installed"
+      "description": "NeRF/3DGS pipeline orchestration \u2014 requires nerfstudio installed"
     },
     "computerUse": {
       "type": "stdio",
@@ -69,7 +69,7 @@
       "args": [
         "mcp/computerUse/server.js"
       ],
-      "description": "Desktop automation for visual testing — prefer chrome-devtools for most tasks"
+      "description": "Desktop automation for visual testing \u2014 prefer chrome-devtools for most tasks"
     },
     "opensky": {
       "type": "stdio",
@@ -77,7 +77,7 @@
       "args": [
         "scripts/opensky-mcp-wrapper.js"
       ],
-      "description": "OpenSky Network ADS-B flight queries with rate limiting — Cape Town airspace"
+      "description": "OpenSky Network ADS-B flight queries with rate limiting \u2014 Cape Town airspace"
     },
     "gis-mcp": {
       "type": "stdio",
@@ -156,7 +156,7 @@
         "-y",
         "@localstack/localstack-mcp-server"
       ],
-      "description": "Local AWS service emulation — S3 bucket simulation for Supabase Storage fallbacks"
+      "description": "Local AWS service emulation \u2014 S3 bucket simulation for Supabase Storage fallbacks"
     },
     "vercel": {
       "type": "stdio",
@@ -193,7 +193,7 @@
       "headers": {
         "Authorization": "Bearer ${COPILOT_MCP_CESIUM_ION_TOKEN}"
       },
-      "description": "Cesium Ion cloud: upload assets, stream 3D Tiles — requires COPILOT_MCP_CESIUM_ION_TOKEN"
+      "description": "Cesium Ion cloud: upload assets, stream 3D Tiles \u2014 requires COPILOT_MCP_CESIUM_ION_TOKEN"
     },
     "nerfstudio": {
       "type": "stdio",
@@ -202,7 +202,7 @@
         "-m",
         "nerfstudio.mcp_server"
       ],
-      "description": "Nerfstudio Python interface: training, COLMAP SfM, GPU monitoring — requires GPU"
+      "description": "Nerfstudio Python interface: training, COLMAP SfM, GPU monitoring \u2014 requires GPU"
     },
     "nano-banana": {
       "type": "http",
@@ -211,21 +211,27 @@
         "Authorization": "Bearer ${GOOGLE_API_KEY}"
       },
       "timeout": 20000,
-      "description": "Google Gemini AI via MCP — deep reasoning, multi-modal analysis"
+      "description": "Google Gemini AI via MCP \u2014 deep reasoning, multi-modal analysis"
     },
-    "stitch-google": {
-      "type": "http",
-      "url": "https://stitch.googleapis.com/mcp",
-      "headers": {
-        "X-Goog-Api-Key": "${GOOGLE_STITCH_API_KEY}"
-      },
-      "timeout": 300000,
-      "description": "Google Stitch HTTP MCP — distinct from local mcp/stitch/server.js"
+    "notebooklm": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "notebooklm-mcp@latest"
+      ],
+      "env": {}
     },
-    "open-aware": {
-      "type": "sse",
-      "url": "https://open-aware.qodo.ai/mcp",
-      "description": "Qodo Open-Aware SSE MCP — code quality awareness"
+    "azure-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "msmcp-azure",
+        "azmcp",
+        "server",
+        "start"
+      ],
+      "env": {}
     }
   }
 }
