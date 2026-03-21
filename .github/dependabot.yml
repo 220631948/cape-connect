@@ -1,0 +1,50 @@
+# CapeTown GIS Hub — Dependabot Configuration
+# Weekly dependency updates grouped by ecosystem
+version: 2
+
+updates:
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Africa/Johannesburg
+    groups:
+      actions:
+        patterns: [ '*' ]
+    labels:
+      - dependencies
+      - github-actions
+
+  # npm (frontend)
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Africa/Johannesburg
+    groups:
+      production:
+        dependency-type: production
+      development:
+        dependency-type: development
+    labels:
+      - dependencies
+      - frontend
+    open-pull-requests-limit: 10
+
+  # pip (backend)
+  - package-ecosystem: pip
+    directory: /backend
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Africa/Johannesburg
+    groups:
+      python-deps:
+        patterns: [ '*' ]
+    labels:
+      - dependencies
+      - backend
+    open-pull-requests-limit: 5
