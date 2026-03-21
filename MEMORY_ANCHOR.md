@@ -12,9 +12,9 @@
 | Field                | Value                             |
 |----------------------|-----------------------------------|
 | **Last Updated**     | 2026-03-21                        |
-| **Active Milestone** | MP2 — GIS File Pipeline           |
-| **Active Agent**     | FILE-PIPELINE-AGENT               |
-| **Phase**            | GIS_FILE_PIPELINE → IMPORT_EXPORT |
+| **Active Milestone** | MP3 — ArcGIS Proxy + Cache Warmer |
+| **Active Agent**     | DATA-AGENT                        |
+| **Phase**            | ARCGIS_PROXY → CACHE_WARMER       |
 
 ---
 
@@ -133,6 +133,25 @@
 - [x] Storage routing: <50MB → Supabase, rasters/large → R2
 - [x] Files router registered in main.py
 
+### MP3 — ArcGIS Proxy + Cache Warmer (COMPLETE ✓)
+
+**Agent:** DATA-AGENT
+**Deliverables:**
+
+- [x] OQ-001 RESOLVED: CoCT ArcGIS REST returns HTTP 404 (service gone), WC GIS returns 200
+- [x] `services/arcgis_client.py`: enumerate_services, query_layer, query_with_fallback (LIVE→CACHED→MOCK)
+- [x] `api/routes/arcgis.py`: GET /arcgis/layers, GET /arcgis/layer/{key}/features, POST /arcgis/cache/warm, GET
+  /arcgis/services/{source}, DELETE /arcgis/cache
+- [x] `tasks/cache_warmer.py`: warm_all_layers, warm_specific_layers (daily 02:00 SAST schedule)
+- [x] `tests/test_arcgis.py`: 38 tests — all passing
+- [x] `docs/API_STATUS.md`: verified HTTP codes for CoCT (404), WC GIS (200), CoCT ODP (200)
+- [x] GOTCHA-DATA-002 added to gotchas.md (esriJSON ≠ GeoJSON)
+- [x] OQ-001 marked RESOLVED in docs/OPEN_QUESTIONS.md with evidence
+- [x] Mock GeoJSON for all 4 known layers (zoning, suburbs, parcels, watercourses)
+- [x] All features within Cape Town bbox
+- [x] Three-tier fallback verified: LIVE → CACHED → MOCK
+- [x] ArcGIS router registered in main.py
+
 ---
 
 ## Session Handoff Protocol
@@ -144,7 +163,7 @@
 3. Ensure all verification checks pass
 4. Document any deviations in `docs/PLAN_DEVIATIONS.md`
 
-**Next Agent:** FILE-PIPELINE-AGENT → MP2 complete. Next: DATA-AGENT → MP3 (ArcGIS Proxy + Cache Warmer)
+**Next Agent:** DATA-AGENT → MP3 complete. Next: OGC-SERVICES-AGENT → MP4 (WFS/WMS via pygeoapi)
 **Next Document:** `docs/SESSION_LOG.md` entry required
 
 ---
