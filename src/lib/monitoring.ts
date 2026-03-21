@@ -4,6 +4,8 @@
  * @compliance POPIA: Error tracking does not log PII; user IDs are anonymized.
  */
 
+import * as Sentry from '@sentry/nextjs';
+
 type LogLevel = 'info' | 'warn' | 'error';
 
 interface MonitoringEvent {
@@ -46,8 +48,25 @@ class Monitor {
       console.log(`${prefix} [Monitor] ${event}`, data || '');
     }
 
-    // TODO: Send to Sentry/external when configured
-    // if (process.env.SENTRY_DSN) { Sentry.captureMessage(event, { extra: data }); }
+    // Send to Sentry/external when configured
+    const sentryDsn = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
+    if (sentryDsn) {
+      const sLevel: Sentry.SeverityLevel =
+        level === 'error' ? 'error' :
+        level === 'warn' ? 'warning' : 'info';
+
+      if (level === 'error' && data?.error instanceof Error) {
+        Sentry.captureException(data.error, {
+          extra: data,
+          level: sLevel,
+        });
+      } else {
+        Sentry.captureMessage(event, {
+          extra: data,
+          level: sLevel,
+        });
+      }
+    }
   }
 
   trackApiCall(route: string, tier: string, durationMs: number) {
@@ -64,6 +83,7 @@ class Monitor {
 
   trackError(error: Error, context?: Record<string, unknown>) {
     this.log('error', {
+      error,
       message: error.message,
       stack: error.stack?.substring(0, 500),
       ...context,
