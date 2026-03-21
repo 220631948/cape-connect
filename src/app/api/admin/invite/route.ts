@@ -10,6 +10,7 @@ import {getRequestMetadata, logImpersonationActionIfNeeded} from '@/lib/auth/adm
 import {isAdminRole} from '@/lib/auth/roles';
 import {validateBody} from '@/lib/validation';
 import {inviteUserSchema} from '@/lib/validation/schemas/admin';
+import { sendInvitationEmail } from '@/lib/email';
 
 function createClient(request: NextRequest) {
     const response = NextResponse.next();
@@ -59,7 +60,7 @@ export async function POST(request: NextRequest) {
 
         const validation = await validateBody(request, inviteUserSchema);
         if (!validation.success) {
-            return validation.response;
+            return (validation as import('@/lib/validation').ValidationFailure).response;
         }
         const {email, role} = validation.data;
 
@@ -98,57 +99,25 @@ export async function POST(request: NextRequest) {
             extra: {invited_email: email, invited_role: role, invitation_id: invitation.id},
         });
 
-        // Bug 1.8: Invoke Edge Function to send email
-        let deliveryStatus = 'pending';
-        try {
-            // We use the edge function URL from env if present, else fallback
-            const edgeFunctionUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-                ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/send-invitation-email`
-                : null;
+        // Construct the invitation link
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+        const invitationLink = `${appUrl}/invitations/accept?token=${invitation.token}`;
 
-            if (edgeFunctionUrl) {
-                const inviteUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/invite?token=${invitation.token}`;
-                
-                // Fetch to Supabase Edge Function using Auth Header
-                const edgeRes = await fetch(edgeFunctionUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
-                    },
-                    body: JSON.stringify({
-                        invitation_id: invitation.id,
-                        email: invitation.email,
-                        role: invitation.role,
-                        tenant_name: caller.tenant_id, // We'd ideally fetch real name, using ID as fallback
-                        invite_url: inviteUrl
-                    })
-                });
+        // Send invitation email using Resend
+        const emailResult = await sendInvitationEmail(email, role, invitationLink);
 
-                if (edgeRes.ok) {
-                    deliveryStatus = 'sent';
-                } else {
-                    console.error('[Admin Invite POST]: Edge Function failed', await edgeRes.text());
-                    deliveryStatus = 'failed';
-                }
-            } else {
-                // Local dev short-circuit without functions
-                deliveryStatus = 'failed';
-                console.warn('[Admin Invite POST]: Edge function URL not configured');
-            }
-        } catch (edgeError) {
-            console.error('[Admin Invite POST]: Error calling Edge Function', edgeError);
-            deliveryStatus = 'failed';
+        if (!emailResult.success) {
+            // Note: We don't necessarily want to fail the entire request if the email fails,
+            // as the invitation is already in the database and can be resent later.
+            // But we should warn the caller.
+            console.error('[Admin Invite POST]: Email failed to send:', emailResult.error);
         }
-
-        // Update the delivery status
-        await client.from('tenant_invitations')
-            .update({ delivery_status: deliveryStatus })
-            .eq('id', invitation.id);
 
         return NextResponse.json({
             success: true,
-            message: `Invitation sent to ${email}`,
+            message: emailResult.success
+              ? `Invitation sent to ${email}`
+              : `Invitation created but email delivery failed for ${email}`,
             invitation: {
                 id: invitation.id,
                 email: invitation.email,
@@ -158,6 +127,7 @@ export async function POST(request: NextRequest) {
                 // Only include token in dev mode
                 ...(process.env.NODE_ENV === 'development' && {token: invitation.token}),
             },
+            emailError: emailResult.success ? undefined : emailResult.error
         });
     } catch (error: any) {
         console.error('[Admin Invite POST]:', error);
