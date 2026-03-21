@@ -67,7 +67,7 @@ async function cacheToIndexedDB(data: GeoJSON.FeatureCollection, tenantId: strin
   const records: OfflineCommunityResource[] = data.features
     .filter((f) => f.geometry.type === 'Point')
     .map((f) => ({
-      id: f.properties?.id || `cr-${Math.random().toString(36).slice(2, 8)}`,
+      id: f.properties?.id || `cr-${crypto.randomUUID()}`,
       tenant_id: tenantId,
       name: f.properties?.name || 'Unknown',
       category: f.properties?.category || 'wifi',
