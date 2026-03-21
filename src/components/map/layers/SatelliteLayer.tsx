@@ -62,7 +62,7 @@ export const SatelliteLayer: React.FC<SatelliteLayerProps> = ({
         const res = await fetch('/api/satellite');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json: SatelliteTier = await res.json();
-        
+
         if (destroyed) return;
 
         setTierInfo(json);
@@ -77,7 +77,7 @@ export const SatelliteLayer: React.FC<SatelliteLayerProps> = ({
             maxzoom: 18
           });
         } else {
-          // If source exists, and we want to update tiles, in MapLibre 
+          // If source exists, and we want to update tiles, in MapLibre
           // we technically have to remove and re-add or use setStyle
           // For simplicity here, we assume it's set once per session.
         }

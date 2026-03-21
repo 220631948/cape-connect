@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     live: async () => {
       const supabase = await createServerSupabaseClient();
       const { data, error } = await supabase.rpc('search_properties', { query_text: query });
-      
+
       if (error) throw error;
       return data || [];
     },

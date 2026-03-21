@@ -17,7 +17,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 
 /**
  * GET /api/flights
- * 
+ *
  * Query params:
  *   - guest: boolean (optional, default false). If true, filters to airline callsigns only.
  */
@@ -28,16 +28,16 @@ export async function GET(request: NextRequest) {
   const result = await fetchWithFallback({
     source: SOURCE_NAME,
     year: CURRENT_YEAR,
-    
+
     // Tier 1: LIVE (OpenSky API)
     live: async () => {
       const rawData = await fetchFlightStates();
       const geojson = toFlightGeoJSON(rawData.states, guestMode);
-      
+
       // Update cache if in authenticated/tenant context
       // Note: setCachedResponse handles tenant resolution internally
       await setCachedResponse(SOURCE_NAME, 'current_flights', rawData, 0.0083); // 30s TTL (0.0083 hours)
-      
+
       return geojson;
     },
 
@@ -53,17 +53,17 @@ export async function GET(request: NextRequest) {
       const mockPath = path.join(process.cwd(), 'public/mock/flights-cape-town.geojson');
       const fileContent = await fs.readFile(mockPath, 'utf8');
       const geojson = JSON.parse(fileContent);
-      
+
       // If guest mode is on, we should filter the mock data too for consistency
       if (guestMode && geojson.features) {
         // Simple filter for mock data assuming it has callsign property
         geojson.features = geojson.features.filter((f: any) => {
           const callsign = f.properties?.callsign || '';
           // Re-use logic if possible or assume mock is already sanitised
-          return callsign.length > 0; 
+          return callsign.length > 0;
         });
       }
-      
+
       return geojson;
     }
   });

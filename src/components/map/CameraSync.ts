@@ -39,7 +39,7 @@ export const syncMapLibreToCesium = (
 ) => {
   const camera = cesiumViewer.camera;
   const cartographic = camera.positionCartographic;
-  
+
   const lng = CesiumMath.toDegrees(cartographic.longitude);
   const lat = CesiumMath.toDegrees(cartographic.latitude);
   const height = cartographic.height;

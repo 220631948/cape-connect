@@ -4,7 +4,7 @@
 
 * **Phase:** `TECH_STACK_VERIFICATION`
 * **Milestone Progress:** Validated current `package.json` against `CLAUDE.md`. Identified multiple deprecated/unplanned dependencies.
-* **Decisions Made:** 
+* **Decisions Made:**
   * Proceeding with GLM-OCR locally via Ollama even though GV Roll CSV is ready.
   * Proceeding with Copernicus Sentinel-2 for Phase 1 MVP.
   * Confirmed commercial use for CARTO tiles.

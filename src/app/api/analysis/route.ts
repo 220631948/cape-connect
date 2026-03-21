@@ -2,7 +2,7 @@
  * @file src/app/api/analysis/route.ts
  * @description API Route for spatial analysis (buffer, intersection, spatial stats).
  * @compliance POPIA: Handling user-defined geometries and municipal data aggregates.
- * 
+ *
  * POPIA ANNOTATION
  * Personal data handled: Property valuation aggregates only (no owner names, no addresses)
  * Purpose: Spatial analysis for urban planning and property research
@@ -32,7 +32,7 @@ const AnalysisRequestSchema = z.object({
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
+
     // Validate input
     const parsed = AnalysisRequestSchema.safeParse(body);
     if (!parsed.success) {
@@ -96,7 +96,7 @@ async function createBufferAndAnalyze(
 ) {
   // Convert GeoJSON feature to WKT for PostGIS
   const geojson = JSON.stringify(feature.geometry);
-  
+
   // Create buffer using PostGIS ST_Buffer (in meters, using geography type)
   const { data: bufferData, error: bufferError } = await supabase.rpc('create_buffer', {
     input_geom: geojson,
@@ -162,7 +162,7 @@ async function analyzeGeometry(
   // Aggregate results
   const propertyCount = properties?.length || 0;
   const totalValuation = properties?.reduce((sum: number, p: any) => sum + (p.valuation_total || 0), 0) || 0;
-  
+
   // Zoning breakdown
   const zoningBreakdown: Record<string, number> = {};
   properties?.forEach((p: any) => {
@@ -188,7 +188,7 @@ async function analyzeGeometry(
 function generateMockAnalysis(bufferDistance: number) {
   const mockProperties = Math.floor(Math.random() * 50) + 10;
   const mockValuation = mockProperties * 2500000;
-  
+
   return {
     property_count: mockProperties,
     total_valuation: mockValuation,

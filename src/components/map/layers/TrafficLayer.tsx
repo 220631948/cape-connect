@@ -52,7 +52,7 @@ export const TrafficLayer: React.FC<TrafficLayerProps> = ({ map, visible = false
         const res = await fetch('/api/traffic');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json: TrafficTier = await res.json();
-        
+
         if (destroyed) return;
 
         setTierInfo(json);

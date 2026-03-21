@@ -21,13 +21,13 @@ export async function GET() {
   const result = await fetchWithFallback({
     source: SOURCE_NAME,
     year: CURRENT_YEAR,
-    
+
     // Tier 1: LIVE (TomTom API)
     live: async () => {
       // In a real implementation: fetch from api.tomtom.com/traffic/services/5/incidentDetails
       // Example: https://api.tomtom.com/traffic/services/5/incidentDetails?bbox=18.3,-34.2,19.0,-33.5&key=YOUR_API_KEY
       const TOMTOM_API_KEY = process.env.TOMTOM_API_KEY;
-      
+
       if (!TOMTOM_API_KEY) {
         throw new Error('TOMTOM_API_KEY is not defined in environment variables.');
       }

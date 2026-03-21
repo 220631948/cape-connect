@@ -286,5 +286,3 @@ Rollback: If device heuristics misclassify, expose a user control to manually en
 POPIA: No personal data is displayed in map layers for guest mode. If adding personal data layers, include POPIA annotation in the touching files as per CLAUDE.md.
 
 References used while drafting this note are primarily project rules (CLAUDE.md), MapLibre docs, CARTO guidance for attribution, Turf.js for spatial stats, PMTiles, and Recharts best practices.
-
-

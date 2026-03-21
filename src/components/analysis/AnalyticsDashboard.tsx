@@ -7,7 +7,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { 
+import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
 } from 'recharts';
@@ -85,7 +85,7 @@ export const AnalyticsDashboard: React.FC<{ guestMode?: boolean }> = ({ guestMod
               <CartesianGrid strokeDasharray="3 3" stroke="#2d3748" vertical={false} />
               <XAxis dataKey="year" stroke="#a1a1aa" fontSize={10} tickLine={false} axisLine={false} />
               <YAxis stroke="#a1a1aa" fontSize={10} tickLine={false} axisLine={false} />
-              <Tooltip 
+              <Tooltip
                 contentStyle={{ background: '#1a202c', border: '1px solid #2d3748', borderRadius: '8px' }}
                 itemStyle={{ color: '#10b981' }}
               />
@@ -124,7 +124,7 @@ export const AnalyticsDashboard: React.FC<{ guestMode?: boolean }> = ({ guestMod
                   <Cell key={`cell-${index}`} fill={ZONING_COLORS[entry.name] || ZONING_COLORS.Other} />
                 ))}
               </Pie>
-              <Tooltip 
+              <Tooltip
                 contentStyle={{ background: '#1a202c', border: '1px solid #2d3748', borderRadius: '8px' }}
               />
               <Legend iconType="circle" wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }} />

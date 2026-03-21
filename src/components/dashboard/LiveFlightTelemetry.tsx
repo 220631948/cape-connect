@@ -33,20 +33,20 @@ const LiveFlightTelemetry: React.FC<LiveFlightTelemetryProps> = ({ colors, cardS
         const response = await fetch('/api/flights');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
-        
+
         if (data && data.features) {
           const features = data.features;
           const count = features.length;
-          
+
           // Filter out 0/null altitudes for average
           const altitudes = features
             .map((f: any) => f.properties.altitude)
             .filter((a: number) => a > 0);
-          
+
           const velocities = features
             .map((f: any) => f.properties.velocity)
             .filter((v: number) => v > 0);
-          
+
           const countries = new Set(
             features
               .map((f: any) => f.properties.origin_country)
@@ -55,10 +55,10 @@ const LiveFlightTelemetry: React.FC<LiveFlightTelemetryProps> = ({ colors, cardS
 
           setStats({
             count,
-            avgAltitude: altitudes.length > 0 
-              ? Math.round(altitudes.reduce((a: number, b: number) => a + b, 0) / altitudes.length) 
+            avgAltitude: altitudes.length > 0
+              ? Math.round(altitudes.reduce((a: number, b: number) => a + b, 0) / altitudes.length)
               : 0,
-            maxVelocity: velocities.length > 0 
+            maxVelocity: velocities.length > 0
               ? Math.round(Math.max(...velocities) * 3.6) // Convert m/s to km/h
               : 0,
             countries
@@ -79,8 +79,8 @@ const LiveFlightTelemetry: React.FC<LiveFlightTelemetryProps> = ({ colors, cardS
   }, []);
 
   return (
-    <CrayonCard 
-      colorVariant="pink" 
+    <CrayonCard
+      colorVariant="pink"
       className={`transition-all duration-300 ${error ? 'border-red-500 shadow-[0_0_15px_-3px_rgba(239,68,68,0.3)]' : ''}`}
     >
       <div className="flex items-center gap-2 mb-4">

@@ -18,7 +18,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 
 /**
  * GET /api/flights/track
- * 
+ *
  * Query params:
  *   - icao24: string (required). Hex address of the aircraft.
  *   - time: number (optional, default 0). Unix timestamp around which track is requested.
@@ -38,15 +38,15 @@ export async function GET(request: NextRequest) {
   const result = await fetchWithFallback<FlightTemporalEntry[]>({
     source: SOURCE_NAME,
     year: CURRENT_YEAR,
-    
+
     // Tier 1: LIVE (OpenSky API)
     live: async () => {
       const data = await fetchHistoricalTrack(icao24, time);
-      
+
       // Update cache
       // 1-hour TTL for historical tracks as they are less volatile than real-time states
       await setCachedResponse(SOURCE_NAME, cacheKey, data, 1.0);
-      
+
       return data;
     },
 
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
       const mockPath = path.join(process.cwd(), 'public/mock/flights-track-sample.json');
       const fileContent = await fs.readFile(mockPath, 'utf8');
       const rawMock = JSON.parse(fileContent) as OpenSkyTracksResponse;
-      
+
       if (!rawMock.path) return [];
 
       // Transform mock using same logic as API client for consistency

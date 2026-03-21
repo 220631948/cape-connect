@@ -57,7 +57,7 @@ export function useUrlState() {
   // 2. Update URL (Debounced)
   const updateUrl = useCallback((viewport: ViewportState, layers: LayerState) => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     // Viewport
     params.set('v', [
       viewport.lng.toFixed(4),

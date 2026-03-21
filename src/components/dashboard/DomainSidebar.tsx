@@ -26,13 +26,13 @@ export const DomainSidebar: React.FC<DomainSidebarProps> = ({ colors }) => {
         <span className="text-xl">🚑</span>
         <h3 className="font-bold text-white uppercase tracking-wider text-sm">Emergency Mode</h3>
       </div>
-      
+
       <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-3 space-y-2">
         <div className="flex justify-between items-center">
           <span className="text-xs text-red-200">Fire Awareness Radius</span>
           <span className="text-xs font-mono text-white">{params.radius || '5'}km</span>
         </div>
-        <input 
+        <input
           type="range" min="1" max="50" step="1"
           value={params.radius || '5'}
           onChange={(e) => updateDomainParam('radius', e.target.value)}
@@ -56,8 +56,8 @@ export const DomainSidebar: React.FC<DomainSidebarProps> = ({ colors }) => {
         </div>
       </div>
 
-      <CrayonCard 
-        colorVariant="blue" 
+      <CrayonCard
+        colorVariant="blue"
         className="p-3 border-red-500/20 bg-red-500/5"
       >
         <div className="text-[10px] text-red-400 font-bold mb-1">🚨 PROXIMITY ALERT</div>
@@ -65,7 +65,7 @@ export const DomainSidebar: React.FC<DomainSidebarProps> = ({ colors }) => {
           Fire detected within 4.2km of Kirstenbosch. Air quality sensors reporting particulates rising.
         </p>
       </CrayonCard>
-      
+
       <div className="mt-4">
         <SourceBadge source="NASA FIRMS" year={2026} tier="LIVE" />
       </div>
@@ -95,7 +95,7 @@ export const DomainSidebar: React.FC<DomainSidebarProps> = ({ colors }) => {
       <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-700 space-y-3">
         <div>
           <label className="text-[10px] text-gray-400 block mb-1">Anomaly Threshold</label>
-          <select 
+          <select
             className="w-full bg-slate-900 border border-slate-700 text-xs text-white rounded p-1"
             value={params.threshold || 'severe'}
             onChange={(e) => updateDomainParam('threshold', e.target.value)}
@@ -193,12 +193,12 @@ export const DomainSidebar: React.FC<DomainSidebarProps> = ({ colors }) => {
         <div className="text-[10px] text-gray-400 mb-2">Weather Correlation Overlay</div>
         <div className="flex gap-2">
           {['rain', 'wind', 'solar'].map(l => (
-            <button 
+            <button
               key={l}
               onClick={() => updateDomainParam('layer', l)}
               className={`flex-1 text-[9px] py-1 rounded transition-colors border ${
-                params.layer === l 
-                  ? 'bg-amber-500/40 border-amber-400 text-white' 
+                params.layer === l
+                  ? 'bg-amber-500/40 border-amber-400 text-white'
                   : 'bg-slate-900 border-slate-700 text-gray-500'
               }`}
             >
@@ -207,7 +207,7 @@ export const DomainSidebar: React.FC<DomainSidebarProps> = ({ colors }) => {
           ))}
         </div>
       </div>
-      
+
       <div className="mt-4">
         <SourceBadge source="Sentinel-2 + SAWS" year={2026} tier="LIVE" />
       </div>

@@ -3,7 +3,7 @@
 ## Tracked Assumptions
 
 1. **[RALPH FLAG: "I'm about to assume the GV Roll CSV is missing and PDF must be OCR'd"].**
-   * *Verification:* User confirmed the CSV is ready, but also chose to set up GLM-OCR locally. 
+   * *Verification:* User confirmed the CSV is ready, but also chose to set up GLM-OCR locally.
    * *Status:* RESOLVED.
 
 2. **[RALPH FLAG: "I'm about to assume the City ArcGIS endpoint is open or closed"].**

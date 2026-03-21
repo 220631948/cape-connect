@@ -30,7 +30,7 @@ export async function GET(
         .select('*')
         .eq('parcel_id', parcelId)
         .single();
-      
+
       if (error || !data) throw new Error('Valuation not found in DB');
       return data;
     },
@@ -42,13 +42,13 @@ export async function GET(
       const mockPath = path.join(process.cwd(), 'public/mock/gv_roll.json');
       const data = await fs.readFile(mockPath, 'utf8');
       const mockDict = JSON.parse(data);
-      return mockDict[parcelId] || { 
-        parcel_id: parcelId, 
-        city_valuation_zar: 0, 
-        gv_year: SOURCE_YEAR, 
-        suburb: 'Unknown', 
+      return mockDict[parcelId] || {
+        parcel_id: parcelId,
+        city_valuation_zar: 0,
+        gv_year: SOURCE_YEAR,
+        suburb: 'Unknown',
         zone_code: 'Unknown',
-        is_mock: true 
+        is_mock: true
       };
     }
   });

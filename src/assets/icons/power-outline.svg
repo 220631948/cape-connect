@@ -1,6 +1,6 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
   <!-- Power-Outline: Neomorphic Plump Power (Infrastructure) -->
-  <path d="M32,8 L16,56 Q32,48 48,56 L32,8 Z" 
+  <path d="M32,8 L16,56 Q32,48 48,56 L32,8 Z"
         fill="none" stroke="#FFB347" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
   <path d="M30,12 L40,28 L24,32 L34,52" fill="none" stroke="#FFB347" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
 </svg>

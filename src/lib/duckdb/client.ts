@@ -58,7 +58,7 @@ export async function loadParquet(url: string, tableName: string) {
   const conn = await instance.connect();
   try {
     await conn.query(`
-      CREATE TABLE ${tableName} AS 
+      CREATE TABLE ${tableName} AS
       SELECT * FROM read_parquet('${url}')
     `);
   } finally {

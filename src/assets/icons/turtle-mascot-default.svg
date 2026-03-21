@@ -1,7 +1,7 @@
 <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
   <title>Turtle Mascot - Default Happy Pose</title>
   <desc>A whimsical turtle character with a happy expression, perfect for GIS exploration. Features neumorphic depth cues.</desc>
-  
+
   <!-- Shell (Neumorphic lifted effect) -->
   <defs>
     <filter id="turtleGlow">
@@ -16,13 +16,13 @@
       <stop offset="100%" style="stop-color:#2d9d7f;stop-opacity:1" />
     </radialGradient>
   </defs>
-  
+
   <!-- Shadow base (neumorphic) -->
   <ellipse cx="64" cy="95" rx="42" ry="12" fill="rgba(0,0,0,0.1)" filter="url(#turtleGlow)"/>
-  
+
   <!-- Main shell -->
   <ellipse cx="64" cy="52" rx="38" ry="42" fill="url(#shellGradient)" stroke="#1d6b5f" stroke-width="2"/>
-  
+
   <!-- Shell pattern (hex grid doodle) -->
   <g stroke="#1d6b5f" stroke-width="1.5" fill="none" opacity="0.6">
     <!-- Top row -->
@@ -39,13 +39,13 @@
     <circle cx="64" cy="74" r="5"/>
     <circle cx="80" cy="69" r="5"/>
   </g>
-  
+
   <!-- Highlight (neumorphic beveled effect) -->
   <ellipse cx="48" cy="38" rx="12" ry="16" fill="rgba(255,255,255,0.3)" opacity="0.8"/>
-  
+
   <!-- Head -->
   <circle cx="64" cy="100" r="16" fill="#7dd3c0" stroke="#1d6b5f" stroke-width="2"/>
-  
+
   <!-- Eyes (big and joyful) -->
   <g>
     <!-- Left eye -->
@@ -55,11 +55,11 @@
     <circle cx="70" cy="96" r="4" fill="#1d6b5f"/>
     <circle cx="71" cy="95" r="1.5" fill="white"/>
   </g>
-  
+
   <!-- Happy mouth (simple smile) -->
   <path d="M 64 102 Q 60 105 56 104" stroke="#1d6b5f" stroke-width="2" fill="none" stroke-linecap="round"/>
   <path d="M 64 102 Q 68 105 72 104" stroke="#1d6b5f" stroke-width="2" fill="none" stroke-linecap="round"/>
-  
+
   <!-- Front legs (lifted pose) -->
   <g>
     <!-- Left leg -->
@@ -67,7 +67,7 @@
     <!-- Right leg -->
     <ellipse cx="86" cy="78" rx="8" ry="14" fill="#7dd3c0" stroke="#1d6b5f" stroke-width="1.5" transform="rotate(25 86 78)"/>
   </g>
-  
+
   <!-- Back legs (peeking out) -->
   <g opacity="0.7">
     <!-- Left back leg -->
@@ -75,14 +75,14 @@
     <!-- Right back leg -->
     <ellipse cx="93" cy="72" rx="6" ry="11" fill="#6bc0ad" stroke="#1d6b5f" stroke-width="1.5" transform="rotate(45 93 72)"/>
   </g>
-  
+
   <!-- Tail (cute curved tail) -->
   <path d="M 100 65 Q 115 60 118 50" stroke="#1d6b5f" stroke-width="5" fill="none" stroke-linecap="round"/>
   <ellipse cx="117" cy="48" rx="4" ry="5" fill="#7dd3c0" stroke="#1d6b5f" stroke-width="1"/>
-  
+
   <!-- Shell shine (water reflection effect) -->
   <path d="M 50 45 Q 55 40 60 45" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
-  
+
   <!-- Blush marks (playful) -->
   <circle cx="35" cy="104" r="3" fill="#ffb3ba" opacity="0.6"/>
   <circle cx="93" cy="104" r="3" fill="#ffb3ba" opacity="0.6"/>

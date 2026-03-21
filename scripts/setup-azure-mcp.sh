@@ -37,12 +37,12 @@ if [ "$CREATE_SP" = "y" ] || [ "$CREATE_SP" = "Y" ]; then
   SP_JSON=$(az ad sp create-for-rbac --name "mcp-sp-$(basename $(pwd))" --role "Contributor" --sdk-auth 2>/dev/null)
   echo "Service principal JSON (save securely):"
   echo "$SP_JSON"
-  
+
   # extract fields for convenience
   AZURE_CLIENT_ID=$(echo "$SP_JSON" | jq -r '.clientId')
   AZURE_CLIENT_SECRET=$(echo "$SP_JSON" | jq -r '.clientSecret')
   AZURE_TENANT_ID=$(echo "$SP_JSON" | jq -r '.tenantId')
-  
+
   echo "Export these in your shell (example):"
   echo "export AZURE_SUBSCRIPTION_ID=${SUBSCRIPTION_ID}"
   echo "export AZURE_CLIENT_ID=${AZURE_CLIENT_ID}"
@@ -62,9 +62,9 @@ docker run -d --name azure-mcp \
   -e AZURE_CLIENT_ID="${AZURE_CLIENT_ID:-}" \
   -e AZURE_CLIENT_SECRET="${AZURE_CLIENT_SECRET:-}" \
   -e AZURE_TENANT_ID="${AZURE_TENANT_ID:-}" \
-  mcr.microsoft.com/azure-sdk/azure-mcp:latest || { 
+  mcr.microsoft.com/azure-sdk/azure-mcp:latest || {
     echo "Docker run failed. If Docker is unavailable, falling back to package manager install instructions."
-    
+
     if ! docker ps -q -f name=azure-mcp | grep -q . ; then
       echo "Docker MCP container not running. Attempting package manager run (npm/pip)."
       if command -v npx >/dev/null 2>&1; then

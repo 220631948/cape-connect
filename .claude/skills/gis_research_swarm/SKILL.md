@@ -64,4 +64,3 @@ Generate one markdown report with this structure:
 - no uncited factual claims
 - unresolved assumptions are explicit
 - recommendations include concrete next verification actions
-

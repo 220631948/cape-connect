@@ -30,8 +30,8 @@ export async function proxy(request: NextRequest) {
 
   // 0. Skip middleware for static assets early
   if (
-    pathname.startsWith('/_next') || 
-    pathname.includes('.') || 
+    pathname.startsWith('/_next') ||
+    pathname.includes('.') ||
     pathname.startsWith('/favicon')
   ) {
     return NextResponse.next();
@@ -93,7 +93,7 @@ export async function proxy(request: NextRequest) {
     const parts = hostname.split('.');
     const isLocalhost = hostname.includes('localhost') || hostname.includes('127.0.0.1');
     const subdomain = (!isLocalhost && parts.length > 1) ? parts[0] : 'capetown';
-    
+
     const { data: tenant } = await supabase
       .from('tenants')
       .select('id')
@@ -157,10 +157,10 @@ export async function proxy(request: NextRequest) {
     }
 
     // 4. Auth & RBAC Guard
-    const isPublicRoute = pathname.startsWith('/login') || 
+    const isPublicRoute = pathname.startsWith('/login') ||
                          pathname === '/' ||
                          pathname.startsWith('/api/public');
-    
+
     if (!session && !hasImpersonationContext && !isPublicRoute) {
       const redirectUrl = new URL('/login', request.url);
 
@@ -184,7 +184,7 @@ export async function proxy(request: NextRequest) {
       const allowWithoutAdminRole =
         pathname.startsWith('/api/admin/stop-impersonation') ||
         pathname.startsWith('/api/admin/impersonation-state');
-      
+
       if (!session && !allowWithoutAdminRole) {
         return NextResponse.redirect(new URL('/login', request.url));
       }

@@ -20,14 +20,14 @@ export async function GET() {
   const result = await fetchWithFallback({
     source: SOURCE_NAME,
     year: CURRENT_YEAR,
-    
+
     // Tier 1: LIVE (Copernicus / STAC API)
     live: async () => {
       const sceneData = await fetchLatestSentinelScene();
-      
+
       // Update cache
       await setCachedResponse(SOURCE_NAME, 'latest_s2_scene', sceneData, 24); // 24h TTL
-      
+
       return sceneData;
     },
 

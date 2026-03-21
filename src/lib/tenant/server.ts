@@ -9,7 +9,7 @@ import { TenantConfig } from './TenantContext';
 export async function getTenantConfig(tenantId: string): Promise<Partial<TenantConfig>> {
   try {
     const supabase = await createServerSupabaseClient();
-    
+
     const { data: settings, error } = await supabase
       .from('tenant_settings')
       .select('*')

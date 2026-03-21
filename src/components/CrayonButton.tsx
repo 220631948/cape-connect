@@ -20,10 +20,10 @@ const ACCENT_MAP = {
   purple: 'stroke-[#A78BFA] shadow-[#A78BFA/20]',
 };
 
-export const CrayonButton: React.FC<CrayonButtonProps> = ({ 
-  children, 
-  onClick, 
-  accent = 'blue', 
+export const CrayonButton: React.FC<CrayonButtonProps> = ({
+  children,
+  onClick,
+  accent = 'blue',
   size = 'md',
   className = ''
 }) => {
@@ -35,7 +35,7 @@ export const CrayonButton: React.FC<CrayonButtonProps> = ({
   }[size];
 
   return (
-    <button 
+    <button
       onClick={onClick}
       className={`
         relative group active:scale-95 transition-all duration-200
@@ -47,20 +47,20 @@ export const CrayonButton: React.FC<CrayonButtonProps> = ({
       `}
     >
       {/* Wobbly Crayon SVG Border */}
-      <svg 
+      <svg
         className={`absolute inset-0 w-full h-full pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity ${accentClasses}`}
-        viewBox="0 0 100 40" 
+        viewBox="0 0 100 40"
         preserveAspectRatio="none"
       >
-        <path 
+        <path
           d="M2,2 Q5,1 10,2 T20,1 T30,2 T40,1 T50,2 T60,1 T70,2 T80,1 T90,2 T98,2 L98,38 Q95,39 90,38 T80,39 T70,38 T60,39 T50,38 T40,39 T30,38 T20,39 T10,38 T2,38 Z"
-          fill="none" 
+          fill="none"
           strokeWidth="2"
           strokeLinecap="round"
           strokeDasharray="2 4"
         />
       </svg>
-      
+
       <span className="relative z-10 drop-shadow-sm">{children}</span>
     </button>
   );

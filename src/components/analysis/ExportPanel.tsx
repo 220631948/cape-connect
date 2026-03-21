@@ -52,47 +52,47 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ feature, results, colo
   const handleExportPDF = async () => {
     try {
       setLoading(true);
-      
+
       // Dynamic imports to prevent Turbopack/fflate build errors during SSR
       const { default: jsPDF } = await import('jspdf');
       const { default: autoTable } = await import('jspdf-autotable');
 
       const doc = new jsPDF();
-      
+
       // Title
       doc.setFontSize(20);
       doc.setTextColor(40, 40, 40);
       doc.text("CapeTown GIS Hub", 14, 22);
-      
+
       doc.setFontSize(14);
       doc.text("Spatial Analysis Report", 14, 30);
-      
+
       // Summary
       doc.setFontSize(11);
       doc.setTextColor(100, 100, 100);
       doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 40);
-      
+
       if (results) {
         doc.setFontSize(12);
         doc.setTextColor(20, 20, 20);
         doc.text("Analysis Summary:", 14, 52);
-        
+
         doc.setFontSize(10);
         doc.text(`Total Properties: ${results.property_count || results.summary?.totalErfs || 0}`, 14, 60);
-        
+
         const valuation = results.total_valuation || results.summary?.medianValue || 0;
         doc.text(`Aggregate Valuation: R ${(valuation / 1000000).toFixed(2)}M`, 14, 66);
-        
+
         if (results.zoning_breakdown || results.zoningMix) {
           doc.text("Zoning Breakdown:", 14, 76);
-          
+
           let yPos = 82;
-          const mix = results.zoning_breakdown 
+          const mix = results.zoning_breakdown
             ? Object.entries(results.zoning_breakdown).map(([k,v]) => ({ code: k, count: v}))
             : (results.zoningMix || []).map((z: any) => ({ code: z.name, count: z.value }));
-            
+
           const tableData = mix.map((z: any) => [z.code, z.count]);
-          
+
           autoTable(doc, {
             startY: yPos,
             head: [['Zoning Code', 'Property Count']],
@@ -102,9 +102,9 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ feature, results, colo
           });
         }
       }
-      
+
       doc.save("spatial_report.pdf");
-      
+
     } catch (err) {
       console.error('PDF error:', err);
       alert('Failed to generate PDF');

@@ -35,7 +35,7 @@ graph TD
         Tasks[Celery / Redis]
         GIS[GeoPandas / Rasterio]
     end
-    
+
     subgraph Data [Data Layer]
         DB[(PostGIS 17)]
         R2[(Cloudflare R2)]

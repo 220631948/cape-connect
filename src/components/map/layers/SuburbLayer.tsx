@@ -26,7 +26,7 @@ export const SuburbLayer: React.FC<SuburbLayerProps> = ({ map, visible = true })
       try {
         const response = await fetch('/api/suburbs');
         const result = await response.json();
-        
+
         if (!map.getSource(sourceId)) {
           map.addSource(sourceId, {
             type: 'geojson',

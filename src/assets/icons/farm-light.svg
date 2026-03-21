@@ -5,7 +5,7 @@
       <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.1)" />
     </filter>
   </defs>
-  <path d="M12,52 L12,30 L32,15 L52,30 L52,52 Q52,54 50,54 L14,54 Q12,54 12,52 Z" 
+  <path d="M12,52 L12,30 L32,15 L52,30 L52,52 Q52,54 50,54 L14,54 Q12,54 12,52 Z"
         fill="#F0F0F5" filter="url(#farmShadowLight)" stroke="#A3E635" stroke-width="1.5" stroke-linejoin="round" />
   <path d="M12,30 L32,15 L52,30" fill="none" stroke="#A3E635" stroke-width="3" stroke-linecap="round" />
 </svg>
