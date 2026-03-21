@@ -1,0 +1,83 @@
+# CapeTown GIS Hub — Auto-Remediation Pipeline
+# Self-healing: detect failures, attempt fix, retest, block if unfixable
+name: Auto-Remediation
+
+on:
+  workflow_run:
+    workflows: [ CI ]
+    types: [ completed ]
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  remediate:
+    name: Auto-Fix & Retest
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '20'
+          cache: npm
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+
+      # Attempt frontend lint fix
+      - name: Fix frontend lint
+        run: |
+          npm ci --ignore-scripts
+          npx next lint --fix || true
+
+      # Attempt backend lint fix
+      - name: Fix backend lint
+        working-directory: backend
+        run: |
+          pip install ruff
+          ruff check app/ --fix || true
+          ruff format app/ || true
+
+      # Check if anything changed
+      - name: Check for fixes
+        id: changes
+        run: |
+          if [ -n "$(git diff --name-only)" ]; then
+            echo "has_fixes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_fixes=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Commit fixes if found
+      - name: Commit fixes
+        if: steps.changes.outputs.has_fixes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix(auto): lint auto-remediation [skip ci]"
+          git push
+
+      # Retest backend after fixes
+      - name: Retest backend
+        if: steps.changes.outputs.has_fixes == 'true'
+        working-directory: backend
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio httpx
+          PYTHONPATH=. python -m pytest tests/ -v --tb=short
+
+      # Block notification if no auto-fix possible
+      - name: Report unfixable
+        if: steps.changes.outputs.has_fixes == 'false'
+        run: echo "::error::CI failure requires manual intervention — no auto-fix available"
