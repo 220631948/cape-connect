@@ -93,3 +93,28 @@ Full details: `docs/API_STATUS.md`
 | **Action** | Test with Railway Redis URL in local Celery config |
 
 ---
+
+## OQ-NEW-E — Cape Flats Informal Settlement Polygon Data
+
+| Field             | Value                                                       |
+|-------------------|-------------------------------------------------------------|
+| **Status**        | **RESOLVED** ✓ — No data available, SAM deferred to Phase 2 |
+| **Blocks**        | SAM pipeline (MP5 seq-6)                                    |
+| **Date Raised**   | Pre-project (inherited)                                     |
+| **Date Resolved** | 2026-03-21                                                  |
+| **Resolved By**   | ML-PIPELINE-AGENT (MP5)                                     |
+
+### Evidence
+
+| Source                            | Search Query                          | Result                                           |
+|-----------------------------------|---------------------------------------|--------------------------------------------------|
+| data.humdata.org (HDX)            | `cape town informal settlement` (ZAF) | Only `hotosm_zaf_populated_places` — no polygons |
+| data.humdata.org/organization/hot | `cape town`                           | No results                                       |
+
+### Conclusion
+
+No Cape Flats informal settlement polygon dataset exists on HDX or HOT OSM as of 2026-03-21.
+SAM pipeline deferred to Phase 2. If data becomes available, update `docs/DATA_CATALOG.md` and
+build `app/tasks/sam_inference.py`.
+
+---
