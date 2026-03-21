@@ -1,0 +1,40 @@
+{
+  "name": "capegis-ai",
+  "version": "1.0.0",
+  "description": "Custom AI tools for CapeTown GIS Hub - Geospatial automation, FinOps, and Immersive 3D workflows.",
+  "engines": {
+    "gemini-cli": ">=0.30.0"
+  },
+  "agents": [
+    "agents"
+  ],
+  "skills": [
+    "skills"
+  ],
+  "hooks": {
+    "BeforeTool": [
+      {
+        "name": "terraform-security-guardian",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/terraform-security-guardian.js",
+        "matcher": "write_file|replace|edit_file",
+        "description": "Ensures no hardcoded GCP keys in Terraform and enforces WIF."
+      },
+      {
+        "name": "out-db-raster-enforcer",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/out-db-raster-enforcer.js",
+        "matcher": "write_file|replace|run_shell_command",
+        "description": "Validates out-db raster syntax in ingestion scripts."
+      }
+    ],
+    "BeforePush": [
+      {
+        "name": "rls-multi-tenant-verifier",
+        "type": "command",
+        "command": "node ${extensionPath}/hooks/rls-multi-tenant-verifier.js",
+        "description": "Verifies RLS policies for new spatial tables in Supabase migrations."
+      }
+    ]
+  }
+}
