@@ -9,12 +9,12 @@
 
 ## Current Session State
 
-| Field                | Value                                          |
-|----------------------|------------------------------------------------|
-| **Last Updated**     | 2026-03-21                                     |
-| **Active Milestone** | MP5 — Celery Workers + ML Pipelines (COMPLETE) |
-| **Active Agent**     | ML-PIPELINE-AGENT                              |
-| **Phase**            | CELERY_ML → COMPLETE                           |
+| Field                | Value                                         |
+|----------------------|-----------------------------------------------|
+| **Last Updated**     | 2026-03-21                                    |
+| **Active Milestone** | MPA — GV Roll OCR (SKIPPED) + DevSecOps CI/CD |
+| **Active Agent**     | ML-PIPELINE-AGENT                             |
+| **Phase**            | MPA SKIPPED → DevSecOps CI/CD COMPLETE        |
 
 ---
 
@@ -69,14 +69,14 @@
 
 ## Open Questions (Blocking Decisions)
 
-| ID       | Question                                                                       | Blocks                      | Status                                    |
-|----------|--------------------------------------------------------------------------------|-----------------------------|-------------------------------------------|
-| OQ-NEW-A | Is GV Roll CSV or PDF?                                                         | MPA (OCR milestone)         | Pending download from odp.capetown.gov.za |
-| OQ-NEW-B | Exact watercourse buffer distance in Trading Bay By-law                        | MP1 trading bay suitability | Pending CoCT by-law review                |
-| OQ-NEW-C | Does Railway Redis support Celery result backend natively?                     | MP5                         | Pending test                              |
-| OQ-NEW-D | Prithvi model input band specification — HLS vs standard Sentinel-2?           | MP5 LULC                    | Pending NASA-IMPACT README review         |
-| OQ-NEW-E | Does OpenCities Africa / HOT OSM have Cape Flats informal settlement polygons? | SAM pipeline                | Pending data.humdata.org check            |
-| OQ-NEW-F | SAM inference on Railway CPU tier — acceptable latency or GPU needed?          | SAM milestone timing        | Pending benchmark                         |
+| ID       | Question                                                                       | Blocks                      | Status                                  |
+|----------|--------------------------------------------------------------------------------|-----------------------------|-----------------------------------------|
+| OQ-NEW-A | Is GV Roll CSV or PDF?                                                         | MPA (OCR milestone)         | UNRESOLVABLE — data not found on portal |
+| OQ-NEW-B | Exact watercourse buffer distance in Trading Bay By-law                        | MP1 trading bay suitability | Pending CoCT by-law review              |
+| OQ-NEW-C | Does Railway Redis support Celery result backend natively?                     | MP5                         | Pending test                            |
+| OQ-NEW-D | Prithvi model input band specification — HLS vs standard Sentinel-2?           | MP5 LULC                    | Pending NASA-IMPACT README review       |
+| OQ-NEW-E | Does OpenCities Africa / HOT OSM have Cape Flats informal settlement polygons? | SAM pipeline                | RESOLVED ✓ — No data, SAM deferred      |
+| OQ-NEW-F | SAM inference on Railway CPU tier — acceptable latency or GPU needed?          | SAM milestone timing        | Pending benchmark                       |
 
 ---
 
@@ -185,18 +185,27 @@
 - [x] `tests/test_mp5_celery.py`: 70 tests — all passing (242 total)
 - [x] Jobs and ML routers registered in main.py
 
----
+### MPA — GV Roll OCR Pipeline (SKIPPED)
 
-## Session Handoff Protocol
+**Agent:** ML-PIPELINE-AGENT
+**Status:** SKIPPED — precondition not met
+**Reason:** OQ-NEW-A could not be resolved as "GV Roll is PDF only". odp.capetown.gov.za unreachable
+(HTTP 000) and odp-cctegis.opendata.arcgis.com has no CoCT GV Roll dataset.
 
-**When handing off to next agent:**
+### DevSecOps CI/CD Hardening (COMPLETE ✓)
 
-1. Update this file with completed decisions
-2. Write entry in `docs/SESSION_LOG.md`
-3. Ensure all verification checks pass
-4. Document any deviations in `docs/PLAN_DEVIATIONS.md`
+**Deliverables:**
 
-**Next Agent:** ML-PIPELINE-AGENT → MP5 complete. Next: prompt-7 (QA)
+- [x] `.github/workflows/ci.yml`: Build, test, lint (frontend+backend) + secret scan with SHA-pinned actions
+- [x] `.github/workflows/security.yml`: CodeQL SAST (JS/TS + Python), npm/pip audit, license compliance
+- [x] `.github/workflows/pr-validation.yml`: Conventional commits, rebase check, .env block, large file check
+- [x] `.github/workflows/deploy.yml`: CI gate → Vercel + Railway with health checks
+- [x] `.github/workflows/auto-rebase.yml`: /rebase command for PR branches
+- [x] `.github/workflows/codeql.yml`: Updated with Python language + SHA-pinned checkout
+- [x] `.github/dependabot.yml`: 3 ecosystems (actions/npm/pip), weekly schedule, grouped updates
+- [x] All actions SHA-pinned, all jobs use least-privilege permissions
+
+**Next Agent:** Prompt-8 (Python backend QA). MPA skipped.
 **Next Document:** `docs/SESSION_LOG.md` entry required
 
 ---
