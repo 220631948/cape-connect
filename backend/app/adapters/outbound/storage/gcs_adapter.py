@@ -101,9 +101,7 @@ class GCSStorageAdapter(StoragePort):
             expiration=timedelta(seconds=expiry_seconds),
             method="GET",
         )
-        logger.info(
-            "Generated signed URL for %s (expires in %ds)", key, expiry_seconds
-        )
+        logger.info("Generated signed URL for %s (expires in %ds)", key, expiry_seconds)
         return url
 
     async def delete(self, key: str) -> bool:
@@ -129,6 +127,4 @@ class GCSStorageAdapter(StoragePort):
         The bucket must have public read access (allUsers objectViewer IAM).
         This URL supports HTTP Range headers for COG streaming.
         """
-        return (
-            f"https://storage.googleapis.com/{settings.gcs_bucket_name}/{key}"
-        )
+        return f"https://storage.googleapis.com/{settings.gcs_bucket_name}/{key}"
