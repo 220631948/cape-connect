@@ -37,16 +37,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 1. Rate limit API routes
-  if (pathname.startsWith('/api/')) {
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
-    if (isRateLimited(ip)) {
-      return new NextResponse(JSON.stringify({ error: 'Too many requests' }), {
-        status: 429,
-        headers: { 'Content-Type': 'application/json', 'Retry-After': '60' },
-      });
-    }
-  }
+  // Rate limit moved down after auth
 
   try {
     const requestHeaders = new Headers(request.headers);
@@ -156,7 +147,39 @@ export async function proxy(request: NextRequest) {
       }
     }
 
-    // 4. Auth & RBAC Guard
+    // 4. Rate limit API routes securely
+    if (pathname.startsWith('/api/')) {
+      let rateLimitKey = 'unknown-ip';
+
+      // Use authenticated user ID if available
+      if (hasImpersonationContext && requestHeaders.get('x-effective-user-id')) {
+        rateLimitKey = `user:${requestHeaders.get('x-effective-user-id')}`;
+      } else if (session?.user?.id) {
+        rateLimitKey = `user:${session.user.id}`;
+      } else {
+        // Fallback to IP for unauthenticated requests
+        // Use request.ip (Next.js) or x-real-ip (Vercel) over x-forwarded-for
+        // x-forwarded-for can be easily spoofed by attackers
+        const clientIp =
+          request.headers.get('x-real-ip') ||
+          // If we must use x-forwarded-for, get the *last* IP which is the one added by our closest proxy
+          // Note: In Vercel, x-real-ip is generally safer and provided.
+          request.headers.get('x-forwarded-for')?.split(',').pop()?.trim();
+
+        if (clientIp) {
+          rateLimitKey = `ip:${clientIp}`;
+        }
+      }
+
+      if (isRateLimited(rateLimitKey)) {
+        return new NextResponse(JSON.stringify({ error: 'Too many requests' }), {
+          status: 429,
+          headers: { 'Content-Type': 'application/json', 'Retry-After': '60' },
+        });
+      }
+    }
+
+    // 5. Auth & RBAC Guard
     const isPublicRoute = pathname.startsWith('/login') ||
                          pathname === '/' ||
                          pathname.startsWith('/api/public');
