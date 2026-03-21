@@ -1,0 +1,27 @@
+# CapeTown GIS Hub — pre-commit hooks (managed by pre-commit framework)
+# Install: pre-commit install
+# Run all: pre-commit run --all-files
+repos:
+  # Gitleaks — secret detection
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.3
+    hooks:
+      - id: gitleaks
+
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: [ '--maxkb=500' ]
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [ --markdown-linebreak-ext=md ]
+      - id: check-yaml
+        args: [ --allow-multiple-documents ]
+      - id: check-json
+        exclude: 'node_modules/|\.next/'
+      - id: no-commit-to-branch
+        args: [ '--branch', 'main' ]
