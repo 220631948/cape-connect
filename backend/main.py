@@ -12,6 +12,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes.arcgis import router as arcgis_router
 from app.api.routes.files import router as files_router
 from app.api.routes.health import router as health_router
+from app.api.routes.jobs import router as jobs_router
+from app.api.routes.ml import router as ml_router
 from app.api.routes.ogc import router as ogc_router
 from app.api.routes.spatial import router as spatial_router
 from app.core.config import settings
@@ -59,3 +61,5 @@ app.include_router(spatial_router)
 app.include_router(files_router)
 app.include_router(arcgis_router)
 app.include_router(ogc_router)
+app.include_router(jobs_router)
+app.include_router(ml_router)
