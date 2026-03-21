@@ -15,7 +15,8 @@ import {
   Cartesian3,
   Color,
   createOsmBuildingsAsync,
-  Math as CesiumMath
+  Math as CesiumMath,
+  UrlTemplateImageryProvider,
 } from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import SourceBadge from '../ui/SourceBadge';
@@ -40,6 +41,8 @@ interface CesiumViewerProps {
     pitch?: number;
   };
   onReady?: (viewer: Viewer) => void;
+  cogUrl?: string;
+  showCogs?: boolean;
 }
 
 const INITIAL_CENTER = Cartesian3.fromDegrees(18.4241, -33.9249, 15000);
@@ -48,7 +51,9 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
   className,
   ionToken,
   initialViewport,
-  onReady
+  onReady,
+  cogUrl,
+  showCogs = false,
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
@@ -116,6 +121,18 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
       }
 
       viewerRef.current = viewer;
+
+      // Add COG layer if provided
+      if (cogUrl && showCogs) {
+        // Cesium expects a tiled URL template for direct raster serving if not using Ion
+        // For COG offload, we assume the proxy or storage provides a {z}/{x}/{y} template
+        // as recommended in the prompt: https://storage.platform.com/bucket/tiles/{z}/{x}/{y}.png
+        const imageryProvider = new UrlTemplateImageryProvider({
+            url: cogUrl.replace('.pmtiles', '/{z}/{x}/{y}.png') // Simplified fallback or direct mapping
+        });
+        viewer.imageryLayers.addImageryProvider(imageryProvider as any);
+      }
+
       onReady?.(viewer);
     };
 
