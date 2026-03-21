@@ -69,8 +69,9 @@ export async function GET(request: NextRequest) {
 
     copyAuthCookies(authResponse, jsonResponse);
     return jsonResponse;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Admin Impersonation State GET]:', error);
-    return NextResponse.json({ error: error?.message || 'Internal error' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Internal error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
