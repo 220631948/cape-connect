@@ -1,5 +1,7 @@
 # CLAUDE.md — CapeTown GIS Hub
+
 ## Read this file before touching any file in this project.
+
 ### Applies to: Claude Code · Gemini CLI · GitHub Copilot · Any AI agent.
 
 > Conflicts with this file → STOP → document in `docs/PLAN_DEVIATIONS.md` → escalate to human.
@@ -8,14 +10,15 @@
 
 ## 1. PROJECT IDENTITY
 
-| Field | Value |
-|-------|-------|
-| **Project** | CapeTown GIS Hub (`capegis`) |
-| **Type** | PWA — Multi-Tenant, White-Label |
-| **Scope** | City of Cape Town + Western Cape Province ONLY |
-| **Visual** | Dark dashboard, near-black backgrounds, crayon accents |
+| Field       | Value                                                  |
+|-------------|--------------------------------------------------------|
+| **Project** | CapeTown GIS Hub (`capegis`)                           |
+| **Type**    | PWA — Multi-Tenant, White-Label                        |
+| **Scope**   | City of Cape Town + Western Cape Province ONLY         |
+| **Visual**  | Dark dashboard, near-black backgrounds, crayon accents |
 
-> **CURRENT_PHASE:** TECH_STACK_VERIFICATION | Last milestone: Some milestones complete | Updated: 2026-03-21 | Agent: Claude Opus 4.6 (Lead Architect)
+> **CURRENT_PHASE:** TECH_STACK_VERIFICATION | Last milestone: Some milestones complete | Updated: 2026-03-21 | Agent:
+> Claude Opus 4.6 (Lead Architect)
 >
 > _Activating TECH_STACK_AGENT to verify actual installed packages against PLAN.md and image synthesis report._
 
@@ -27,6 +30,7 @@
 Do not introduce unlisted libraries without human approval. Document additions in `docs/PLAN_DEVIATIONS.md`.
 
 ### Frontend
+
 - **Framework:** Next.js 15 (App Router), React Server Components
 - **Mapping:** MapLibre GL JS — NOT Leaflet, NOT Mapbox GL JS
 - **State:** Zustand
@@ -38,12 +42,14 @@ Do not introduce unlisted libraries without human approval. Document additions i
 - **Spatial:** Turf.js (client-side)
 
 ### Backend & Data
+
 - **Database:** Supabase (PostgreSQL 15 + PostGIS 3.x)
 - **Auth:** Supabase Auth (GoTrue) — email/password + Google OAuth
 - **Tile server:** Martin (Rust MVT, Docker on DigitalOcean Droplet)
 - **Object storage:** Supabase Storage
 
 ### Infrastructure
+
 - **Hosting:** Vercel (frontend + API routes)
 - **Tile server:** DigitalOcean Droplet (Martin in Docker)
 - **Local dev:** Docker Compose (PostGIS + Martin)
@@ -51,6 +57,7 @@ Do not introduce unlisted libraries without human approval. Document additions i
 - **Errors:** Sentry (optional, gracefully absent)
 
 ### Spatial Reference System
+
 - Storage: **EPSG:4326** (WGS 84)
 - Rendering: **EPSG:3857** (Web Mercator) via MapLibre
 - Never mix CRS without explicit reprojection
@@ -60,17 +67,23 @@ Do not introduce unlisted libraries without human approval. Document additions i
 ## 3. NON-NEGOTIABLE RULES
 
 ### Rule 1 — Data Source Badge
+
 Every data display must show: `[SOURCE_NAME · YEAR · [LIVE|CACHED|MOCK]]`
 Badge must be visible without hovering.
 
 ### Rule 2 — Three-Tier Fallback
-Every external data component: **LIVE** → **CACHED** (Supabase `api_cache`) → **MOCK** (`public/mock/*.geojson`). Never show blank map or error instead of MOCK.
+
+Every external data component: **LIVE** → **CACHED** (Supabase `api_cache`) → **MOCK** (`public/mock/*.geojson`). Never
+show blank map or error instead of MOCK.
 
 ### Rule 3 — No API Keys in Source Code
+
 Credentials in `.env` only. Never hardcode, log, or expose unless `NEXT_PUBLIC_` prefixed and safe.
 
 ### Rule 4 — RLS + Application Layer Isolation
+
 RLS on every table + application layer verifies `tenant_id` from session. Both are required.
+
 ```sql
 ALTER TABLE [table] ENABLE ROW LEVEL SECURITY;
 ALTER TABLE [table] FORCE ROW LEVEL SECURITY;
@@ -79,7 +92,9 @@ CREATE POLICY "[table]_tenant_isolation" ON [table]
 ```
 
 ### Rule 5 — POPIA Annotation
+
 Files touching personal data must include:
+
 ```typescript
 /**
  * POPIA ANNOTATION
@@ -92,37 +107,47 @@ Files touching personal data must include:
 ```
 
 ### Rule 6 — CartoDB Attribution
+
 Map must display: `© CARTO | © OpenStreetMap contributors`
 
 ### Rule 7 — File Size Limit
+
 Source files ≤ 300 lines. Planning docs and migrations exempt.
 
 ### Rule 8 — No Lightstone Data
+
 GV Roll 2022 is the approved valuation source. No Lightstone.
 
 ### Rule 9 — Geographic Scope
+
 Bounding box: `{ west: 18.0, south: -34.5, east: 19.5, north: -33.0 }`
 Initial centre: `{ lng: 18.4241, lat: -33.9249 }` | Zoom: 11
 
 ### Rule 10 — Milestone Sequencing
+
 Sequential M0–M15. No skipping. Human confirms each DoD before proceeding.
 
 ### Rule 11 — Self-Improvement Loop
+
 After ANY mistake → log it in `docs/gotchas.md`. Convert mistakes into rules.
 
 ### Rule 12 — Verification Before Done
+
 NEVER mark done without proof. Run tests, check logs, simulate real usage. Compare expected vs actual behaviour.
 
 ### Rule 13 — Demand Elegance
+
 Ask: "Is there a simpler / cleaner way?" Avoid hacky or temporary fixes. Optimise for long-term maintainability.
 
 ---
 
 ## 4. MULTI-TENANCY & RBAC
 
-Tenant-scoped tables: `profiles` · `saved_searches` · `favourites` · `valuation_data` · `api_cache` · `audit_log` · `tenant_settings` · `layer_permissions`
+Tenant-scoped tables: `profiles` · `saved_searches` · `favourites` · `valuation_data` · `api_cache` · `audit_log` ·
+`tenant_settings` · `layer_permissions`
 
 Canonical RLS pattern:
+
 ```sql
 CREATE POLICY "[table]_tenant_isolation" ON [table]
   USING (tenant_id = current_setting('app.current_tenant', TRUE)::uuid);
@@ -154,15 +179,15 @@ Max 3 sign-up prompts per session. No PII collection for guests (POPIA).
 
 ## 7. ENVIRONMENT VARIABLES
 
-| Variable | Required | Absent behaviour |
-|----------|----------|-----------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | YES | App fails to start |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | YES | App fails to start |
-| `SUPABASE_SERVICE_ROLE_KEY` | YES (server) | Server actions fail |
-| `NEXT_PUBLIC_GOOGLE_STREET_VIEW_KEY` | No | Street View hidden |
-| `MAPBOX_TOKEN` | No | Satellite toggle hidden |
-| `NEXT_PUBLIC_SENTRY_DSN` | No | Error tracking disabled |
-| `MARTIN_URL` | No | Tiles from Supabase fallback |
+| Variable                             | Required     | Absent behaviour             |
+|--------------------------------------|--------------|------------------------------|
+| `NEXT_PUBLIC_SUPABASE_URL`           | YES          | App fails to start           |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`      | YES          | App fails to start           |
+| `SUPABASE_SERVICE_ROLE_KEY`          | YES (server) | Server actions fail          |
+| `NEXT_PUBLIC_GOOGLE_STREET_VIEW_KEY` | No           | Street View hidden           |
+| `MAPBOX_TOKEN`                       | No           | Satellite toggle hidden      |
+| `NEXT_PUBLIC_SENTRY_DSN`             | No           | Error tracking disabled      |
+| `MARTIN_URL`                         | No           | Tiles from Supabase fallback |
 
 ---
 
@@ -170,37 +195,66 @@ Max 3 sign-up prompts per session. No PII collection for guests (POPIA).
 
 ```
 capegis/
-├── CLAUDE.md              ← This file
+├── CLAUDE.md              ← This file (non-negotiable rules)
 ├── AGENTS.md              ← Agent roles and build commands
 ├── PLAN.md                ← Authoritative milestone plan
 ├── README.md              ← Project overview
 ├── .env.example           ← Placeholder env vars (committed)
-├── package.json           ← Dependencies and scripts
+├── package.json           ← Frontend dependencies and scripts
 ├── docker-compose.yml     ← PostGIS + Martin for local dev
-├── app/                   ← Next.js 15 App Router (future)
-│   ├── src/components/
-│   ├── src/lib/
-│   ├── src/hooks/
-│   ├── src/types/
+│
+├── src/                   ← Next.js 15 App Router (frontend)
+│   ├── app/               ← Pages, layouts, API routes
+│   ├── components/        ← React components (presentation)
+│   ├── hooks/             ← Custom hooks (application logic)
+│   ├── lib/               ← Utilities, clients, validation
+│   ├── types/             ← TypeScript type definitions
 │   └── public/mock/       ← Fallback GeoJSON files
-├── docs/                  ← Specifications and logs
-│   ├── architecture/      ← ADRs, SYSTEM_DESIGN.md, TECH_STACK.md
-│   ├── planning/          ← AI workflow docs
-│   ├── research/          ← Research findings
-│   ├── specs/             ← Feature specifications
-│   └── assets/            ← Images, PDFs
-├── supabase/
-│   └── migrations/        ← SQL migration files
+│
+├── backend/               ← Python FastAPI (hexagonal architecture)
+│   ├── app/
+│   │   ├── domain/        ← Pure business logic (NO framework imports)
+│   │   │   ├── entities/  ← AnalysisJob, GISLayer, TenantContext
+│   │   │   ├── value_objects/ ← BoundingBox, SuitabilityScore, GeoJSONGeometry
+│   │   │   ├── services/  ← Domain services
+│   │   │   └── exceptions/ ← Business rule violations
+│   │   ├── ports/         ← Abstract interfaces (ABC)
+│   │   │   ├── inbound/   ← Use case boundaries
+│   │   │   └── outbound/  ← Repository, Storage, ArcGIS, FileProcessor
+│   │   ├── adapters/      ← Concrete implementations
+│   │   ├── core/          ← Config, auth (JWKS), database engine
+│   │   ├── services/      ← Application services
+│   │   ├── api/routes/    ← FastAPI route handlers
+│   │   └── tasks/         ← Celery async tasks
+│   ├── tests/             ← pytest test suite
+│   ├── migrations/        ← SQL migration files
+│   ├── Dockerfile         ← OSGEO GDAL base image
+│   └── requirements.txt   ← Python dependencies
+│
+├── shared/                ← Cross-cutting constants and contracts
+│   ├── constants/         ← bbox.ts, roles.ts, formats.ts
+│   └── schemas/           ← API error shapes, spatial contracts
+│
+├── infra/                 ← Deployment and CI/CD documentation
+│
+├── docs/                  ← Specifications, logs, gotchas
+│   ├── architecture/      ← ADRs, system design
+│   ├── bugs/              ← BUG-PY-NNN reports
+│   └── gotchas.md         ← Known pitfalls (self-improvement loop)
+│
+├── .junie/                ← Junie AI agent guidelines
+├── .claude/               ← Claude AI agent config (agents, skills, commands)
 └── .github/
-    ├── workflows/ci.yml
-    └── copilot/           ← Copilot agents, instructions, prompts
+    ├── workflows/         ← CI/CD pipelines (ci, security, deploy, PR, rebase)
+    └── copilot/           ← Copilot instructions and MCP config
 ```
 
 ---
 
 ## 9. ESCALATION PROTOCOL
 
-Deviation discovered → STOP → document in `docs/PLAN_DEVIATIONS.md` (DEV-NNN format) → escalate if it affects: geographic scope, POPIA, tech stack, RBAC, or deployment → resume only after human approval.
+Deviation discovered → STOP → document in `docs/PLAN_DEVIATIONS.md` (DEV-NNN format) → escalate if it affects:
+geographic scope, POPIA, tech stack, RBAC, or deployment → resume only after human approval.
 
 ---
 
@@ -218,21 +272,26 @@ Deviation discovered → STOP → document in `docs/PLAN_DEVIATIONS.md` (DEV-NNN
 <!-- rebootstrap 2026-03-04T10:39:43Z: cleanup-20260304T103943 — removed 1 community artifact (.claude/### 🔌 Plugins); added tile-agent.md, 3 skills, 3 commands, 2 guides, spatial-validation.yml workflow; all existing project tooling verified and retained. -->
 
 <!-- BEGIN AUTO: Documentation Maintenance Rules | fleet v3 -->
+
 ## Automatic Documentation Maintenance Rules
+
 Trigger: Any file create, edit, rename, or delete in: docs/ .claude/ .gemini/ .github/ (all subdirectories)
 Required Actions:
+
 1. Regenerate docs/INDEX.md (auto-section only, within AUTO markers)
 2. Update local INDEX.md of affected directory
 3. Append entry to docs/CHANGELOG_AUTO.md
 4. If MCP doc-state server available: Acquire write lock → check hash → skip if current → write → release → notify
-MoE Routing:
+   MoE Routing:
+
 - Fast tier: index regeneration, changelog append
 - High-reasoning tier: conflict resolution, structural decisions only
-Write Rules: Surgical replace within AUTO markers only. Read before write. Diff before commit.
-Commit: docs(auto): {action} in {dir} [{agent_id}]
-Agent-Specific Invocation:
+  Write Rules: Surgical replace within AUTO markers only. Read before write. Diff before commit.
+  Commit: docs(auto): {action} in {dir} [{agent_id}]
+  Agent-Specific Invocation:
 - Invoke: Write tool + TodoWrite for multi-file sessions
 - Hooks: .claude/settings.json → PostToolUse → Write|Edit|MultiEdit
 - Shell: scripts/sync-index.sh (if present)
 - MCP: doc-state in Claude MCP config
+
 <!-- END AUTO: Documentation Maintenance Rules -->
