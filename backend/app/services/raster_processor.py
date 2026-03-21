@@ -96,7 +96,12 @@ async def process_raster(request: Request):
     except Exception as exc:
         logger.error("Failed to process %s: %s", name, exc, exc_info=True)
         return Response(
-            content=json.dumps({"status": "error", "error": str(exc)}),
+            content=json.dumps(
+                {
+                    "status": "error",
+                    "error": "Internal server error while processing raster.",
+                }
+            ),
             status_code=500,
             media_type="application/json",
         )
