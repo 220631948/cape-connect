@@ -47,10 +47,19 @@ def create_celery_app() -> Celery:
     app.conf.task_routes = {
         "app.tasks.flood_risk.*": {"queue": "raster", "routing_key": "raster.flood"},
         "app.tasks.heat_island.*": {"queue": "raster", "routing_key": "raster.heat"},
-        "app.tasks.lulc_classification.*": {"queue": "raster", "routing_key": "raster.lulc"},
+        "app.tasks.lulc_classification.*": {
+            "queue": "raster",
+            "routing_key": "raster.lulc",
+        },
         "app.tasks.sam_inference.*": {"queue": "raster", "routing_key": "raster.sam"},
-        "app.tasks.anomaly_detection.*": {"queue": "spatial", "routing_key": "spatial.anomaly"},
-        "app.tasks.nl_spatial_query.*": {"queue": "spatial", "routing_key": "spatial.nl"},
+        "app.tasks.anomaly_detection.*": {
+            "queue": "spatial",
+            "routing_key": "spatial.anomaly",
+        },
+        "app.tasks.nl_spatial_query.*": {
+            "queue": "spatial",
+            "routing_key": "spatial.nl",
+        },
         "app.tasks.cache_warmer.*": {"queue": "cache", "routing_key": "cache.warm"},
     }
 
@@ -89,14 +98,16 @@ def create_celery_app() -> Celery:
     }
 
     # Auto-discover tasks
-    app.autodiscover_tasks([
-        "app.tasks.flood_risk",
-        "app.tasks.heat_island",
-        "app.tasks.lulc_classification",
-        "app.tasks.anomaly_detection",
-        "app.tasks.nl_spatial_query",
-        "app.tasks.cache_warmer",
-    ])
+    app.autodiscover_tasks(
+        [
+            "app.tasks.flood_risk",
+            "app.tasks.heat_island",
+            "app.tasks.lulc_classification",
+            "app.tasks.anomaly_detection",
+            "app.tasks.nl_spatial_query",
+            "app.tasks.cache_warmer",
+        ]
+    )
 
     return app
 

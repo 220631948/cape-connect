@@ -36,7 +36,6 @@ from typing import Any
 
 import numpy as np
 
-from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +58,7 @@ PRITHVI_N_BANDS = 6
 
 class LULCClass(IntEnum):
     """Cape Town LULC classification schema."""
+
     WATER = 0
     BARE_SOIL = 1
     LOW_VEGETATION = 2

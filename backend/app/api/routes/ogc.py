@@ -5,11 +5,11 @@ Public collections: unauthenticated access (WFS/WMS clients cannot send headers)
 Tenant collections: API key in query param ?api_key={key} for RLS enforcement.
 Attribution: OSM ODbL + CARTO terms on every capabilities response.
 """
+
 import os
 import yaml
 import structlog
-from fastapi import APIRouter, FastAPI, Request, Response, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Request, HTTPException
 
 logger = structlog.get_logger()
 
@@ -133,26 +133,28 @@ async def ogc_collections():
     collections = []
     for coll_id in PHASE1_COLLECTIONS:
         resource = resources.get(coll_id, {})
-        collections.append({
-            "id": coll_id,
-            "title": resource.get("title", coll_id),
-            "description": resource.get("description", ""),
-            "extent": {
-                "spatial": {
-                    "bbox": [CAPE_TOWN_BBOX],
-                    "crs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-                }
-            },
-            "links": [
-                {
-                    "rel": "items",
-                    "type": "application/geo+json",
-                    "title": f"Items in {coll_id}",
-                    "href": f"/ogc/collections/{coll_id}/items",
+        collections.append(
+            {
+                "id": coll_id,
+                "title": resource.get("title", coll_id),
+                "description": resource.get("description", ""),
+                "extent": {
+                    "spatial": {
+                        "bbox": [CAPE_TOWN_BBOX],
+                        "crs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+                    }
                 },
-            ],
-            "attribution": OGC_ATTRIBUTION,
-        })
+                "links": [
+                    {
+                        "rel": "items",
+                        "type": "application/geo+json",
+                        "title": f"Items in {coll_id}",
+                        "href": f"/ogc/collections/{coll_id}/items",
+                    },
+                ],
+                "attribution": OGC_ATTRIBUTION,
+            }
+        )
 
     return {
         "collections": collections,
@@ -171,8 +173,12 @@ async def ogc_collections():
 @router.get("/collections/{collection_id}")
 async def ogc_collection_detail(collection_id: str):
     """Get details for a single collection."""
-    if collection_id not in PHASE1_COLLECTIONS and not collection_id.startswith("tenant_"):
-        raise HTTPException(status_code=404, detail=f"Collection '{collection_id}' not found")
+    if collection_id not in PHASE1_COLLECTIONS and not collection_id.startswith(
+        "tenant_"
+    ):
+        raise HTTPException(
+            status_code=404, detail=f"Collection '{collection_id}' not found"
+        )
 
     # Tenant collections require API key
     if collection_id.startswith("tenant_"):
@@ -225,7 +231,9 @@ async def ogc_collection_items(
     # Validate collection exists
     is_tenant = collection_id.startswith("tenant_")
     if collection_id not in PHASE1_COLLECTIONS and not is_tenant:
-        raise HTTPException(status_code=404, detail=f"Collection '{collection_id}' not found")
+        raise HTTPException(
+            status_code=404, detail=f"Collection '{collection_id}' not found"
+        )
 
     # Tenant auth check
     tenant_id = None
@@ -290,7 +298,9 @@ async def ogc_collection_item(
     """Get a single feature by ID from a collection."""
     is_tenant = collection_id.startswith("tenant_")
     if collection_id not in PHASE1_COLLECTIONS and not is_tenant:
-        raise HTTPException(status_code=404, detail=f"Collection '{collection_id}' not found")
+        raise HTTPException(
+            status_code=404, detail=f"Collection '{collection_id}' not found"
+        )
 
     if is_tenant:
         if not api_key:
@@ -333,12 +343,14 @@ async def ogc_wfs(
         }
         for coll_id in PHASE1_COLLECTIONS:
             resource = config.get("resources", {}).get(coll_id, {})
-            capabilities["featureTypes"].append({
-                "name": coll_id,
-                "title": resource.get("title", coll_id),
-                "srs": "EPSG:4326",
-                "bbox": CAPE_TOWN_BBOX,
-            })
+            capabilities["featureTypes"].append(
+                {
+                    "name": coll_id,
+                    "title": resource.get("title", coll_id),
+                    "srs": "EPSG:4326",
+                    "bbox": CAPE_TOWN_BBOX,
+                }
+            )
         return capabilities
 
     return {
@@ -374,12 +386,14 @@ async def ogc_wms(
         }
         for coll_id in PHASE1_COLLECTIONS:
             resource = config.get("resources", {}).get(coll_id, {})
-            capabilities["layers"].append({
-                "name": coll_id,
-                "title": resource.get("title", coll_id),
-                "srs": "EPSG:4326",
-                "bbox": CAPE_TOWN_BBOX,
-            })
+            capabilities["layers"].append(
+                {
+                    "name": coll_id,
+                    "title": resource.get("title", coll_id),
+                    "srs": "EPSG:4326",
+                    "bbox": CAPE_TOWN_BBOX,
+                }
+            )
         return capabilities
 
     return {

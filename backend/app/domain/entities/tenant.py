@@ -4,6 +4,7 @@ Tenant context — carries authenticated tenant identity through the request.
 Pattern: Entity (DDD) — identity by tenant_id.
 Used for multi-tenant isolation at every layer boundary.
 """
+
 from __future__ import annotations
 
 import uuid

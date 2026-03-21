@@ -15,7 +15,7 @@ References:
 from typing import Optional
 
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile, status
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 
 from app.core.auth import get_current_user
 from app.services.format_validators import (
@@ -48,6 +48,7 @@ router = APIRouter(prefix="/files", tags=["files"])
 
 class ArcGISRestRequest(BaseModel):
     """Request body for ArcGIS REST Feature Service import."""
+
     service_url: str = Field(
         ...,
         description="ArcGIS Feature Service URL (e.g. https://services.arcgis.com/.../FeatureServer/0)",
@@ -56,6 +57,7 @@ class ArcGISRestRequest(BaseModel):
 
 class UploadResponse(BaseModel):
     """Response for successful file upload."""
+
     layer_id: str
     format: str
     feature_count: Optional[int] = None
@@ -66,6 +68,7 @@ class UploadResponse(BaseModel):
 
 class ExportRequest(BaseModel):
     """Request body for layer export (optional metadata)."""
+
     metadata: Optional[dict] = Field(
         default=None,
         description="Optional metadata to include in exported file (source, vintage, tenant_slug)",
@@ -74,7 +77,14 @@ class ExportRequest(BaseModel):
 
 # Supported export formats
 EXPORT_FORMATS = {
-    "geojson", "shapefile", "gpkg", "kml", "csv", "cog", "dxf", "pmtiles",
+    "geojson",
+    "shapefile",
+    "gpkg",
+    "kml",
+    "csv",
+    "cog",
+    "dxf",
+    "pmtiles",
 }
 
 
@@ -126,7 +136,7 @@ async def upload_file(
     if file_size > UPLOAD_MAX_BYTES:
         raise HTTPException(
             status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-            detail=f"File size ({file_size / (1024*1024):.1f}MB) exceeds maximum of 500MB.",
+            detail=f"File size ({file_size / (1024 * 1024):.1f}MB) exceeds maximum of 500MB.",
         )
 
     if file_size == 0:

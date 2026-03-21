@@ -10,8 +10,6 @@ Endpoints:
   GET  /spatial/suburb/{name}/stats
 """
 
-from typing import Any, Optional
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -33,15 +31,20 @@ router = APIRouter(prefix="/spatial", tags=["spatial"])
 # Request / Response Models
 # ---------------------------------------------------------------------------
 
+
 class GeoJSONGeometry(BaseModel):
     """GeoJSON geometry object."""
+
     type: str = Field(..., description="Geometry type (Point, Polygon, etc.)")
     coordinates: list = Field(..., description="Coordinate array")
 
 
 class TradingBaySuitabilityRequest(BaseModel):
     """Request body for trading bay suitability analysis."""
-    polygon: GeoJSONGeometry = Field(..., description="Candidate bay polygon in EPSG:4326")
+
+    polygon: GeoJSONGeometry = Field(
+        ..., description="Candidate bay polygon in EPSG:4326"
+    )
 
 
 class SuitabilityCriteria(BaseModel):
@@ -66,7 +69,9 @@ class IntersectionRequest(BaseModel):
 
 
 class BufferRequest(BaseModel):
-    geometry: GeoJSONGeometry = Field(..., description="Centre point or polygon in EPSG:4326")
+    geometry: GeoJSONGeometry = Field(
+        ..., description="Centre point or polygon in EPSG:4326"
+    )
     radius_m: float = Field(..., gt=0, le=50000, description="Buffer radius in metres")
     layer: str = Field(..., description="Target layer name")
 
@@ -87,6 +92,7 @@ class ProximityScoreRequest(BaseModel):
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _extract_tenant_id(user: dict) -> str:
     """Extract tenant_id from JWT claims. Rejects if missing."""
     tenant_id = (
@@ -105,6 +111,7 @@ def _extract_tenant_id(user: dict) -> str:
 # ---------------------------------------------------------------------------
 # Endpoints
 # ---------------------------------------------------------------------------
+
 
 @router.post(
     "/trading-bay-suitability",
@@ -125,7 +132,9 @@ async def post_trading_bay_suitability(
         )
         return result
     except ValueError as exc:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)
+        ) from exc
 
 
 @router.post(
@@ -146,7 +155,9 @@ async def post_intersection(
             session=session,
         )
     except ValueError as exc:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)
+        ) from exc
 
 
 @router.post(
@@ -168,7 +179,9 @@ async def post_buffer(
             session=session,
         )
     except ValueError as exc:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)
+        ) from exc
 
 
 @router.post(
@@ -190,7 +203,9 @@ async def post_proximity_score(
             session=session,
         )
     except ValueError as exc:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)
+        ) from exc
 
 
 @router.get(

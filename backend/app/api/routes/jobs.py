@@ -9,7 +9,6 @@ DELETE /jobs/{job_id} → cancel queued job
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
@@ -21,6 +20,7 @@ router = APIRouter(prefix="/jobs", tags=["jobs"])
 
 class JobStatus(str, Enum):
     """Analysis job status."""
+
     QUEUED = "queued"
     RUNNING = "running"
     COMPLETE = "complete"
@@ -30,6 +30,7 @@ class JobStatus(str, Enum):
 
 class JobType(str, Enum):
     """Analysis job types."""
+
     FLOOD_RISK = "flood_risk"
     HEAT_ISLAND = "heat_island"
     LULC_CLASSIFY = "lulc_classify"
@@ -41,6 +42,7 @@ class JobType(str, Enum):
 
 class JobResponse(BaseModel):
     """Job status response."""
+
     job_id: str
     tenant_id: str
     task_type: str
@@ -55,6 +57,7 @@ class JobResponse(BaseModel):
 
 class JobListResponse(BaseModel):
     """Paginated job list response."""
+
     jobs: list[JobResponse]
     total: int
     page: int
@@ -64,12 +67,14 @@ class JobListResponse(BaseModel):
 
 class JobCreateRequest(BaseModel):
     """Request to create a new analysis job."""
+
     task_type: JobType
     input_params: dict = Field(default_factory=dict)
 
 
 class JobCreateResponse(BaseModel):
     """Response after creating a job."""
+
     job_id: str
     status: JobStatus
     poll_url: str
@@ -96,7 +101,9 @@ async def get_job_status(
 
     # Tenant isolation
     if job["tenant_id"] != user.get("tenant_id"):
-        raise HTTPException(status_code=403, detail="Access denied: job belongs to another tenant")
+        raise HTTPException(
+            status_code=403, detail="Access denied: job belongs to another tenant"
+        )
 
     return JobResponse(**job)
 
@@ -118,10 +125,7 @@ async def list_jobs(
     tenant_id = user.get("tenant_id")
 
     # Filter jobs for this tenant
-    tenant_jobs = [
-        j for j in _jobs.values()
-        if j["tenant_id"] == tenant_id
-    ]
+    tenant_jobs = [j for j in _jobs.values() if j["tenant_id"] == tenant_id]
 
     # Apply filters
     if status:
@@ -211,7 +215,9 @@ async def cancel_job(
 
     # Tenant isolation
     if job["tenant_id"] != user.get("tenant_id"):
-        raise HTTPException(status_code=403, detail="Access denied: job belongs to another tenant")
+        raise HTTPException(
+            status_code=403, detail="Access denied: job belongs to another tenant"
+        )
 
     if job["status"] not in (JobStatus.QUEUED.value, JobStatus.RUNNING.value):
         raise HTTPException(

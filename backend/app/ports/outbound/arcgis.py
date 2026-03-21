@@ -5,6 +5,7 @@ Pattern: Port (Hexagonal) — decouples domain from external ArcGIS API.
 Three-tier fallback: LIVE → CACHED → MOCK (CLAUDE.md Rule 2).
 Ref: https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer/
 """
+
 from __future__ import annotations
 
 import enum

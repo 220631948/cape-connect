@@ -14,7 +14,6 @@ from typing import Any
 
 import numpy as np
 
-from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -32,16 +31,17 @@ LANDSAT_K2 = 1321.0789  # K2 constant for Band 10 (Landsat 8)
 
 # Heat island classification thresholds (Celsius above mean)
 HEAT_THRESHOLDS = {
-    "extreme": 5.0,   # 5°C+ above mean
-    "strong": 3.0,    # 3-5°C above mean
+    "extreme": 5.0,  # 5°C+ above mean
+    "strong": 3.0,  # 3-5°C above mean
     "moderate": 1.5,  # 1.5-3°C above mean
-    "weak": 0.0,      # 0-1.5°C above mean
-    "cool": -1.5,     # below mean
+    "weak": 0.0,  # 0-1.5°C above mean
+    "cool": -1.5,  # below mean
 }
 
 
 class HeatIslandClass(str, Enum):
     """Urban heat island intensity classes."""
+
     COOL_ISLAND = "Cool Island"
     WEAK = "Weak"
     MODERATE = "Moderate"

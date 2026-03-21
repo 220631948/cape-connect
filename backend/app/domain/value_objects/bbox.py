@@ -4,6 +4,7 @@ Bounding box value object — immutable geographic extent.
 All coordinates in EPSG:4326 (WGS 84).
 Cape Town metro bbox is the canonical constraint for all spatial queries.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

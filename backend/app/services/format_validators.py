@@ -33,6 +33,7 @@ SHAPEFILE_REQUIRED_EXTENSIONS = {".shp", ".dbf", ".prj", ".shx"}
 
 class GISFormat(str, enum.Enum):
     """Supported GIS file formats for import."""
+
     GEOJSON = "geojson"
     SHAPEFILE = "shapefile"
     GEOPACKAGE = "geopackage"
@@ -183,7 +184,10 @@ def validate_crs(crs_wkt: Optional[str]) -> Optional[str]:
 
 
 def validate_within_cape_town_bbox(
-    min_lon: float, min_lat: float, max_lon: float, max_lat: float,
+    min_lon: float,
+    min_lat: float,
+    max_lon: float,
+    max_lat: float,
 ) -> bool:
     """
     Check if a geometry's bounding box falls within the Cape Town area.
@@ -232,7 +236,7 @@ def prompt_dxf_crs() -> str:
 # --- Size thresholds for storage routing ---
 SUPABASE_MAX_BYTES = 50 * 1024 * 1024  # 50 MB
 R2_THRESHOLD_BYTES = 50 * 1024 * 1024  # Files above this go to R2
-UPLOAD_MAX_BYTES = 500 * 1024 * 1024   # 500 MB hard limit
+UPLOAD_MAX_BYTES = 500 * 1024 * 1024  # 500 MB hard limit
 
 
 def get_storage_destination(file_size: int, gis_format: GISFormat) -> str:

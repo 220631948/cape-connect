@@ -9,6 +9,7 @@ Locked decisions:
   - Shapefile: accept .zip only with .shp/.dbf/.prj/.shx (GOTCHA-PY-003)
   - All GeoPandas ops: asyncio.run_in_executor (GOTCHA-PY-005)
 """
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod

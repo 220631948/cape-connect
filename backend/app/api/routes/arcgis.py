@@ -17,7 +17,6 @@ from app.services.arcgis_client import (
     CAPE_TOWN_BBOX,
     COCT_SERVICE_URL,
     WC_SERVICE_URL,
-    DataSource,
     _validate_bbox,
     clear_cache,
     enumerate_services,
@@ -29,6 +28,7 @@ router = APIRouter(prefix="/arcgis", tags=["arcgis"])
 
 
 # --- Response models ---
+
 
 class LayerInfo(BaseModel):
     name: str
@@ -83,6 +83,7 @@ class ServiceDirectoryResponse(BaseModel):
 
 
 # --- Endpoints ---
+
 
 @router.get("/layers", response_model=LayersResponse)
 async def list_layers(

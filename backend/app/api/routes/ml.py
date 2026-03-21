@@ -11,7 +11,6 @@ POST /ml/lulc-classify       — trigger LULC classification (Celery raster queu
 """
 
 import uuid
-from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
@@ -23,8 +22,10 @@ router = APIRouter(prefix="/ml", tags=["ml"])
 
 # --- Request/Response Models ---
 
+
 class BBoxRequest(BaseModel):
     """Bounding box request for raster analysis tasks."""
+
     min_lng: float = Field(..., ge=18.28, le=19.02)
     min_lat: float = Field(..., ge=-34.36, le=-33.48)
     max_lng: float = Field(..., ge=18.28, le=19.02)
@@ -34,6 +35,7 @@ class BBoxRequest(BaseModel):
 
 class ParcelRequest(BaseModel):
     """Single parcel for anomaly prediction."""
+
     id: str = ""
     assessed_value_rands: float = Field(..., ge=0, le=10_000_000_000)
     area_sqm: float = Field(..., ge=0, le=10_000_000)
@@ -45,16 +47,19 @@ class ParcelRequest(BaseModel):
 
 class BatchParcelRequest(BaseModel):
     """Batch parcel prediction request."""
+
     parcels: list[ParcelRequest] = Field(..., min_length=1, max_length=1000)
 
 
 class NLQueryRequest(BaseModel):
     """Natural language spatial query request."""
+
     query: str = Field(..., min_length=5, max_length=500)
 
 
 class JobQueued(BaseModel):
     """Response for queued Celery jobs."""
+
     job_id: str
     status: str = "queued"
     poll_url: str
@@ -63,6 +68,7 @@ class JobQueued(BaseModel):
 
 class AnomalyPrediction(BaseModel):
     """Anomaly prediction response."""
+
     parcel_id: str
     anomaly_score: float
     verdict: str
@@ -72,6 +78,7 @@ class AnomalyPrediction(BaseModel):
 
 class NLQueryResponse(BaseModel):
     """NL query response."""
+
     status: str
     query_interpretation: dict | None = None
     remaining_queries: int | None = None
@@ -80,6 +87,7 @@ class NLQueryResponse(BaseModel):
 
 
 # --- Anomaly Detection Endpoints ---
+
 
 @router.post("/anomaly/predict", response_model=AnomalyPrediction)
 async def predict_anomaly(
@@ -100,7 +108,9 @@ async def predict_anomaly(
     result = await predict_single(parcel_data, tenant_id)
 
     if result.get("status") == "error":
-        raise HTTPException(status_code=422, detail=result.get("error", "Prediction failed"))
+        raise HTTPException(
+            status_code=422, detail=result.get("error", "Prediction failed")
+        )
 
     return AnomalyPrediction(**result)
 
@@ -154,6 +164,7 @@ async def train_anomaly_model(
 
 # --- NL Spatial Query Endpoint ---
 
+
 @router.post("/nl-query", response_model=NLQueryResponse)
 async def nl_spatial_query(
     request: NLQueryRequest,
@@ -173,12 +184,15 @@ async def nl_spatial_query(
 
     if result.get("status") in ("error", "validation_error", "rate_limited"):
         status_code = 429 if result["status"] == "rate_limited" else 422
-        raise HTTPException(status_code=status_code, detail=result.get("error", "Query failed"))
+        raise HTTPException(
+            status_code=status_code, detail=result.get("error", "Query failed")
+        )
 
     return NLQueryResponse(**result)
 
 
 # --- Raster Analysis Endpoints (Celery queued) ---
+
 
 @router.post("/flood-risk", response_model=JobQueued)
 async def trigger_flood_risk(

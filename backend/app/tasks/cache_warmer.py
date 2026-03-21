@@ -61,28 +61,37 @@ def warm_all_layers():
                         zoom=zoom,
                     )
                     feature_count = len(geojson.get("features", []))
-                    results.append({
-                        "layer": layer_key,
-                        "zoom": zoom,
-                        "source": source.value,
-                        "features": feature_count,
-                        "status": "ok",
-                    })
+                    results.append(
+                        {
+                            "layer": layer_key,
+                            "zoom": zoom,
+                            "source": source.value,
+                            "features": feature_count,
+                            "status": "ok",
+                        }
+                    )
                     logger.info(
                         "Cache warmed: layer=%s zoom=%d source=%s features=%d",
-                        layer_key, zoom, source.value, feature_count,
+                        layer_key,
+                        zoom,
+                        source.value,
+                        feature_count,
                     )
                 except Exception as exc:
-                    results.append({
-                        "layer": layer_key,
-                        "zoom": zoom,
-                        "source": "ERROR",
-                        "features": 0,
-                        "status": f"error: {exc}",
-                    })
+                    results.append(
+                        {
+                            "layer": layer_key,
+                            "zoom": zoom,
+                            "source": "ERROR",
+                            "features": 0,
+                            "status": f"error: {exc}",
+                        }
+                    )
                     logger.error(
                         "Cache warm failed: layer=%s zoom=%d error=%s",
-                        layer_key, zoom, exc,
+                        layer_key,
+                        zoom,
+                        exc,
                     )
 
         return {
@@ -119,10 +128,12 @@ def warm_specific_layers(layer_keys: list[str], zoom_levels: list[int] = None):
         results = []
         for layer_key in layer_keys:
             if layer_key not in available:
-                results.append({
-                    "layer": layer_key,
-                    "status": "skipped — unknown layer",
-                })
+                results.append(
+                    {
+                        "layer": layer_key,
+                        "status": "skipped — unknown layer",
+                    }
+                )
                 continue
 
             for zoom in zooms:
@@ -132,19 +143,23 @@ def warm_specific_layers(layer_keys: list[str], zoom_levels: list[int] = None):
                         bbox=CAPE_TOWN_BBOX,
                         zoom=zoom,
                     )
-                    results.append({
-                        "layer": layer_key,
-                        "zoom": zoom,
-                        "source": source.value,
-                        "features": len(geojson.get("features", [])),
-                        "status": "ok",
-                    })
+                    results.append(
+                        {
+                            "layer": layer_key,
+                            "zoom": zoom,
+                            "source": source.value,
+                            "features": len(geojson.get("features", [])),
+                            "status": "ok",
+                        }
+                    )
                 except Exception as exc:
-                    results.append({
-                        "layer": layer_key,
-                        "zoom": zoom,
-                        "status": f"error: {exc}",
-                    })
+                    results.append(
+                        {
+                            "layer": layer_key,
+                            "zoom": zoom,
+                            "status": f"error: {exc}",
+                        }
+                    )
 
         return {
             "timestamp": datetime.utcnow().isoformat(),

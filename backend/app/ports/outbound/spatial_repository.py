@@ -5,11 +5,12 @@ Pattern: Repository (DDD) + Port (Hexagonal).
 All implementations MUST use geography cast for metre-based distances (GOTCHA-DB-003).
 All implementations MUST enforce tenant_id isolation.
 """
+
 from __future__ import annotations
 
 import uuid
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Optional
 
 from app.domain.value_objects.bbox import BoundingBox
 

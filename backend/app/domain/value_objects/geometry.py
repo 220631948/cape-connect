@@ -4,6 +4,7 @@ GeoJSON geometry value object — validated geospatial geometry.
 All geometries stored as EPSG:4326 (WGS 84).
 Pattern: Value Object (DDD) — immutable after validation.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -12,10 +13,17 @@ from typing import Any, Optional
 from app.domain.value_objects.bbox import BoundingBox
 
 # Valid GeoJSON geometry types per RFC 7946
-_VALID_TYPES = frozenset({
-    "Point", "MultiPoint", "LineString", "MultiLineString",
-    "Polygon", "MultiPolygon", "GeometryCollection",
-})
+_VALID_TYPES = frozenset(
+    {
+        "Point",
+        "MultiPoint",
+        "LineString",
+        "MultiLineString",
+        "Polygon",
+        "MultiPolygon",
+        "GeometryCollection",
+    }
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -72,4 +80,5 @@ class GeoJSONGeometry:
         No raw SQL — always use with parameterized queries.
         """
         import json
+
         return json.dumps(self.to_dict())

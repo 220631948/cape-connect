@@ -8,6 +8,7 @@ concrete implementations (Dependency Inversion Principle).
 Pattern: Ports & Adapters (Hexagonal Architecture).
 Ref: https://alistair.cockburn.us/hexagonal-architecture/
 """
+
 from app.ports.outbound.spatial_repository import SpatialRepositoryPort
 from app.ports.outbound.storage import StoragePort
 from app.ports.outbound.arcgis import ArcGISPort

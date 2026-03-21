@@ -4,6 +4,7 @@ Suitability score value object — encapsulates trading bay analysis result.
 Score range: 0–100. Verdict derived from score + blocking constraints.
 Pattern: Value Object (DDD) — immutable, equality by value.
 """
+
 from __future__ import annotations
 
 import enum

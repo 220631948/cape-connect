@@ -3,7 +3,6 @@ Async database engine — GeoAlchemy2 + asyncpg.
 See: https://geoalchemy-2.readthedocs.io/en/latest/asyncio_support.html
 """
 
-from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from app.core.config import settings
@@ -36,9 +35,7 @@ async def check_db_connection() -> bool:
     """Health-check helper — returns True if the database is reachable."""
     try:
         async with engine.connect() as conn:
-            await conn.execute(
-                __import__("sqlalchemy").text("SELECT 1")
-            )
+            await conn.execute(__import__("sqlalchemy").text("SELECT 1"))
         return True
     except Exception:
         return False

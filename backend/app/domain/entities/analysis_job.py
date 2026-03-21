@@ -3,6 +3,7 @@ Analysis job entity — tracks async spatial/ML analysis lifecycle.
 
 Pattern: Entity (DDD) — identity by job_id, mutable state.
 """
+
 from __future__ import annotations
 
 import enum

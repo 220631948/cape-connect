@@ -56,7 +56,11 @@ class Settings(BaseSettings):
     @property
     def cors_origins(self) -> list[str]:
         """Parse comma-separated ALLOWED_ORIGINS into a list."""
-        return [origin.strip() for origin in self.allowed_origins.split(",") if origin.strip()]
+        return [
+            origin.strip()
+            for origin in self.allowed_origins.split(",")
+            if origin.strip()
+        ]
 
     @property
     def supabase_jwks_url(self) -> str:

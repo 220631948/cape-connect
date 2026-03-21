@@ -130,7 +130,9 @@ async def generate_presigned_url(
             },
             ExpiresIn=expiry_seconds,
         )
-        logger.info("Generated presigned URL for %s (expires in %ds)", key, expiry_seconds)
+        logger.info(
+            "Generated presigned URL for %s (expires in %ds)", key, expiry_seconds
+        )
         return url
     except ClientError as exc:
         logger.error("R2 presigned URL failed for key=%s: %s", key, exc)

@@ -65,10 +65,7 @@ def _extract_all_coords(geojson: dict) -> list[tuple[float, float]]:
         return [(c[0], c[1]) for ring in coordinates for c in ring]
     elif geom_type == "MultiPolygon":
         return [
-            (c[0], c[1])
-            for polygon in coordinates
-            for ring in polygon
-            for c in ring
+            (c[0], c[1]) for polygon in coordinates for ring in polygon for c in ring
         ]
     elif geom_type == "GeometryCollection":
         out: list[tuple[float, float]] = []
@@ -81,12 +78,14 @@ def _extract_all_coords(geojson: dict) -> list[tuple[float, float]]:
 def _geojson_to_sql_geom(geojson: dict) -> str:
     """Return a SQL expression that constructs an EPSG:4326 geometry from GeoJSON."""
     import json
+
     return f"ST_SetSRID(ST_GeomFromGeoJSON('{json.dumps(geojson)}'), 4326)"
 
 
 # ---------------------------------------------------------------------------
 # Trading Bay Suitability
 # ---------------------------------------------------------------------------
+
 
 async def trading_bay_suitability(
     polygon_geojson: dict,
@@ -107,6 +106,7 @@ async def trading_bay_suitability(
     _validate_bbox(polygon_geojson)
 
     import json
+
     geojson_str = json.dumps(polygon_geojson)
 
     # --- 1. Watercourse distance (geography cast for metres — GOTCHA-DB-003) ---
@@ -234,7 +234,9 @@ async def trading_bay_suitability(
         slope_score = WEIGHT_SLOPE
     else:
         slope_score = max(0.0, (1.0 - slope_pct / 10.0)) * WEIGHT_SLOPE
-        blocking.append(f"Slope {slope_pct:.1f}% exceeds {SLOPE_THRESHOLD_PCT}% threshold")
+        blocking.append(
+            f"Slope {slope_pct:.1f}% exceeds {SLOPE_THRESHOLD_PCT}% threshold"
+        )
 
     # Heritage score
     if heritage_overlap:
@@ -253,7 +255,9 @@ async def trading_bay_suitability(
     else:
         bay_score = min(existing_bay_proximity_m / 500.0, 1.0) * WEIGHT_BAY_SPACING
 
-    total_score = round(wc_score + flood_score + slope_score + heritage_score + bay_score, 1)
+    total_score = round(
+        wc_score + flood_score + slope_score + heritage_score + bay_score, 1
+    )
     total_score = max(0, min(100, total_score))
 
     # Verdict
@@ -283,6 +287,7 @@ async def trading_bay_suitability(
 # Intersection Query
 # ---------------------------------------------------------------------------
 
+
 async def intersection_query(
     polygon_geojson: dict,
     layer_name: str,
@@ -293,12 +298,19 @@ async def intersection_query(
     _validate_bbox(polygon_geojson)
 
     import json
+
     geojson_str = json.dumps(polygon_geojson)
 
     # Parameterised layer name via allowlist to prevent SQL injection
     allowed_layers = {
-        "parcels", "suburbs", "watercourses", "flood_risk_zones",
-        "heritage_sites", "trading_bays", "slope_data", "zoning",
+        "parcels",
+        "suburbs",
+        "watercourses",
+        "flood_risk_zones",
+        "heritage_sites",
+        "trading_bays",
+        "slope_data",
+        "zoning",
     }
     if layer_name not in allowed_layers:
         raise ValueError(f"Layer '{layer_name}' is not in the allowed layer list.")
@@ -323,14 +335,18 @@ async def intersection_query(
 
     features = []
     for row in rows:
-        features.append({
-            "type": "Feature",
-            "geometry": row[0] if isinstance(row[0], dict) else __import__("json").loads(row[0]),
-            "properties": {
-                "id": str(row[1]),
-                **(row[2] if isinstance(row[2], dict) else {}),
-            },
-        })
+        features.append(
+            {
+                "type": "Feature",
+                "geometry": row[0]
+                if isinstance(row[0], dict)
+                else __import__("json").loads(row[0]),
+                "properties": {
+                    "id": str(row[1]),
+                    **(row[2] if isinstance(row[2], dict) else {}),
+                },
+            }
+        )
 
     return {
         "type": "FeatureCollection",
@@ -347,6 +363,7 @@ async def intersection_query(
 # Buffer Query
 # ---------------------------------------------------------------------------
 
+
 async def buffer_query(
     point_geojson: dict,
     radius_m: float,
@@ -361,11 +378,18 @@ async def buffer_query(
     _validate_bbox(point_geojson)
 
     import json
+
     geojson_str = json.dumps(point_geojson)
 
     allowed_layers = {
-        "parcels", "suburbs", "watercourses", "flood_risk_zones",
-        "heritage_sites", "trading_bays", "slope_data", "zoning",
+        "parcels",
+        "suburbs",
+        "watercourses",
+        "flood_risk_zones",
+        "heritage_sites",
+        "trading_bays",
+        "slope_data",
+        "zoning",
     }
     if layer_name not in allowed_layers:
         raise ValueError(f"Layer '{layer_name}' is not in the allowed layer list.")
@@ -399,15 +423,19 @@ async def buffer_query(
 
     features = []
     for row in rows:
-        features.append({
-            "type": "Feature",
-            "geometry": row[0] if isinstance(row[0], dict) else __import__("json").loads(row[0]),
-            "properties": {
-                "id": str(row[1]),
-                "distance_m": round(float(row[3]), 2),
-                **(row[2] if isinstance(row[2], dict) else {}),
-            },
-        })
+        features.append(
+            {
+                "type": "Feature",
+                "geometry": row[0]
+                if isinstance(row[0], dict)
+                else __import__("json").loads(row[0]),
+                "properties": {
+                    "id": str(row[1]),
+                    "distance_m": round(float(row[3]), 2),
+                    **(row[2] if isinstance(row[2], dict) else {}),
+                },
+            }
+        )
 
     return {
         "type": "FeatureCollection",
@@ -424,6 +452,7 @@ async def buffer_query(
 # ---------------------------------------------------------------------------
 # Proximity Score
 # ---------------------------------------------------------------------------
+
 
 async def proximity_score(
     polygon_geojson: dict,
@@ -443,12 +472,22 @@ async def proximity_score(
     _validate_bbox(polygon_geojson)
 
     import json
+
     geojson_str = json.dumps(polygon_geojson)
 
     allowed_layers = {
-        "parcels", "suburbs", "watercourses", "flood_risk_zones",
-        "heritage_sites", "trading_bays", "slope_data", "zoning",
-        "schools", "clinics", "transport_stops", "police_stations",
+        "parcels",
+        "suburbs",
+        "watercourses",
+        "flood_risk_zones",
+        "heritage_sites",
+        "trading_bays",
+        "slope_data",
+        "zoning",
+        "schools",
+        "clinics",
+        "transport_stops",
+        "police_stations",
     }
 
     layer_scores: list[dict[str, Any]] = []
@@ -493,12 +532,14 @@ async def proximity_score(
         else:
             score = 1.0 - (min_dist - ideal_m) / (max_m - ideal_m)
 
-        layer_scores.append({
-            "layer": layer,
-            "min_distance_m": round(min_dist, 2),
-            "score": round(score, 3),
-            "weight": weight,
-        })
+        layer_scores.append(
+            {
+                "layer": layer,
+                "min_distance_m": round(min_dist, 2),
+                "score": round(score, 3),
+                "weight": weight,
+            }
+        )
         weighted_total += score * weight
         weight_sum += weight
 
@@ -514,6 +555,7 @@ async def proximity_score(
 # ---------------------------------------------------------------------------
 # Suburb Stats
 # ---------------------------------------------------------------------------
+
 
 async def suburb_stats(
     suburb_name: str,

@@ -22,7 +22,6 @@ from typing import Any
 
 import numpy as np
 
-from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -38,15 +37,15 @@ FEATURE_NAMES = [
 
 # Zone type encoding (IZS codes → numeric)
 ZONE_TYPE_ENCODING = {
-    "SR-1": 1,   # Single Residential 1
-    "SR-2": 2,   # Single Residential 2
-    "GR-1": 3,   # General Residential 1
-    "GR-2": 4,   # General Residential 2
-    "GR-3": 5,   # General Residential 3
-    "GR-4": 6,   # General Residential 4
-    "GB-1": 7,   # General Business 1
-    "GB-2": 8,   # General Business 2
-    "GB-3": 9,   # General Business 3
+    "SR-1": 1,  # Single Residential 1
+    "SR-2": 2,  # Single Residential 2
+    "GR-1": 3,  # General Residential 1
+    "GR-2": 4,  # General Residential 2
+    "GR-3": 5,  # General Residential 3
+    "GR-4": 6,  # General Residential 4
+    "GB-1": 7,  # General Business 1
+    "GB-2": 8,  # General Business 2
+    "GB-3": 9,  # General Business 3
     "GI-1": 10,  # General Industrial 1
     "GI-2": 11,  # General Industrial 2
     "OS-1": 12,  # Open Space 1
@@ -54,10 +53,10 @@ ZONE_TYPE_ENCODING = {
     "OS-3": 14,  # Open Space 3
     "TR-1": 15,  # Transport 1
     "TR-2": 16,  # Transport 2
-    "AG": 17,    # Agricultural
-    "RU": 18,    # Rural
-    "CU": 19,    # Community Use
-    "MU": 20,    # Mixed Use
+    "AG": 17,  # Agricultural
+    "RU": 18,  # Rural
+    "CU": 19,  # Community Use
+    "MU": 20,  # Mixed Use
 }
 
 # CBD coordinates (Cape Town City Hall)
@@ -72,6 +71,7 @@ RANDOM_STATE = 42
 
 class AnomalyVerdict(str, Enum):
     """Anomaly classification verdicts."""
+
     NORMAL = "normal"
     SUSPICIOUS = "suspicious"
     ANOMALOUS = "anomalous"
@@ -121,14 +121,16 @@ def prepare_features(parcel: dict) -> np.ndarray:
     Returns:
         1D numpy array of feature values
     """
-    return np.array([
-        float(parcel.get("assessed_value_rands", 0)),
-        float(parcel.get("area_sqm", 0)),
-        float(encode_zone_type(parcel.get("zone_type", ""))),
-        float(parcel.get("suburb_median_value", 0)),
-        float(parcel.get("distance_to_cbd_m", 0)),
-        float(parcel.get("flood_risk_score", 0)),
-    ])
+    return np.array(
+        [
+            float(parcel.get("assessed_value_rands", 0)),
+            float(parcel.get("area_sqm", 0)),
+            float(encode_zone_type(parcel.get("zone_type", ""))),
+            float(parcel.get("suburb_median_value", 0)),
+            float(parcel.get("distance_to_cbd_m", 0)),
+            float(parcel.get("flood_risk_score", 0)),
+        ]
+    )
 
 
 def classify_anomaly_score(score: float) -> str:

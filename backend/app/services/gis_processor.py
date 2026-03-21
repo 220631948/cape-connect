@@ -51,7 +51,9 @@ LON_COLUMNS = {"lon", "lng", "longitude", "x", "lon_x", "point_x"}
 
 
 async def ingest_geojson(
-    file_bytes: bytes, tenant_id: str, filename: str,
+    file_bytes: bytes,
+    tenant_id: str,
+    filename: str,
 ) -> dict[str, Any]:
     """
     Import GeoJSON file → validate → reproject to EPSG:4326 → return feature summary.
@@ -64,6 +66,7 @@ async def ingest_geojson(
     Returns:
         Dict with feature_count, crs, bbox, layer_id.
     """
+
     def _process():
         import geopandas as gpd
 
@@ -92,7 +95,9 @@ async def ingest_geojson(
 
 
 async def ingest_shapefile(
-    zip_bytes: bytes, tenant_id: str, filename: str,
+    zip_bytes: bytes,
+    tenant_id: str,
+    filename: str,
 ) -> dict[str, Any]:
     """
     Import Shapefile (.zip) → validate components → reproject → return summary.
@@ -154,7 +159,9 @@ async def ingest_shapefile(
 
 
 async def ingest_gpkg(
-    file_bytes: bytes, tenant_id: str, filename: str,
+    file_bytes: bytes,
+    tenant_id: str,
+    filename: str,
 ) -> dict[str, Any]:
     """Import GeoPackage → validate → reproject → return summary."""
 
@@ -178,11 +185,13 @@ async def ingest_gpkg(
                     gdf = gdf.set_crs(TARGET_CRS)
 
                 bounds = gdf.total_bounds
-                results.append({
-                    "layer_name": layer_name,
-                    "feature_count": len(gdf),
-                    "columns": list(gdf.columns),
-                })
+                results.append(
+                    {
+                        "layer_name": layer_name,
+                        "feature_count": len(gdf),
+                        "columns": list(gdf.columns),
+                    }
+                )
 
             return {
                 "layer_id": str(uuid.uuid4()),
@@ -201,7 +210,9 @@ async def ingest_gpkg(
 
 
 async def ingest_kml(
-    file_bytes: bytes, tenant_id: str, filename: str,
+    file_bytes: bytes,
+    tenant_id: str,
+    filename: str,
 ) -> dict[str, Any]:
     """Import KML/KMZ → validate → return summary (KML is always WGS84)."""
 
@@ -243,7 +254,9 @@ async def ingest_kml(
 
 
 async def ingest_csv_latlon(
-    file_bytes: bytes, tenant_id: str, filename: str,
+    file_bytes: bytes,
+    tenant_id: str,
+    filename: str,
 ) -> dict[str, Any]:
     """
     Import CSV with lat/lon columns → create GeoDataFrame → return summary.
@@ -300,7 +313,9 @@ async def ingest_csv_latlon(
 
 
 async def ingest_geotiff(
-    file_bytes: bytes, tenant_id: str, filename: str,
+    file_bytes: bytes,
+    tenant_id: str,
+    filename: str,
 ) -> dict[str, Any]:
     """
     Import GeoTIFF → validate → reproject to EPSG:4326 → store in R2 as COG.
@@ -351,7 +366,9 @@ async def ingest_geotiff(
 
 
 async def ingest_dxf(
-    file_bytes: bytes, tenant_id: str, filename: str,
+    file_bytes: bytes,
+    tenant_id: str,
+    filename: str,
     user_crs: Optional[str] = None,
 ) -> dict[str, Any]:
     """
@@ -409,7 +426,9 @@ async def ingest_dxf(
 
 
 async def ingest_gdb(
-    file_bytes: bytes, tenant_id: str, filename: str,
+    file_bytes: bytes,
+    tenant_id: str,
+    filename: str,
 ) -> dict[str, Any]:
     """
     Import FileGDB → validate → reproject → return summary.
@@ -451,15 +470,19 @@ async def ingest_gdb(
                     gdf = gpd.read_file(gdb_path, layer=layer_name)
                     if gdf.crs and str(gdf.crs) != TARGET_CRS:
                         gdf = gdf.to_crs(TARGET_CRS)
-                    layer_info.append({
-                        "layer_name": layer_name,
-                        "feature_count": len(gdf),
-                    })
+                    layer_info.append(
+                        {
+                            "layer_name": layer_name,
+                            "feature_count": len(gdf),
+                        }
+                    )
                 except Exception as exc:
-                    layer_info.append({
-                        "layer_name": layer_name,
-                        "error": str(exc),
-                    })
+                    layer_info.append(
+                        {
+                            "layer_name": layer_name,
+                            "error": str(exc),
+                        }
+                    )
 
             return {
                 "layer_id": str(uuid.uuid4()),
@@ -477,7 +500,9 @@ async def ingest_gdb(
 
 
 async def ingest_las_laz(
-    file_bytes: bytes, tenant_id: str, filename: str,
+    file_bytes: bytes,
+    tenant_id: str,
+    filename: str,
 ) -> dict[str, Any]:
     """
     Import LAS/LAZ → read header → extract metadata → store in R2.
@@ -518,7 +543,9 @@ async def ingest_las_laz(
 
             return {
                 "layer_id": str(uuid.uuid4()),
-                "format": GISFormat.LAS.value if filename.lower().endswith(".las") else GISFormat.LAZ.value,
+                "format": GISFormat.LAS.value
+                if filename.lower().endswith(".las")
+                else GISFormat.LAZ.value,
                 "point_count": point_count,
                 "crs": crs_wkt,
                 "bounds": bounds,
@@ -534,7 +561,8 @@ async def ingest_las_laz(
 
 
 async def ingest_arcgis_rest(
-    service_url: str, tenant_id: str,
+    service_url: str,
+    tenant_id: str,
 ) -> dict[str, Any]:
     """
     Pull features from an ArcGIS Feature Service URL → convert esriJSON → GeoJSON.
@@ -568,7 +596,9 @@ async def ingest_arcgis_rest(
         esri_data = response.json()
 
     if "error" in esri_data:
-        raise ValueError(f"ArcGIS REST error: {esri_data['error'].get('message', 'Unknown')}")
+        raise ValueError(
+            f"ArcGIS REST error: {esri_data['error'].get('message', 'Unknown')}"
+        )
 
     features = esri_data.get("features", [])
     geojson_features = []
@@ -593,7 +623,8 @@ async def ingest_arcgis_rest(
 
 
 async def export_geojson(
-    features: list[dict], metadata: Optional[dict] = None,
+    features: list[dict],
+    metadata: Optional[dict] = None,
 ) -> bytes:
     """Export features as GeoJSON FeatureCollection with metadata properties."""
     fc = {
@@ -610,7 +641,8 @@ async def export_geojson(
 
 
 async def export_shapefile_zip(
-    features: list[dict], layer_name: str = "export",
+    features: list[dict],
+    layer_name: str = "export",
     metadata: Optional[dict] = None,
 ) -> bytes:
     """Export features as a Shapefile ZIP bundle (.shp+.dbf+.prj+.shx+.cpg)."""
@@ -639,7 +671,8 @@ async def export_shapefile_zip(
 
 
 async def export_gpkg(
-    features: list[dict], layer_name: str = "export",
+    features: list[dict],
+    layer_name: str = "export",
     metadata: Optional[dict] = None,
 ) -> bytes:
     """Export features as GeoPackage."""
@@ -663,7 +696,8 @@ async def export_gpkg(
 
 
 async def export_kml(
-    features: list[dict], layer_name: str = "export",
+    features: list[dict],
+    layer_name: str = "export",
 ) -> bytes:
     """Export features as KML (always WGS84)."""
 
@@ -686,7 +720,8 @@ async def export_kml(
 
 
 async def export_csv(
-    features: list[dict], metadata: Optional[dict] = None,
+    features: list[dict],
+    metadata: Optional[dict] = None,
 ) -> bytes:
     """Export features as CSV with EPSG:4326 lat/lon columns."""
 
@@ -704,7 +739,9 @@ async def export_csv(
         buf = io.StringIO()
         # Add metadata header row
         if metadata:
-            buf.write(f"# source: CapeTown GIS Hub | CRS: EPSG:4326 | {json.dumps(metadata)}\n")
+            buf.write(
+                f"# source: CapeTown GIS Hub | CRS: EPSG:4326 | {json.dumps(metadata)}\n"
+            )
         df.to_csv(buf, index=False)
         return buf.getvalue().encode("utf-8")
 
@@ -712,7 +749,8 @@ async def export_csv(
 
 
 async def export_cog(
-    raster_bytes: bytes, metadata: Optional[dict] = None,
+    raster_bytes: bytes,
+    metadata: Optional[dict] = None,
 ) -> bytes:
     """
     Convert raster to Cloud Optimized GeoTIFF (COG) via rio-cogeo.
@@ -745,7 +783,8 @@ async def export_cog(
 
 
 async def export_dxf(
-    features: list[dict], target_crs: str = "EPSG:32734",
+    features: list[dict],
+    target_crs: str = "EPSG:32734",
 ) -> bytes:
     """
     Export features as DXF in engineering CRS (default: Lo19 EPSG:32734).
@@ -756,7 +795,6 @@ async def export_dxf(
     def _process():
         import ezdxf
         import geopandas as gpd
-        from shapely.geometry import mapping
 
         gdf = gpd.GeoDataFrame.from_features(features, crs=TARGET_CRS)
         if target_crs != TARGET_CRS:
@@ -795,7 +833,8 @@ async def export_dxf(
 
 
 async def export_pmtiles(
-    features: list[dict], layer_name: str = "export",
+    features: list[dict],
+    layer_name: str = "export",
 ) -> bytes:
     """
     Export features as PMTiles for offline vector tile distribution.

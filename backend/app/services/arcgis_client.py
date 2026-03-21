@@ -39,7 +39,9 @@ WC_SERVICE_URL = "https://gis.westerncape.gov.za/server2/rest/services"
 
 # --- Cache key format (locked decision) ---
 # {source}_{minLng:.4f}_{minLat:.4f}_{maxLng:.4f}_{maxLat:.4f}_{zoom}_{layer}
-CACHE_KEY_FORMAT = "{source}_{min_lng:.4f}_{min_lat:.4f}_{max_lng:.4f}_{max_lat:.4f}_{zoom}_{layer}"
+CACHE_KEY_FORMAT = (
+    "{source}_{min_lng:.4f}_{min_lat:.4f}_{max_lng:.4f}_{max_lat:.4f}_{zoom}_{layer}"
+)
 
 # --- In-memory cache for service directory enumeration ---
 _service_cache: dict[str, Any] = {}
@@ -53,6 +55,7 @@ API_CACHE_TTL = 86400  # 24 hours
 
 class DataSource(str, enum.Enum):
     """Three-tier data source indicator."""
+
     LIVE = "LIVE"
     CACHED = "CACHED"
     MOCK = "MOCK"
@@ -110,6 +113,7 @@ def _esrijson_to_geojson(esri_features: list[dict]) -> dict:
     """
     try:
         from arcgis2geojson import arcgis2geojson
+
         features = []
         for esri_feature in esri_features:
             geojson_feature = arcgis2geojson(esri_feature)
@@ -168,11 +172,13 @@ def _manual_esri_to_geojson(esri_features: list[dict]) -> dict:
                     "coordinates": paths,
                 }
 
-        features.append({
-            "type": "Feature",
-            "geometry": geojson_geom,
-            "properties": attributes,
-        })
+        features.append(
+            {
+                "type": "Feature",
+                "geometry": geojson_geom,
+                "properties": attributes,
+            }
+        )
 
     return {
         "type": "FeatureCollection",
@@ -190,7 +196,15 @@ MOCK_LAYERS: dict[str, dict] = {
                 "type": "Feature",
                 "geometry": {
                     "type": "Polygon",
-                    "coordinates": [[[18.42, -33.92], [18.43, -33.92], [18.43, -33.93], [18.42, -33.93], [18.42, -33.92]]],
+                    "coordinates": [
+                        [
+                            [18.42, -33.92],
+                            [18.43, -33.92],
+                            [18.43, -33.93],
+                            [18.42, -33.93],
+                            [18.42, -33.92],
+                        ]
+                    ],
                 },
                 "properties": {
                     "zone_code": "GR3",
@@ -209,7 +223,15 @@ MOCK_LAYERS: dict[str, dict] = {
                 "type": "Feature",
                 "geometry": {
                     "type": "Polygon",
-                    "coordinates": [[[18.38, -33.90], [18.40, -33.90], [18.40, -33.92], [18.38, -33.92], [18.38, -33.90]]],
+                    "coordinates": [
+                        [
+                            [18.38, -33.90],
+                            [18.40, -33.90],
+                            [18.40, -33.92],
+                            [18.38, -33.92],
+                            [18.38, -33.90],
+                        ]
+                    ],
                 },
                 "properties": {
                     "name": "Sea Point",
@@ -227,7 +249,15 @@ MOCK_LAYERS: dict[str, dict] = {
                 "type": "Feature",
                 "geometry": {
                     "type": "Polygon",
-                    "coordinates": [[[18.42, -33.92], [18.421, -33.92], [18.421, -33.921], [18.42, -33.921], [18.42, -33.92]]],
+                    "coordinates": [
+                        [
+                            [18.42, -33.92],
+                            [18.421, -33.92],
+                            [18.421, -33.921],
+                            [18.42, -33.921],
+                            [18.42, -33.92],
+                        ]
+                    ],
                 },
                 "properties": {
                     "erf_number": "12345",
@@ -365,13 +395,15 @@ async def query_layer(
     """
     clipped_bbox = _clip_bbox(bbox)
 
-    geometry_param = json.dumps({
-        "xmin": clipped_bbox["xmin"],
-        "ymin": clipped_bbox["ymin"],
-        "xmax": clipped_bbox["xmax"],
-        "ymax": clipped_bbox["ymax"],
-        "spatialReference": {"wkid": 4326},
-    })
+    geometry_param = json.dumps(
+        {
+            "xmin": clipped_bbox["xmin"],
+            "ymin": clipped_bbox["ymin"],
+            "xmax": clipped_bbox["xmax"],
+            "ymax": clipped_bbox["ymax"],
+            "spatialReference": {"wkid": 4326},
+        }
+    )
 
     params = {
         "where": where_clause,
@@ -446,7 +478,9 @@ async def query_with_fallback(
                 )
                 return geojson, DataSource.LIVE
         except Exception as exc:
-            logger.warning("LIVE query failed for %s: %s — falling back", layer_key, exc)
+            logger.warning(
+                "LIVE query failed for %s: %s — falling back", layer_key, exc
+            )
 
     # --- Tier 2: CACHED ---
     cached = _api_cache.get(cache_key)

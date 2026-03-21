@@ -3,6 +3,7 @@ GIS layer entity — represents an ingested geospatial dataset.
 
 Pattern: Entity (DDD) — identity by layer_id, format tracked via enum.
 """
+
 from __future__ import annotations
 
 import enum
@@ -32,7 +33,9 @@ class LayerFormat(str, enum.Enum):
 
 
 # Formats requiring special handling — O(1) lookup via frozenset
-RASTER_FORMATS = frozenset({LayerFormat.GEOTIFF, LayerFormat.COG, LayerFormat.LAS, LayerFormat.LAZ})
+RASTER_FORMATS = frozenset(
+    {LayerFormat.GEOTIFF, LayerFormat.COG, LayerFormat.LAS, LayerFormat.LAZ}
+)
 CRS_PROMPT_REQUIRED = frozenset({LayerFormat.DXF})
 BUNDLE_FORMATS = frozenset({LayerFormat.SHAPEFILE})
 

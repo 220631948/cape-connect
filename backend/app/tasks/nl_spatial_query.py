@@ -16,7 +16,6 @@ Cost: ~1,000-2,000 tokens per query ≈ $0.003-0.006 per query
 import json
 import logging
 import re
-import time
 from typing import Any
 
 from app.core.config import settings
@@ -53,7 +52,18 @@ ALLOWED_SPATIAL_OPS = {
 }
 
 # Allowed filter operators
-ALLOWED_FILTER_OPS = {"=", "!=", "<", ">", "<=", ">=", "LIKE", "IN", "IS NULL", "IS NOT NULL"}
+ALLOWED_FILTER_OPS = {
+    "=",
+    "!=",
+    "<",
+    ">",
+    "<=",
+    ">=",
+    "LIKE",
+    "IN",
+    "IS NULL",
+    "IS NOT NULL",
+}
 
 # Cape Town bbox for validation
 CAPE_TOWN_BBOX = {
@@ -176,9 +186,23 @@ def _is_safe_value(value: Any) -> bool:
     val_str = str(value)
     # Reject SQL injection patterns
     dangerous_patterns = [
-        ";", "--", "/*", "*/", "xp_", "exec(", "execute(",
-        "drop ", "delete ", "insert ", "update ", "alter ",
-        "union ", "select ", "' or ", "' and ", "1=1",
+        ";",
+        "--",
+        "/*",
+        "*/",
+        "xp_",
+        "exec(",
+        "execute(",
+        "drop ",
+        "delete ",
+        "insert ",
+        "update ",
+        "alter ",
+        "union ",
+        "select ",
+        "' or ",
+        "' and ",
+        "1=1",
     ]
     val_lower = val_str.lower()
     for pattern in dangerous_patterns:
@@ -232,12 +256,14 @@ def build_parameterised_query(
         "ST_Intersects(t.geom, ST_MakeEnvelope(:bbox_min_lng, :bbox_min_lat, "
         ":bbox_max_lng, :bbox_max_lat, 4326))"
     )
-    params.update({
-        "bbox_min_lng": CAPE_TOWN_BBOX["min_lng"],
-        "bbox_min_lat": CAPE_TOWN_BBOX["min_lat"],
-        "bbox_max_lng": CAPE_TOWN_BBOX["max_lng"],
-        "bbox_max_lat": CAPE_TOWN_BBOX["max_lat"],
-    })
+    params.update(
+        {
+            "bbox_min_lng": CAPE_TOWN_BBOX["min_lng"],
+            "bbox_min_lat": CAPE_TOWN_BBOX["min_lat"],
+            "bbox_max_lng": CAPE_TOWN_BBOX["max_lng"],
+            "bbox_max_lat": CAPE_TOWN_BBOX["max_lat"],
+        }
+    )
 
     where_sql = " AND ".join(where_clauses)
 

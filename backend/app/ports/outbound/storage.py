@@ -4,6 +4,7 @@ Storage port — abstract interface for object storage (R2, Supabase Storage).
 Pattern: Port (Hexagonal) + Strategy (GoF) — storage destination selected at runtime.
 Ref: Cloudflare R2 S3 API — https://developers.cloudflare.com/r2/api/s3/api/
 """
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod

@@ -10,10 +10,7 @@ Algorithm:
   6. Output: COG GeoTIFF → R2 + analysis_jobs row updated
 """
 
-import asyncio
 import logging
-import uuid
-from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
@@ -47,6 +44,7 @@ WEIGHT_SOIL_PERM = 0.25
 
 class FloodRiskLevel(str, Enum):
     """Flood risk classification levels."""
+
     LOW = "Low"
     MEDIUM = "Medium"
     HIGH = "High"
@@ -183,7 +181,11 @@ def compute_flood_susceptibility(
     Returns:
         2D numpy array of susceptibility scores 0-1
     """
-    return (twi * WEIGHT_TWI) + (rainfall * WEIGHT_RAINFALL) + (soil_perm * WEIGHT_SOIL_PERM)
+    return (
+        (twi * WEIGHT_TWI)
+        + (rainfall * WEIGHT_RAINFALL)
+        + (soil_perm * WEIGHT_SOIL_PERM)
+    )
 
 
 def classify_raster(susceptibility: np.ndarray) -> np.ndarray:
@@ -233,12 +235,17 @@ async def fetch_copernicus_dem(bbox: dict) -> np.ndarray:
     logger.info(
         "Fetched Copernicus DEM: %d bytes for bbox [%.2f,%.2f,%.2f,%.2f]",
         len(response.content),
-        bbox["min_lng"], bbox["min_lat"], bbox["max_lng"], bbox["max_lat"],
+        bbox["min_lng"],
+        bbox["min_lat"],
+        bbox["max_lng"],
+        bbox["max_lat"],
     )
     return response.content
 
 
-async def fetch_chirps_rainfall(bbox: dict, return_period_years: int = 10) -> np.ndarray:
+async def fetch_chirps_rainfall(
+    bbox: dict, return_period_years: int = 10
+) -> np.ndarray:
     """
     Fetch CHIRPS rainfall data via GEE Python API.
     Uses 10-year return period calculation.
@@ -255,7 +262,10 @@ async def fetch_chirps_rainfall(bbox: dict, return_period_years: int = 10) -> np
     logger.info(
         "CHIRPS rainfall fetch for %d-year return period, bbox [%.2f,%.2f,%.2f,%.2f]",
         return_period_years,
-        bbox["min_lng"], bbox["min_lat"], bbox["max_lng"], bbox["max_lat"],
+        bbox["min_lng"],
+        bbox["min_lat"],
+        bbox["max_lng"],
+        bbox["max_lat"],
     )
     return None  # Placeholder — GEE auth required
 
