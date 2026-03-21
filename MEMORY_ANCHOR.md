@@ -9,12 +9,12 @@
 
 ## Current Session State
 
-| Field                | Value                             |
-|----------------------|-----------------------------------|
-| **Last Updated**     | 2026-03-21                        |
-| **Active Milestone** | MP3 — ArcGIS Proxy + Cache Warmer |
-| **Active Agent**     | DATA-AGENT                        |
-| **Phase**            | ARCGIS_PROXY → CACHE_WARMER       |
+| Field                | Value                                 |
+|----------------------|---------------------------------------|
+| **Last Updated**     | 2026-03-21                            |
+| **Active Milestone** | MP4 — WFS/WMS OGC Services (COMPLETE) |
+| **Active Agent**     | OGC-SERVICES-AGENT                    |
+| **Phase**            | OGC_SERVICES → COMPLETE               |
 
 ---
 
@@ -152,6 +152,22 @@
 - [x] Three-tier fallback verified: LIVE → CACHED → MOCK
 - [x] ArcGIS router registered in main.py
 
+### MP4 — WFS/WMS OGC Services (COMPLETE ✓)
+
+**Agent:** OGC-SERVICES-AGENT
+**Deliverables:**
+
+- [x] `pygeoapi.config.yml`: Phase 1 collections (zoning, parcels, suburbs, flood_risk) with PostGIS providers
+- [x] `api/routes/ogc.py`: OGC landing page, conformance, collections, items, WFS/WMS GetCapabilities
+- [x] API key auth for tenant collections via query param (OGC clients cannot send headers)
+- [x] OSM ODbL + CARTO attribution on every capabilities response
+- [x] Cape Town bbox [18.28, -34.36, 19.02, -33.48] on all collections
+- [x] `docs/QGIS_CONNECTION_GUIDE.md`: WFS URL format for QGIS and ArcGIS Pro
+- [x] `tests/test_ogc.py`: 54 tests — all passing
+- [x] PyYAML added to requirements.txt for config loading
+- [x] OGC router registered in main.py
+- [x] Public collections unauthenticated; tenant collections require api_key
+
 ---
 
 ## Session Handoff Protocol
@@ -163,7 +179,7 @@
 3. Ensure all verification checks pass
 4. Document any deviations in `docs/PLAN_DEVIATIONS.md`
 
-**Next Agent:** DATA-AGENT → MP3 complete. Next: OGC-SERVICES-AGENT → MP4 (WFS/WMS via pygeoapi)
+**Next Agent:** OGC-SERVICES-AGENT → MP4 complete. Next: prompt-6 agent
 **Next Document:** `docs/SESSION_LOG.md` entry required
 
 ---
