@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<agent_prompts project="capegis-python-backend" model="claude-opus-4-6" version="1.0" date="2026-03-21">
+
+  <!--
+    TOKEN BUDGET GUIDE
+    Each prompt is self-contained and designed to minimise re-reading.
+    Read MEMORY_ANCHOR.md (~200 lines) instead of full design docs.
+    Estimated tokens per prompt: 800–1,200 input + task output.
+    Run prompts sequentially. Do not skip. Each gate must pass before next activates.
+  -->
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <prompt id="1" milestone="MP0" label="Python Backend Bootstrap" agent="PYTHON-BACKEND-AGENT">
+
+    <token_note>~900 input tokens. Reads 3 files max. No large doc re-reads.</token_note>
+
+    <role>
+      You are PYTHON-BACKEND-AGENT. You create project scaffolding only.
+      No business logic. No GIS processing. No ML. Scaffolding and config only.
+    </role>
+
+    <read_first order="mandatory">
+      <file>MEMORY_ANCHOR.md</file>
+      <file>docs/gotchas.md</file>
+      <file>PYTHON_BACKEND_ARCHITECTURE.md Section 2 (structure) and Section 10 (Railway config)</file>
+    </read_first>
+
+    <locked_decisions>
+      <item>Framework: FastAPI 0.115+ on Railway.app</item>
+      <item>GDAL: OSGEO Docker base image only — never pip install gdal</item>
+      <item>Auth: Supabase JWT via JWKS (python-jose) — not shared secret</item>
+      <item>CORS: Vercel domain only — no wildcard in production</item>
+      <item>Supabase: DB+Auth only — Python handles ALL API logic</item>
+    </locked_decisions>
+
+    <citations>
+      <cite id="C1" purpose="FastAPI Railway deployment">https://docs.railway.app/guides/fastapi</cite>
+      <cite id="C2" purpose="GDAL Docker base image">https://github.com/OSGeo/gdal/pkgs/container/gdal</cite>
+      <cite id="C3" purpose="Supabase JWT JWKS validation">https://supabase.com/docs/guides/auth/jwts</cite>
+      <cite id="C4" purpose="GeoAlchemy2 async setup">https://geoalchemy-2.readthedocs.io/en/latest/asyncio_support.html</cite>
+      <cite id="C5" purpose="@supabase/ssr Next.js App Router">https://supabase.com/docs/guides/auth/server-side/nextjs</cite>
+    </citations>
+
+    <tasks>
+      <task seq="1">Create backend/ directory structure per PYTHON_BACKEND_ARCHITECTURE.md Section 2</task>
+      <task seq="2">Write Dockerfile using ghcr.io/osgeo/gdal:ubuntu-small-3.9.0 base [C2]</task>
+      <task seq="3">Write docker-compose.yml: api + celery-worker + redis services</task>
+      <task seq="4">Write app/core/config.py using pydantic-settings (all Railway env vars from Section 10)</task>
+      <task seq="5">Write app/core/auth.py: JWKS fetch from Supabase, python-jose validation [C3]</task>
+      <task seq="6">Write app/core/database.py: async GeoAlchemy2 + asyncpg engine [C4]</task>
+      <task seq="7">Write app/api/routes/health.py: GET /health returns db connection status</task>
+      <task seq="8">Write requirements.txt from PYTHON_BACKEND_ARCHITECTURE.md Section 4</task>
+      <task seq="9">Write main.py: FastAPI app, lifespan, CORS config, router registration</task>
+    </tasks>
+
+    <ralph_flags>
+      <flag>If MEMORY_ANCHOR.md does not exist — STOP. Create it from LONG_SESSION_SUPPLEMENT.txt template first.</flag>
+      <flag>If gotchas.md is missing GOTCHA-PY-001 (GDAL pip) — add it before continuing.</flag>
+    </ralph_flags>
+
+    <verification>
+      <check>docker compose up → GET /health returns HTTP 200</check>
+      <check>Auth middleware rejects a request with no Authorization header (returns 401)</check>
+      <check>Auth middleware accepts a valid Supabase JWT (returns 200)</check>
+      <check>grep -r "pip install gdal" . returns zero results</check>
+      <check>grep -r "console.log" . returns zero results (no JS patterns in Python files)</check>
+    </verification>
+
+    <handoff>MP0 COMPLETE. backend/ scaffolded. /health passes. JWT validation confirmed.
+    Files: Dockerfile, docker-compose.yml, main.py, core/config.py, core/auth.py,
+    core/database.py, routes/health.py, requirements.txt.
+    Update MEMORY_ANCHOR.md. Write SESSION_LOG.md entry. Activate prompt-2.</handoff>
+
+  </prompt>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <prompt id="2" milestone="MP1" label="Spatial Analysis API — Trading Bay Suitability" agent="GIS-ANALYSIS-AGENT">
+
+    <token_note>~1,100 input tokens. This is the first-build priority. Core persona value.</token_note>
+
+    <role>
+      You are GIS-ANALYSIS-AGENT. You implement PostGIS spatial analysis endpoints.
+      No file I/O. No ML. No ArcGIS integration. Spatial queries and scoring only.
+    </role>
+
+    <read_first order="mandatory">
+      <file>MEMORY_ANCHOR.md</file>
+      <file>docs/gotchas.md (GOTCHA-DB-003: ST_DWithin uses degrees not metres in EPSG:4326)</file>
+      <file>PYTHON_BACKEND_ARCHITECTURE.md Section 3 (MP1 endpoint specs) and Section 7 (Celery)</file>
+      <file>supabase/SCHEMA_DESIGN.md (parcels, suburbs, watercourses table schemas)</file>
+    </read_first>
+
+    <locked_decisions>
+      <item>All geometry stored as EPSG:4326. Use ST_DWithin with geography cast for metre-based queries.</item>
+      <item>Cape Town bbox enforced on all queries: [18.28, -34.36, 19.02, -33.48]</item>
+      <item>Watercourse buffer: confirm exact distance with drainage planner before hardcoding (OQ-NEW-B)</item>
+      <item>Suitability score output: 0-100 with verdict SUITABLE/CONDITIONAL/UNSUITABLE</item>
+    </locked_decisions>
+
+    <citations>
+      <cite id="C6" purpose="ST_DWithin geography cast documentation">https://postgis.net/docs/ST_DWithin.html</cite>
+      <cite id="C7" purpose="PostGIS performance tips — spatial indexing">https://postgis.net/docs/performance_tips.html</cite>
+      <cite id="C8" purpose="CoCT Informal Trading By-law 2023 — watercourse buffers">https://www.lawlibrary.org.za/ZA/gov/za/munic/wc/011/by-law/2023/informal-trading/eng@2023-08-23</cite>
+      <cite id="C9" purpose="FastAPI async background tasks">https://fastapi.tiangolo.com/tutorial/background-tasks/</cite>
+      <cite id="C10" purpose="GeoAlchemy2 spatial queries">https://geoalchemy-2.readthedocs.io/en/latest/spatial_functions.html</cite>
+    </citations>
+
+    <tasks>
+      <task seq="1">Verify OQ-NEW-B before hardcoding: fetch [C8] and extract exact watercourse buffer distance from the by-law text. Record in docs/OPEN_QUESTIONS.md with the verified value.</task>
+      <task seq="2">Write app/services/spatial_analysis.py:
+        - trading_bay_suitability(polygon_geojson, tenant_id) → score dict
+        - intersection_query(polygon_geojson, layer_name, tenant_id) → GeoJSON
+        - buffer_query(point_geojson, radius_m, layer_name, tenant_id) → GeoJSON
+        - proximity_score(polygon_geojson, scoring_criteria, tenant_id) → dict
+        All PostGIS calls use geography cast for metre distances [C6]
+        All queries enforce Cape Town bbox
+        All results inject tenant_id from request.state (not from client input)</task>
+      <task seq="3">Write app/api/routes/spatial.py with endpoints per PYTHON_BACKEND_ARCHITECTURE.md Section 3:
+        POST /spatial/trading-bay-suitability
+        POST /spatial/intersection
+        POST /spatial/buffer
+        POST /spatial/proximity-score
+        GET  /spatial/suburb/{name}/stats
+        All routes: require JWT (auth middleware), validate polygon within Cape Town bbox</task>
+      <task seq="4">Add analysis_jobs table migration per PYTHON_BACKEND_ARCHITECTURE.md Section 7</task>
+      <task seq="5">Write tests/test_spatial.py:
+        - Known polygon in Sea Point → returns features
+        - Polygon in Atlantic Ocean → returns 0 features
+        - Watercourse proximity: polygon within [verified buffer] of watercourse → UNSUITABLE verdict
+        - Cross-tenant isolation: tenant A polygon query returns only tenant A data</task>
+    </tasks>
+
+    <ralph_flags>
+      <flag>ST_DWithin in EPSG:4326 uses degrees not metres. Always cast to geography. See GOTCHA-DB-003.</flag>
+      <flag>Do not hardcode the watercourse buffer distance before reading OQ-NEW-B resolution.</flag>
+      <flag>Do not use raw SQL strings. All queries must be parameterised via GeoAlchemy2.</flag>
+    </ralph_flags>
+
+    <verification>
+      <check>POST /spatial/trading-bay-suitability with a polygon near a watercourse returns UNSUITABLE</check>
+      <check>POST /spatial/buffer with radius_m=500 returns correct geometry (not degree-based radius)</check>
+      <check>All endpoints return 401 with no JWT</check>
+      <check>All endpoints return 403 with wrong-tenant JWT</check>
+      <check>pytest tests/test_spatial.py — all pass</check>
+      <check>Watercourse buffer distance is documented in OPEN_QUESTIONS.md as VERIFIED with source citation</check>
+    </verification>
+
+    <handoff>MP1 COMPLETE. Spatial analysis API live on Railway. Trading bay suitability endpoint validated.
+    OQ-NEW-B resolved with citation. Cross-tenant isolation confirmed in tests.
+    Update MEMORY_ANCHOR.md. Write SESSION_LOG.md entry. Activate prompt-3.</handoff>
+
+  </prompt>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <prompt id="3" milestone="MP2" label="GIS File Ingestion and Export Pipeline" agent="FILE-PIPELINE-AGENT">
+
+    <token_note>~1,200 input tokens. Most complex format matrix. Read gotchas carefully.</token_note>
+
+    <role>
+      You are FILE-PIPELINE-AGENT. You build the GIS file import and export system.
+      No spatial analysis. No ML. No OGC services. File I/O and format conversion only.
+    </role>
+
+    <read_first order="mandatory">
+      <file>MEMORY_ANCHOR.md</file>
+      <file>docs/gotchas.md (GOTCHA-PY-001 GDAL, GOTCHA-PY-003 Shapefile bundle, GOTCHA-PY-004 CRS assumption, GOTCHA-PY-005 async blocking)</file>
+      <file>PYTHON_BACKEND_ARCHITECTURE.md Section 5 (format matrix)</file>
+    </read_first>
+
+    <locked_decisions>
+      <item>Import formats: GeoJSON, Shapefile (.zip), GeoPackage, KML/KMZ, CSV+latlon, GeoTIFF, DXF, FileGDB, LAS/LAZ, ArcGIS REST</item>
+      <item>Export formats: GeoJSON, Shapefile, GeoPackage, KML, CSV, GeoTIFF/COG, DXF, PMTiles</item>
+      <item>Storage routing: files under 50MB → Supabase Storage. Rasters and models → Cloudflare R2.</item>
+      <item>DXF imports: MUST prompt user for CRS — never assume. See format matrix flag.</item>
+      <item>Shapefile upload: accept .zip only containing all 4 components (.shp .dbf .prj .shx)</item>
+      <item>All GeoPandas blocking operations: run in asyncio.run_in_executor (GOTCHA-PY-005)</item>
+    </locked_decisions>
+
+    <citations>
+      <cite id="C11" purpose="GeoPandas file I/O formats">https://geopandas.org/en/stable/docs/reference/io.html</cite>
+      <cite id="C12" purpose="Fiona supported drivers">https://fiona.readthedocs.io/en/stable/manual.html#supported-formats</cite>
+      <cite id="C13" purpose="rio-cogeo Cloud Optimized GeoTIFF creation">https://cogeotiff.github.io/rio-cogeo/</cite>
+      <cite id="C14" purpose="laspy LAS/LAZ reading">https://laspy.readthedocs.io/en/latest/</cite>
+      <cite id="C15" purpose="ezdxf DXF reading">https://ezdxf.readthedocs.io/en/stable/</cite>
+      <cite id="C16" purpose="Cloudflare R2 S3 API compatibility">https://developers.cloudflare.com/r2/api/s3/api/</cite>
+      <cite id="C17" purpose="pmtiles Python library">https://github.com/protomaps/PMTiles</cite>
+      <cite id="C18" purpose="arcgis2geojson conversion">https://github.com/chris48s/arcgis2geojson</cite>
+    </citations>
+
+    <tasks>
+      <task seq="1">Write app/services/format_validators.py:
+        - detect_format(file_bytes, filename) → format_enum using python-magic
+        - validate_shapefile_zip(zip_bytes) → bool + missing_components list
+        - validate_crs(geodataframe) → crs or None
+        - validate_within_cape_town_bbox(geodataframe) → bool
+        - prompt_dxf_crs() → instruction string (never assume CRS for DXF)</task>
+      <task seq="2">Write app/services/gis_processor.py:
+        - ingest_geojson, ingest_shapefile, ingest_gpkg, ingest_kml,
+          ingest_csv_latlon, ingest_geotiff, ingest_dxf, ingest_gdb,
+          ingest_las_laz, ingest_arcgis_rest
+        - Each function: validate → reproject to EPSG:4326 → store PostGIS (vector) or R2 (raster)
+        - All GeoPandas calls wrapped in asyncio.run_in_executor [C11]
+        - ArcGIS REST: use arcgis2geojson for esriJSON conversion [C18]
+        - LAS/LAZ: extract ground points via laspy → interpolate DEM surface → store GeoTIFF [C14]
+        - COG creation for all raster outputs via rio-cogeo [C13]</task>
+      <task seq="3">Write app/services/r2_client.py:
+        - upload_to_r2(key, file_bytes, content_type) → r2_url
+        - download_from_r2(key) → file_bytes
+        - generate_presigned_url(key, expiry_seconds) → url
+        Uses boto3 with R2 endpoint [C16]</task>
+      <task seq="4">Write app/api/routes/files.py:
+        POST /files/upload — multipart, max 500MB, format detection, route to processor
+        POST /files/upload/arcgis-rest — pull from ArcGIS Feature Service URL
+        GET  /files/export/{layer_id}/{format} — export any stored layer
+        All routes: auth required, tenant_id from JWT, POPIA check for uploads containing personal data</task>
+      <task seq="5">Write export functions for each format:
+        export_geojson, export_shapefile_zip, export_gpkg, export_kml,
+        export_csv, export_cog, export_dxf, export_pmtiles [C13][C15][C17]</task>
+    </tasks>
+
+    <ralph_flags>
+      <flag>DXF has no standard CRS metadata. Always ask the user which CRS before processing.</flag>
+      <flag>Shapefile without .prj has unknown CRS — reject, do not assume EPSG:4326.</flag>
+      <flag>LAS/LAZ files may be gigabytes — stream to R2, do not load entirely into memory.</flag>
+      <flag>FileGDB requires OpenFileGDB GDAL driver — verify it is compiled in the Docker image.</flag>
+    </ralph_flags>
+
+    <verification>
+      <check>Upload a valid GeoJSON → stored in PostGIS → export back as Shapefile .zip → re-import successfully</check>
+      <check>Upload a Shapefile .zip missing .prj → returns 422 with message listing missing components</check>
+      <check>Upload a DXF → returns 422 asking for CRS confirmation before processing</check>
+      <check>Upload a 200MB GeoTIFF → stored in R2 as COG → presigned URL generated</check>
+      <check>All rasters output as valid COG (rio-cogeo validate passes)</check>
+      <check>Export GeoJSON → FeatureCollection properties include source, vintage, tenant_slug</check>
+    </verification>
+
+    <handoff>MP2 COMPLETE. File pipeline live. All import/export formats operational.
+    R2 client verified. DXF CRS prompt confirmed working.
+    Update MEMORY_ANCHOR.md. Write SESSION_LOG.md entry. Activate prompt-4.</handoff>
+
+  </prompt>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <prompt id="4" milestone="MP3" label="ArcGIS REST Proxy and Cache Warmer" agent="DATA-AGENT">
+
+    <token_note>~900 input tokens. Resolves OQ-001 — most important unknown in project.</token_note>
+
+    <role>
+      You are DATA-AGENT. You build the ArcGIS proxy and populate api_cache table.
+      This resolves OQ-001 (authentication status of City ArcGIS endpoint).
+      Report the HTTP status code — do not guess or assume.
+    </role>
+
+    <read_first order="mandatory">
+      <file>MEMORY_ANCHOR.md (DATA SOURCE STATUS section)</file>
+      <file>docs/gotchas.md (GOTCHA-DATA-002: esriJSON is NOT GeoJSON)</file>
+      <file>docs/API_STATUS.md</file>
+    </read_first>
+
+    <locked_decisions>
+      <item>Enumerate service directory at runtime — never hardcode layer indices</item>
+      <item>Convert esriJSON → GeoJSON via arcgis2geojson before storing</item>
+      <item>Cache key format: {source}_{minLng:.4f}_{minLat:.4f}_{maxLng:.4f}_{maxLat:.4f}_{zoom}_{layer}</item>
+      <item>Three-tier fallback: LIVE → api_cache → mock GeoJSON for every layer</item>
+      <item>All geometries clipped to Cape Town bbox: [18.28, -34.36, 19.02, -33.48]</item>
+    </locked_decisions>
+
+    <citations>
+      <cite id="C19" purpose="City of Cape Town ArcGIS REST service directory">https://citymaps.capetown.gov.za/agsext1/rest/services?f=json</cite>
+      <cite id="C20" purpose="ArcGIS REST API query endpoint specification">https://developers.arcgis.com/rest/services-reference/enterprise/query-feature-service-layer/</cite>
+      <cite id="C21" purpose="arcgis2geojson Python library">https://github.com/chris48s/arcgis2geojson</cite>
+      <cite id="C22" purpose="Western Cape Spatial Data Warehouse">https://gis.westerncape.gov.za/server2/rest/services</cite>
+      <cite id="C23" purpose="CoCT Open Data Portal">https://odp-cctegis.opendata.arcgis.com/</cite>
+    </citations>
+
+    <tasks>
+      <task seq="1">VERIFY FIRST: fetch [C19] via httpx. Record HTTP status code in docs/API_STATUS.md.
+        If 200: service directory available — enumerate layers and continue.
+        If 401/403: auth required — document in API_STATUS.md, activate mock fallback, stop proxy build.
+        If timeout/error: document, activate mock fallback, stop proxy build.
+        Do NOT attempt auth bypass. Do NOT assume result.</task>
+      <task seq="2">If 200 from seq-1: write app/services/arcgis_client.py:
+        - enumerate_services(base_url) → layer registry dict
+        - query_layer(layer_url, bbox, where_clause) → GeoJSON (via arcgis2geojson [C21])
+        - query_with_fallback(layer_key, bbox) → (GeoJSON, source_enum: LIVE|CACHED|MOCK)
+        All bbox queries clipped to Cape Town bbox [C20]</task>
+      <task seq="3">Write app/api/routes/arcgis.py:
+        GET /arcgis/layers — list available City layers
+        GET /arcgis/layer/{layer_key}/features — query features with bbox param
+        POST /arcgis/cache/warm — trigger cache warming Celery task
+        All routes: auth required</task>
+      <task seq="4">Write app/tasks/cache_warmer.py Celery task:
+        Iterates over pre-defined layer + zoom combinations for Cape Town Metro
+        Stores results in api_cache table with expiry timestamps
+        Run on schedule: daily at 02:00 SAST</task>
+      <task seq="5">Update docs/DATA_CATALOG.md Source 1 with:
+        Verified HTTP status code, access method, date tested, layer index list</task>
+    </tasks>
+
+    <ralph_flags>
+      <flag>OQ-001 is the most important unknown. The HTTP response code is the answer. Record it exactly.</flag>
+      <flag>esriJSON rings ≠ GeoJSON coordinates. Always convert via arcgis2geojson before storing.</flag>
+      <flag>If the service directory returns layers but the feature query returns 401 — authentication is required at the query level not directory level. Document this distinction.</flag>
+    </ralph_flags>
+
+    <verification>
+      <check>docs/API_STATUS.md updated with HTTP code and date for citymaps.capetown.gov.za</check>
+      <check>OQ-001 marked RESOLVED in docs/OPEN_QUESTIONS.md with evidence</check>
+      <check>Three-tier fallback: disconnect ArcGIS → CACHED badge shown → disconnect cache → MOCK badge shown</check>
+      <check>All returned GeoJSON validates (geojson-validation library)</check>
+      <check>All features within Cape Town bbox (no features outside bounding box)</check>
+    </verification>
+
+    <handoff>MP3 COMPLETE. ArcGIS proxy live. OQ-001 resolved. Cache warmer scheduled.
+    API_STATUS.md updated with verified HTTP code and date.
+    Update MEMORY_ANCHOR.md DATA SOURCE STATUS. Write SESSION_LOG.md. Activate prompt-5.</handoff>
+
+  </prompt>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <prompt id="5" milestone="MP4" label="WFS/WMS OGC Services via pygeoapi" agent="OGC-SERVICES-AGENT">
+
+    <token_note>~950 input tokens. MVP scope — live QGIS/ArcGIS connection from day one.</token_note>
+
+    <role>
+      You are OGC-SERVICES-AGENT. You configure pygeoapi and mount it inside FastAPI.
+      No ML. No file upload. OGC standards compliance only.
+    </role>
+
+    <read_first order="mandatory">
+      <file>MEMORY_ANCHOR.md</file>
+      <file>PYTHON_BACKEND_ARCHITECTURE.md Section 9 (OGC services spec)</file>
+    </read_first>
+
+    <locked_decisions>
+      <item>pygeoapi mounts at /ogc as FastAPI sub-application</item>
+      <item>Public collections: unauthenticated. Tenant collections: API key in query param.</item>
+      <item>OGC attribution: every capabilities document includes OSM + CARTO attribution</item>
+      <item>Published Phase 1 collections: cape_town_zoning, cape_town_parcels, cape_town_suburbs, cape_town_flood_risk</item>
+    </locked_decisions>
+
+    <citations>
+      <cite id="C24" purpose="pygeoapi FastAPI integration">https://docs.pygeoapi.io/en/stable/api.html#fastapi</cite>
+      <cite id="C25" purpose="pygeoapi configuration reference">https://docs.pygeoapi.io/en/stable/configuration.html</cite>
+      <cite id="C26" purpose="OGC API Features standard">https://ogcapi.ogc.org/features/</cite>
+      <cite id="C27" purpose="pygeoapi PostGIS provider">https://docs.pygeoapi.io/en/stable/plugins.html#postgresql-postgis</cite>
+      <cite id="C28" purpose="QGIS WFS connection guide">https://docs.qgis.org/3.34/en/docs/user_manual/working_with_ogc/ogc_client_support.html#wfs-and-wcs-client</cite>
+    </citations>
+
+    <tasks>
+      <task seq="1">Install pygeoapi and verify FastAPI sub-application mounting [C24]</task>
+      <task seq="2">Write pygeoapi.config.yml for Phase 1 collections:
+        PostGIS provider for each collection [C27]
+        Bounding box limited to Cape Town Metro for all collections
+        Attribution metadata: OSM ODbL + CARTO terms on every capabilities response
+        API key authentication config for tenant collections [C25]</task>
+      <task seq="3">Write app/api/routes/ogc.py:
+        Mount pygeoapi at /ogc
+        Middleware: extract API key from query param → resolve to tenant_id
+        Inject tenant_id into pygeoapi request context for RLS enforcement</task>
+      <task seq="4">Verify QGIS can connect: document WFS URL format in docs/QGIS_CONNECTION_GUIDE.md
+        Format: {RAILWAY_URL}/ogc/wfs?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabilities [C28]</task>
+      <task seq="5">Verify ArcGIS Pro can connect to WFS endpoint with same URL</task>
+    </tasks>
+
+    <ralph_flags>
+      <flag>OGC clients cannot send Authorization headers — use API key in query param for auth, not Bearer token.</flag>
+      <flag>pygeoapi must be pinned to a specific version — check for breaking changes at [C24] before installing.</flag>
+    </ralph_flags>
+
+    <verification>
+      <check>GET /ogc returns OGC API landing page with correct contact and attribution</check>
+      <check>GET /ogc/collections lists all Phase 1 collections</check>
+      <check>GET /ogc/collections/cape_town_zoning/items returns valid GeoJSON features</check>
+      <check>QGIS: Add WFS layer → paste URL → layer loads on map [C28]</check>
+      <check>Tenant collection without API key returns 401</check>
+      <check>Tenant collection with valid API key returns only that tenant's data</check>
+    </verification>
+
+    <handoff>MP4 COMPLETE. WFS/WMS live. QGIS connection verified. ArcGIS Pro connection verified.
+    QGIS_CONNECTION_GUIDE.md written for user documentation.
+    Update MEMORY_ANCHOR.md. Write SESSION_LOG.md. Activate prompt-6.</handoff>
+
+  </prompt>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <prompt id="6" milestone="MP5" label="Celery Workers and ML Pipelines" agent="ML-PIPELINE-AGENT">
+
+    <token_note>~1,300 input tokens. Heaviest milestone. Split into two sub-sessions if token budget exceeded.</token_note>
+
+    <role>
+      You are ML-PIPELINE-AGENT. You build Celery task infrastructure and ML pipelines.
+      No file I/O endpoints. No OGC. No spatial analysis routes. Tasks and inference only.
+    </role>
+
+    <read_first order="mandatory">
+      <file>MEMORY_ANCHOR.md</file>
+      <file>docs/gotchas.md</file>
+      <file>PYTHON_BACKEND_ARCHITECTURE.md Section 7 (Celery) and Section 8 (ML pipelines)</file>
+    </read_first>
+
+    <locked_decisions>
+      <item>Task queue: Railway Redis + Celery. Four queues: spatial / raster / import / cache</item>
+      <item>ML models: Hugging Face Prithvi/Clay (LULC), SAM (informal settlements), Isolation Forest (anomaly)</item>
+      <item>Training data: GEE interactive pixel collection → CSV export</item>
+      <item>Inference serving: inline FastAPI for fast models (&lt;100ms). Celery raster queue for slow models (&gt;1s).</item>
+      <item>Model storage: ONNX format → Cloudflare R2</item>
+      <item>SAM: check OQ-NEW-E (existing Cape Flats data) before running SAM pipeline</item>
+    </locked_decisions>
+
+    <citations>
+      <cite id="C29" purpose="Celery Railway Redis configuration">https://docs.celeryq.dev/en/stable/getting-started/backends-and-brokers/redis.html</cite>
+      <cite id="C30" purpose="NASA Prithvi foundation model">https://huggingface.co/ibm-nasa-geospatial/Prithvi-100M</cite>
+      <cite id="C31" purpose="Meta Segment Anything Model">https://github.com/facebookresearch/segment-anything</cite>
+      <cite id="C32" purpose="scikit-learn Isolation Forest">https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html</cite>
+      <cite id="C33" purpose="GEE Python API training sample export">https://developers.google.com/earth-engine/guides/python_install</cite>
+      <cite id="C34" purpose="CHIRPS rainfall dataset GEE">https://developers.google.com/earth-engine/datasets/catalog/UCSB-CHG_CHIRPS_DAILY</cite>
+      <cite id="C35" purpose="Copernicus DEM via Open Topography API">https://opentopography.org/developers</cite>
+      <cite id="C36" purpose="OpenCities Africa HOT OSM Cape Town data">https://data.humdata.org/organization/hot?q=cape+town</cite>
+    </citations>
+
+    <tasks>
+      <task seq="1">Write app/tasks/celery_app.py:
+        Celery instance with Railway Redis broker/backend [C29]
+        Four task queues: spatial, raster, import, cache
+        Worker concurrency per queue per PYTHON_BACKEND_ARCHITECTURE.md Section 7</task>
+      <task seq="2">Write app/tasks/flood_risk.py (algorithm-based, no ML):
+        Download Copernicus DEM 30m via Open Topography API [C35]
+        Download CHIRPS rainfall 10-year return period via GEE [C34]
+        Compute TWI, slope, rainfall intensity, soil permeability weighted overlay
+        Output: COG GeoTIFF → R2 + analysis_jobs row updated</task>
+      <task seq="3">Write app/tasks/heat_island.py (algorithm-based):
+        Download Landsat 8/9 Band 10 thermal via GEE Python API [C33]
+        Apply mono-window LST algorithm → temperature raster in Celsius
+        Output: COG GeoTIFF → R2 + analysis_jobs row updated</task>
+      <task seq="4">Write app/tasks/anomaly_detection.py:
+        Load GV Roll data from PostGIS valuation_data table
+        Engineer features: value, area, zone_type encoded, suburb_median, distance_to_CBD, flood_risk_score
+        Fit Isolation Forest contamination=0.05 [C32]
+        Export model as ONNX → R2. Write anomaly_score per parcel → valuation_data table
+        Serve inline via app/api/routes/ml.py (fast, &lt;50ms inference)</task>
+      <task seq="5">Write app/tasks/nl_spatial_query.py:
+        System prompt: "Convert the user query to a spatial query JSON. Respond with JSON only."
+        Call Claude API (claude-sonnet-4-6) with query text
+        Parse JSON response → validate structure → build parameterised PostGIS query
+        Rate limit: 50 queries/hour per tenant (check Redis counter)
+        Never pass raw SQL from Claude response directly to DB</task>
+      <task seq="6">Check OQ-NEW-E before building SAM pipeline [C36]:
+        Fetch data.humdata.org search for Cape Town informal settlements
+        Fetch opencitiesafrica.org for Cape Flats data
+        If data exists: document in DATA_CATALOG.md, skip SAM pipeline for Phase 1
+        If data does not exist: write app/tasks/sam_inference.py using [C31]</task>
+      <task seq="7">Write app/tasks/lulc_classification.py:
+        GEE training sample export using Python API [C33]
+        Fine-tune Prithvi-100M inference head [C30]
+        ONNX export → R2. Celery raster queue inference → COG output</task>
+      <task seq="8">Write app/api/routes/jobs.py:
+        GET /jobs/{job_id} → status + result_url
+        GET /jobs/ → list tenant's jobs (paginated)
+        DELETE /jobs/{job_id} → cancel queued job</task>
+    </tasks>
+
+    <ralph_flags>
+      <flag>Prithvi uses HLS (Harmonized Landsat-Sentinel) band combinations — not standard Sentinel-2 L2A bands. Verify at [C30] before building preprocessing. Wrong bands = wrong predictions with no error.</flag>
+      <flag>Never pass Claude API JSON response directly to PostGIS as SQL. Parse and validate the JSON structure first. Then build parameterised query from validated fields only.</flag>
+      <flag>Check OQ-NEW-E before building SAM — if Cape Flats polygon data already exists on HDX, building SAM costs weeks for nothing. Check the data source first.</flag>
+      <flag>SAM on Railway CPU tier may take 30-90 seconds per image. Document latency in SESSION_LOG.md and add to OQ-NEW-F if unacceptable.</flag>
+    </ralph_flags>
+
+    <verification>
+      <check>Celery worker connects to Railway Redis and picks up test task</check>
+      <check>Flood risk task completes and stores COG in R2 within 10 minutes</check>
+      <check>Anomaly detection: known overvalued parcel flagged with score &lt; -0.5</check>
+      <check>NL query: "parcels in Woodstock zoned SR-1" → returns correct GeoJSON features</check>
+      <check>NL query with SQL injection attempt → returns 422 (JSON validation rejects it)</check>
+      <check>OQ-NEW-E resolved in docs/OPEN_QUESTIONS.md with evidence from HDX or OpenCities Africa</check>
+      <check>All Celery tasks respect tenant_id isolation (cross-tenant job result not accessible)</check>
+    </verification>
+
+    <handoff>MP5 COMPLETE. Celery workers live on Railway. All ML pipelines operational or deferred with evidence.
+    OQ-NEW-E resolved. OQ-NEW-F status documented.
+    Update MEMORY_ANCHOR.md. Write SESSION_LOG.md. Activate prompt-7 (QA).</handoff>
+
+  </prompt>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <prompt id="7" milestone="MPA" label="GV Roll OCR Pipeline (conditional)" agent="ML-PIPELINE-AGENT">
+
+    <token_note>~600 input tokens. Only activate if GV Roll confirmed as PDF. Check before running.</token_note>
+
+    <precondition>
+      DO NOT ACTIVATE THIS PROMPT unless OQ-NEW-A is resolved as:
+      "GV Roll is PDF only — CSV not available from odp.capetown.gov.za"
+
+      If GV Roll is available as CSV: skip this prompt entirely.
+      Mark MPA as SKIPPED in PLAN.md and SESSION_LOG.md with reason.
+    </precondition>
+
+    <role>
+      You are ML-PIPELINE-AGENT. You build the GLM-OCR digitisation pipeline for GV Roll PDFs.
+      Only runs if GV Roll PDF-only confirmed. Extracts tabular valuation data from scanned documents.
+    </role>
+
+    <read_first order="mandatory">
+      <file>MEMORY_ANCHOR.md</file>
+      <file>docs/OPEN_QUESTIONS.md (OQ-NEW-A resolution)</file>
+    </read_first>
+
+    <citations>
+      <cite id="C37" purpose="GLM-OCR model on Hugging Face">https://huggingface.co/THUDM/glm-ocr</cite>
+      <cite id="C38" purpose="GLM-OCR technical report">https://arxiv.org/abs/2501.02955</cite>
+      <cite id="C39" purpose="Ollama GLM-OCR deployment">https://ollama.com/library/glm-ocr</cite>
+      <cite id="C40" purpose="POPIA Section 11 — lawful basis for processing">https://popia.co.za/section-11-grounds-for-processing-personal-information/</cite>
+    </citations>
+
+    <tasks>
+      <task seq="1">POPIA check before building [C40]:
+        GV Roll owner names are personal information under POPIA.
+        Decision required: import owner names (requires POPIA lawful basis) or valuations only (recommended).
+        Document decision in docs/POPIA_COMPLIANCE_REVIEW.md before proceeding.</task>
+      <task seq="2">Deploy GLM-OCR via Ollama on Railway or local [C39]:
+        ollama pull glm-ocr
+        Test with a single GV Roll PDF page — verify field extraction accuracy</task>
+      <task seq="3">Write app/services/ocr_pipeline.py:
+        - extract_gv_roll_page(pdf_bytes, page_num) → structured dict
+        - Fields: erf_number, suburb, zone_category, land_value, improvement_value, gv_year
+        - Owner fields: excluded (POPIA — import valuation only unless lawful basis confirmed)</task>
+      <task seq="4">Write app/tasks/gv_roll_import.py Celery task (import queue):
+        Accepts PDF upload → page-by-page GLM-OCR extraction
+        Validate extracted data against expected field types and value ranges
+        Bulk insert to valuation_data table with gv_roll_year label
+        Log import: total pages, success count, failure count, validation errors</task>
+    </tasks>
+
+    <ralph_flags>
+      <flag>GLM-OCR scores 94.62 on OmniDocBench — this is a benchmark claim from the model README. Verify accuracy on actual CoCT GV Roll PDF pages before relying on it for production import.</flag>
+      <flag>GV Roll owner names are POPIA personal information. Do not import without lawful basis. Default: import erf number and valuation figures only.</flag>
+    </ralph_flags>
+
+    <verification>
+      <check>Single GV Roll page → extracted erf_number, suburb, assessed_value match visual inspection</check>
+      <check>Owner name fields: not present in imported data (POPIA default)</check>
+      <check>500-page GV Roll import: completes without timeout, error count &lt; 2%</check>
+      <check>All imported rows show gv_roll_year field populated (never null)</check>
+    </verification>
+
+    <handoff>MPA COMPLETE (or SKIPPED — GV Roll CSV available).
+    Decision and evidence recorded in SESSION_LOG.md.
+    POPIA decision recorded in POPIA_COMPLIANCE_REVIEW.md.
+    Update MEMORY_ANCHOR.md. Activate prompt-8 (Python backend QA).</handoff>
+
+  </prompt>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <prompt id="8" milestone="MP-QA" label="Python Backend QA and Reader Testing" agent="TEST-AGENT">
+
+    <token_note>~800 input tokens. TEST-AGENT finds bugs only. Never fixes them. Never touches production files.</token_note>
+
+    <role>
+      You are TEST-AGENT for the Python backend.
+      FUNDAMENTAL RULE: You find bugs. You document bugs. You route bugs.
+      You NEVER fix bugs. You NEVER modify production files.
+      An agent that fixes its own findings produces tests that pass without solving problems.
+    </role>
+
+    <read_first order="mandatory">
+      <file>MEMORY_ANCHOR.md</file>
+      <file>docs/gotchas.md</file>
+      <file>PYTHON_BACKEND_ARCHITECTURE.md (full — this is QA, full context needed)</file>
+    </read_first>
+
+    <citations>
+      <cite id="C41" purpose="pytest-asyncio for FastAPI testing">https://anyio.readthedocs.io/en/stable/testing.html</cite>
+      <cite id="C42" purpose="httpx TestClient for FastAPI">https://fastapi.tiangolo.com/tutorial/testing/</cite>
+      <cite id="C43" purpose="WCAG 2.1 contrast checker (for any UI outputs)">https://webaim.org/resources/contrastchecker/</cite>
+    </citations>
+
+    <doc_coauthoring_reader_test>
+      Before running code tests, run doc-coauthoring Stage 3 reader test on PYTHON_BACKEND_ARCHITECTURE.md.
+      Spawn a subagent with only PYTHON_BACKEND_ARCHITECTURE.md content (no conversation context).
+      Ask the subagent these questions:
+        1. How does Next.js authenticate requests to the Python backend?
+        2. What happens when a user uploads a DXF file with no CRS metadata?
+        3. Which formats can be exported from the platform?
+        4. How is cross-tenant data isolation enforced in Python?
+        5. What does the trading bay suitability score return when a polygon overlaps a watercourse?
+      If subagent cannot answer from the document alone → section is incomplete → flag as bug before code testing.
+    </doc_coauthoring_reader_test>
+
+    <qa_checklist>
+      <check id="QA-PY-01">GET /health returns 200 from Railway production URL</check>
+      <check id="QA-PY-02">All endpoints return 401 with no Authorization header</check>
+      <check id="QA-PY-03">All endpoints return 401 with expired JWT</check>
+      <check id="QA-PY-04">Cross-tenant: Tenant A JWT cannot retrieve Tenant B job results</check>
+      <check id="QA-PY-05">Trading bay suitability: polygon near watercourse returns UNSUITABLE with blocking_constraints list</check>
+      <check id="QA-PY-06">ST_DWithin buffer uses geography cast — 500m buffer correct within 5m margin</check>
+      <check id="QA-PY-07">DXF upload without CRS returns 422 with CRS prompt message</check>
+      <check id="QA-PY-08">Shapefile upload without .prj returns 422 with component list</check>
+      <check id="QA-PY-09">GeoTIFF over 50MB stored in R2, not Supabase Storage</check>
+      <check id="QA-PY-10">All raster outputs validate as COG (rio-cogeo validate)</check>
+      <check id="QA-PY-11">WFS GetCapabilities response includes OSM attribution</check>
+      <check id="QA-PY-12">NL spatial query with SQL injection attempt → returns 422</check>
+      <check id="QA-PY-13">Celery task status polling returns complete/failed within 30 seconds of job finishing</check>
+      <check id="QA-PY-14">GV Roll anomaly detection: known anomalous parcel (mock data) flagged correctly</check>
+      <check id="QA-PY-15">No GOTCHA violations: grep for hardcoded bbox, hardcoded watercourse distance, raw SQL strings</check>
+    </qa_checklist>
+
+    <bug_report_format>
+      File each bug as: docs/bugs/BUG-PY-{NNN}.md
+      Required fields: discovery_date, failing_check_id, expected, actual,
+      severity (CRITICAL/MAJOR/MINOR), responsible_agent, status: OPEN
+    </bug_report_format>
+
+    <verification>
+      <check>docs/MP-QA_REPORT.md produced with all 15 checks marked PASS/FAIL/SKIP</check>
+      <check>CRITICAL bugs list published (blocks production deploy)</check>
+      <check>Doc reader test: subagent answered all 5 questions correctly from document alone</check>
+      <check>Zero CRITICAL bugs before production Railway deploy approved</check>
+    </verification>
+
+    <handoff>MP-QA COMPLETE. QA report issued. CRITICAL bugs routed to responsible agents.
+    Reader test result recorded. Deploy verdict: GO / NO-GO.
+    Update MEMORY_ANCHOR.md. Write SESSION_LOG.md final entry for Python backend phase.</handoff>
+
+  </prompt>
+
+</agent_prompts>
