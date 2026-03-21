@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import Link from 'next/link';
 import SearchOverlay from '../search/SearchOverlay';
 import { Theme } from '../../assets/tokens/themes';
 import type { ImpersonationState } from '../admin/impersonation-types';
@@ -60,6 +61,19 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       <div className="w-full sm:w-auto sm:flex-1 max-w-full sm:max-w-[400px]">
         <SearchOverlay onSelect={onSearchSelect} colors={colors} />
       </div>
+
+      {/* Analysis navigation button */}
+      <Link href="/analysis" className="hidden sm:flex items-center gap-2 py-2 px-4 rounded-xl border-2 border-crayon-pink bg-crayon-pink/10 hover:bg-crayon-pink/20 transition-all cursor-pointer no-underline">
+        <span className="text-xl">📐</span>
+        <div className="flex flex-col">
+          <span className="text-xs font-bold uppercase tracking-wider text-crayon-pink">
+            Analysis
+          </span>
+          <span className="text-[9px] text-gray-400">
+            Advanced Tools
+          </span>
+        </div>
+      </Link>
 
       {/* Mascot badge (top-right on desktop) */}
       <div

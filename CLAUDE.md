@@ -15,9 +15,10 @@
 | **Scope** | City of Cape Town + Western Cape Province ONLY |
 | **Visual** | Dark dashboard, near-black backgrounds, crayon accents |
 
-> **CURRENT_PHASE:** M17_PREP | Last milestone: M16 (User Management) complete ✅ | Updated: 2026-03-13 | Agent: Antigravity
+> **CURRENT_PHASE:** TECH_STACK_VERIFICATION | Last milestone: Some milestones complete | Updated: 2026-03-21 | Agent: Claude Opus 4.6 (Lead Architect)
 >
-> _M15 (Production Hardening) and M16 (Tenant Admin/User Management) fully implemented. Vector layers optimized (7→5). Ready for M17 (Advanced Geospatial Analysis) research._
+> _Activating TECH_STACK_AGENT to verify actual installed packages against PLAN.md and image synthesis report._
+
 
 ---
 
@@ -105,6 +106,15 @@ Initial centre: `{ lng: 18.4241, lat: -33.9249 }` | Zoom: 11
 
 ### Rule 10 — Milestone Sequencing
 Sequential M0–M15. No skipping. Human confirms each DoD before proceeding.
+
+### Rule 11 — Self-Improvement Loop
+After ANY mistake → log it in `docs/gotchas.md`. Convert mistakes into rules.
+
+### Rule 12 — Verification Before Done
+NEVER mark done without proof. Run tests, check logs, simulate real usage. Compare expected vs actual behaviour.
+
+### Rule 13 — Demand Elegance
+Ask: "Is there a simpler / cleaner way?" Avoid hacky or temporary fixes. Optimise for long-term maintainability.
 
 ---
 
