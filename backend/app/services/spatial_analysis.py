@@ -13,6 +13,7 @@ from typing import Any
 
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql.elements import quoted_name
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -414,8 +415,12 @@ async def buffer_query(
     if radius_m <= 0 or radius_m > 50000:
         raise ValueError("radius_m must be between 0 and 50,000 metres.")
 
+    # Safely quote the table name to ensure it is treated strictly as an identifier.
+    from_clause = f"FROM {quoted_name(layer_name, quote=True)} t"
+
     result = await session.execute(
-        text(f"""
+        text(
+            f"""
             SELECT
                 ST_AsGeoJSON(t.geom)::json AS geometry,
                 t.id,
@@ -424,7 +429,7 @@ async def buffer_query(
                     ST_SetSRID(ST_GeomFromGeoJSON(:geojson), 4326)::geography,
                     t.geom::geography
                 ) AS distance_m
-            FROM {layer_name} t
+            {from_clause}
             WHERE t.tenant_id = :tenant_id
               AND ST_DWithin(
                   ST_SetSRID(ST_GeomFromGeoJSON(:geojson), 4326)::geography,
@@ -433,7 +438,8 @@ async def buffer_query(
               )
             ORDER BY distance_m ASC
             LIMIT 1000
-        """),
+            """
+        ),
         {"geojson": geojson_str, "tenant_id": tenant_id, "radius_m": radius_m},
     )
     rows = result.fetchall()
