@@ -53,7 +53,7 @@ export const ndviSchema = z.object({
 export const spatialStatsSchema = z.object({
     geometry: geometrySchema,
     statType: z.enum(['density', 'hotspot', 'clustering', 'interpolation']),
-    parameters: z.record(z.unknown()).optional(),
+    parameters: z.record(z.string(), z.unknown()).optional(),
 });
 
 export const nerf3dgsSchema = z.object({
@@ -68,17 +68,17 @@ export const cartoSchema = z.union([
     z.object({
         type: z.literal('enrichment'),
         geometry: geometrySchema.optional(),
-        params: z.record(z.unknown()).optional(),
+        params: z.record(z.string(), z.unknown()).optional(),
     }),
     z.object({
         type: z.literal('isoline'),
         geometry: geometrySchema.optional(),
-        params: z.record(z.unknown()).optional(),
+        params: z.record(z.string(), z.unknown()).optional(),
     }),
     z.object({
         type: z.literal('stats'),
         geometry: geometrySchema,  // required for stats
-        params: z.record(z.unknown()).optional(),
+        params: z.record(z.string(), z.unknown()).optional(),
     }),
 ]);
 

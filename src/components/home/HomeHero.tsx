@@ -44,6 +44,11 @@ export const HomeHero: React.FC = () => {
             Explore Map
           </GlowingButton>
         </Link>
+        <Link href="/analysis">
+          <GlowingButton variant="pink">
+            📐 Spatial Analysis
+          </GlowingButton>
+        </Link>
         <Link href="/login">
           <GlowingButton variant="pink">
             Tenant Login
