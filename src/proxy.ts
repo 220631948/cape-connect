@@ -163,8 +163,18 @@ export async function proxy(request: NextRequest) {
     
     if (!session && !hasImpersonationContext && !isPublicRoute) {
       const redirectUrl = new URL('/login', request.url);
+
+      // Prevent open redirect vulnerabilities by ensuring redirectTo is a safe relative path
+      // that starts with a single slash and is not protocol-relative (e.g., //evil.com)
+      const isSafeRedirect = (url: string) => url.startsWith('/') && !url.startsWith('//');
+
       if (pathname.startsWith('/invite')) {
         redirectUrl.searchParams.set('redirectTo', '/invite');
+      } else {
+        const requestedUrl = request.nextUrl.pathname + request.nextUrl.search;
+        if (isSafeRedirect(requestedUrl)) {
+          redirectUrl.searchParams.set('redirectTo', requestedUrl);
+        }
       }
       return NextResponse.redirect(redirectUrl);
     }
