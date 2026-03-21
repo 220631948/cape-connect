@@ -1,0 +1,55 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Dockerfile.raster — Cloud Run Raster Processor
+# ─────────────────────────────────────────────────────────────────────────────
+# Converts uploaded GeoTIFFs to COG and generates STAC items.
+# Deployed to Cloud Run (capegis-raster-processor) in africa-south1.
+#
+# Build:  docker build -f backend/Dockerfile.raster -t capegis-raster-processor backend/
+# Run:    docker run -p 8080:8080 -e GCS_BUCKET=capegis-rasters capegis-raster-processor
+#
+# Reference: docs/research/GCP_MIGRATION_PLAN.md — Section 3
+# ─────────────────────────────────────────────────────────────────────────────
+
+FROM ghcr.io/osgeo/gdal:ubuntu-small-3.9.0
+
+# Install Python 3.11 and pip
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        python3.11 \
+        python3-pip \
+        python3.11-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies for raster processing
+RUN pip3 install --no-cache-dir \
+    fastapi==0.115.0 \
+    uvicorn[standard]==0.30.0 \
+    rasterio \
+    rio-cogeo \
+    rio-tiler \
+    rio-stac \
+    pystac \
+    google-cloud-storage
+
+# GDAL performance tuning for COG streaming from GCS
+ENV GDAL_CACHEMAX=256
+ENV CPL_VSIL_CURL_CACHE_SIZE=67108864
+ENV GDAL_HTTP_MERGE_CONSECUTIVE_RANGES=YES
+ENV GDAL_HTTP_MULTIPLEX=YES
+ENV VSI_CACHE=TRUE
+ENV VSI_CACHE_SIZE=67108864
+
+# Application
+WORKDIR /app
+COPY app/services/raster_processor.py /app/handler.py
+
+# Non-root user
+RUN useradd --create-home appuser
+USER appuser
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD python3 -c "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"
+
+CMD ["uvicorn", "handler:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "2"]

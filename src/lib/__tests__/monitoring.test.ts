@@ -15,7 +15,7 @@ describe('Monitor', () => {
   it('logs to console in development mode', () => {
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     const originalNodeEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'development';
+    (process.env as any).NODE_ENV = 'development';
 
     monitor.log('test_event', { key: 'value' }, 'info');
 
@@ -24,7 +24,7 @@ describe('Monitor', () => {
       { key: 'value' }
     );
 
-    process.env.NODE_ENV = originalNodeEnv;
+    (process.env as any).NODE_ENV = originalNodeEnv;
     consoleSpy.mockRestore();
   });
 
