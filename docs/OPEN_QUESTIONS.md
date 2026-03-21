@@ -76,11 +76,27 @@ Full details: `docs/API_STATUS.md`
 
 ## OQ-NEW-A — GV Roll Format (CSV or PDF?)
 
-| Field      | Value                                              |
-|------------|----------------------------------------------------|
-| **Status** | PENDING                                            |
-| **Blocks** | MPA — OCR milestone (may not be needed if CSV)     |
-| **Action** | Download from odp.capetown.gov.za and check format |
+| Field            | Value                                                |
+|------------------|------------------------------------------------------|
+| **Status**       | **UNRESOLVABLE** — data not found on portal          |
+| **Blocks**       | MPA — OCR milestone (SKIPPED — precondition not met) |
+| **Date Raised**  | Pre-project (inherited)                              |
+| **Date Checked** | 2026-03-21                                           |
+| **Checked By**   | ML-PIPELINE-AGENT (MP7/MPA)                          |
+
+### Research Performed
+
+1. **odp.capetown.gov.za** — Connection refused (HTTP 000). Domain unreachable as of 2026-03-21.
+2. **odp-cctegis.opendata.arcgis.com** — Searched "valuation roll" and "general valuation cape town".
+   Only result is a New Zealand valuation roll dataset (coordinates 172°E, -43°S). No CoCT GV Roll dataset found.
+3. **Conclusion**: Cannot confirm GV Roll is "PDF only" because the dataset itself is not available on
+   any accessible CoCT portal. OQ-NEW-A cannot be resolved as required by MPA precondition.
+
+### MPA Decision
+
+MPA (GV Roll OCR Pipeline) is **SKIPPED**. The prompt-7 precondition requires OQ-NEW-A to be resolved as
+"GV Roll is PDF only — CSV not available from odp.capetown.gov.za". Since the data is not found at all,
+this precondition is not met. If GV Roll becomes available in the future, re-evaluate MPA activation.
 
 ---
 
