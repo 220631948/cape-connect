@@ -261,7 +261,7 @@ async def get_tile(z: int, x: int, y: int, url: str = ""):
     except Exception as exc:
         logger.error("Tile generation failed: %s", exc)
         return Response(
-            content=json.dumps({"error": str(exc)}),
+            content=json.dumps({"error": "Internal server error"}),
             status_code=500,
             media_type="application/json",
         )
