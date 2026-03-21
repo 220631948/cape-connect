@@ -5,8 +5,8 @@ import React, { useEffect, useState, useRef } from 'react';
 export const WaxTrailCursor: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
-  const trails = useRef<{ x: number; y: number; id: number }[]>([]);
-  const [trailList, setTrailList] = useState<{ x: number; y: number; id: number }[]>([]);
+  const trails = useRef<{ x: number; y: number; id: string }[]>([]);
+  const [trailList, setTrailList] = useState<{ x: number; y: number; id: string }[]>([]);
   const requestRef = useRef<number>(null);
 
   useEffect(() => {
@@ -16,8 +16,8 @@ export const WaxTrailCursor: React.FC = () => {
       const target = e.target as HTMLElement;
       setIsPointer(window.getComputedStyle(target).cursor === 'pointer');
 
-      // Add to trails with a unique ID (Date.now() + counter to avoid collisions)
-      const newTrail = { x: e.clientX, y: e.clientY, id: Date.now() + Math.random() };
+      // Add to trails with a unique ID
+      const newTrail = { x: e.clientX, y: e.clientY, id: crypto.randomUUID() };
       trails.current = [newTrail, ...trails.current.slice(0, 15)];
       setTrailList([...trails.current]);
     };

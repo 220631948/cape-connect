@@ -65,7 +65,7 @@ async function cacheToIndexedDB(data: GeoJSON.FeatureCollection, tenantId: strin
   const records: OfflineSafeWalkCorridor[] = data.features
     .filter((f) => f.geometry.type === 'LineString')
     .map((f) => ({
-      id: f.properties?.id || `swc-${Math.random().toString(36).slice(2, 8)}`,
+      id: f.properties?.id || `swc-${crypto.randomUUID()}`,
       tenant_id: tenantId,
       name: f.properties?.name || 'Unknown Corridor',
       safety_rating: f.properties?.safety_rating ?? 3,
