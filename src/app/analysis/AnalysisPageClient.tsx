@@ -97,7 +97,7 @@ export default function AnalysisPageClient() {
             </button>
             <SourceBadge source="Analysis" year={2026} tier="LIVE" />
           </div>
-          
+
           <div className="text-right">
             <h1 className="text-xl font-black text-white tracking-tight">SPATIAL ANALYSIS</h1>
             <p className="text-xs text-zinc-400">M17 Advanced Geospatial Intelligence</p>
@@ -135,7 +135,7 @@ export default function AnalysisPageClient() {
               ✕
             </button>
           </div>
-          
+
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-xs text-zinc-400">Properties</span>

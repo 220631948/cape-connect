@@ -10,7 +10,7 @@ interface GeolocationControlProps {
 
 /**
  * GeolocationControl
- * 
+ *
  * "My Location" button using navigator.geolocation.getCurrentPosition()
  * Includes fallback logic to find current suburb (QW3 compliance).
  */
@@ -40,11 +40,11 @@ export const GeolocationControl: React.FC<GeolocationControlProps> = ({
     }
 
     setLoading(true);
-    
+
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
-        
+
         // Fly to location
         if (mapRef.current) {
           mapRef.current.flyTo([longitude, latitude], 15);
@@ -77,9 +77,9 @@ export const GeolocationControl: React.FC<GeolocationControlProps> = ({
   return (
     <div className="absolute right-4 bottom-24 z-10 flex flex-col items-end gap-2">
       {suburb && (
-        <div 
+        <div
           className="rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-md transition-all duration-300 animate-in fade-in slide-in-from-right-4"
-          style={{ 
+          style={{
             background: currentTheme.bg,
             color: currentTheme.text,
             boxShadow: `0 4px 6px ${currentTheme.shadow}`
@@ -103,8 +103,8 @@ export const GeolocationControl: React.FC<GeolocationControlProps> = ({
         {loading ? (
           <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
         ) : (
-          <svg 
-            width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+          <svg
+            width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
           >
             <polygon points="3 11 22 2 13 21 11 13 3 11" />

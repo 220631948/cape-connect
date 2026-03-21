@@ -38,7 +38,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             Cape Town GIS Platform Analytics
           </p>
         </div>
-        
+
         {/* Mascot badge moved here for mobile layout */}
         <div
           className={`sm:hidden flex items-center gap-2 py-1 px-2 rounded-xl border-2 ${

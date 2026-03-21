@@ -1,7 +1,7 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
   <!-- Vessel-Outline -->
-  <path d="M10,35 Q10,45 32,45 T54,35 L54,30 L10,30 Z" 
+  <path d="M10,35 Q10,45 32,45 T54,35 L54,30 L10,30 Z"
         fill="none" stroke="#5B8DEF" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="2 4" />
-  <path d="M35,30 L35,20 Q35,18 38,18 L48,18 Q51,18 51,20 L51,30 Z" 
+  <path d="M35,30 L35,20 Q35,18 38,18 L48,18 Q51,18 51,20 L51,30 Z"
         fill="none" stroke="#5B8DEF" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="2 4" />
 </svg>

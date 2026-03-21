@@ -17,10 +17,10 @@
       <stop offset="100%" style="stop-color:#5B8DEF;stop-opacity:1" />
     </linearGradient>
   </defs>
-  
+
   {/* Body/Shell */}
   <circle cx="100" cy="110" r="70" fill="url(#turtleShell)" filter="url(#shadow)" />
-  
+
   {/* Hexagonal Pattern on Shell (Simplified) */}
   <path d="M100,50 L120,60 L120,80 L100,90 L80,80 L80,60 Z" fill="white" opacity="0.2" />
   <path d="M130,80 L150,90 L150,110 L130,120 L110,110 L110,90 Z" fill="white" opacity="0.1" />

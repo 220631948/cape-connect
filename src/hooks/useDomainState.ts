@@ -23,7 +23,7 @@ export function useDomainState() {
   const state = useMemo((): DomainState => {
     const mode = (searchParams.get('dm') as DomainMode) || 'general';
     const params: Record<string, string> = {};
-    
+
     // Extract any keys prefixed with 'dp_' (domain param)
     searchParams.forEach((value, key) => {
       if (key.startsWith('dp_')) {
@@ -36,7 +36,7 @@ export function useDomainState() {
 
   const setDomainMode = useCallback((mode: DomainMode, defaultParams: Record<string, string> = {}) => {
     const newParams = new URLSearchParams(searchParams.toString());
-    
+
     // Clear old domain params
     Array.from(newParams.keys()).forEach(key => {
       if (key.startsWith('dp_')) newParams.delete(key);
@@ -58,7 +58,7 @@ export function useDomainState() {
   const updateDomainParam = useCallback((key: string, value: string | null) => {
     const newParams = new URLSearchParams(searchParams.toString());
     const fullKey = `dp_${key}`;
-    
+
     if (value === null) {
       newParams.delete(fullKey);
     } else {

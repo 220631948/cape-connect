@@ -52,7 +52,7 @@ export const ZoningLayer: React.FC<ZoningLayerProps> = ({ map, visible = true })
       try {
         const response = await fetch('/api/zoning');
         const result = await response.json();
-        
+
         setZoningTier({
           source: result.source,
           year: result.year,
@@ -104,7 +104,7 @@ export const ZoningLayer: React.FC<ZoningLayerProps> = ({ map, visible = true })
     // 4. Click Handler for Popups
     const onClick = (e: maplibregl.MapMouseEvent & { features?: any[] }) => {
       if (!e.features || e.features.length === 0) return;
-      
+
       const feature = e.features[0];
       const { zone_code, zone_name, sub_zone } = feature.properties;
 

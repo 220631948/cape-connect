@@ -48,7 +48,7 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
 
   const [mode, setMode] = useState<ViewMode>('2d');
   const [syncEnabled, setSyncEnabled] = useState(true);
-  
+
   // Layer toggles synced with URL
   const [showZoning, setShowZoning] = useState(urlState.layers.zoning);
   const [showSuburbs, setShowSuburbs] = useState(urlState.layers.suburbs);
@@ -58,7 +58,7 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
   const cesiumRef = useRef<CesiumRef>(null);
   const [showCopilot, setShowCopilot] = useState(false);
   const [mapCenter, setMapCenter] = useState<{ lng: number; lat: number }>({ lng: 18.4241, lat: -33.9249 });
-  
+
   const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
   const [cesiumInstance, setCesiumInstance] = useState<Viewer | null>(null);
 
@@ -94,7 +94,7 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
       };
       updateUrl(viewport, { zoning: showZoning, flights: showFlights, suburbs: showSuburbs, firms: showFirms, traffic: showTraffic });
     });
-    
+
     // Cesium listener management
     // We add a listener and get back the remove function
     const removeCesiumListener = cesiumInstance.camera.moveEnd.addEventListener(handleCesiumMove);
@@ -128,8 +128,8 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
             key={m}
             onClick={() => setMode(m)}
             className={`px-3 py-1 text-xs font-bold rounded-full border-2 transition-all ${
-              mode === m 
-                ? 'bg-emerald-500 border-emerald-400 text-white shadow-lg' 
+              mode === m
+                ? 'bg-emerald-500 border-emerald-400 text-white shadow-lg'
                 : 'bg-slate-800/80 border-slate-600 text-slate-300 hover:bg-slate-700'
             }`}
           >
@@ -154,8 +154,8 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
       {/* 3D Layer (Cesium) */}
       {(mode === '3d' || mode === 'hybrid') && (
         <div className="absolute inset-0 z-0">
-          <CesiumViewer 
-            ref={cesiumRef} 
+          <CesiumViewer
+            ref={cesiumRef}
             initialViewport={urlState.viewport ? {
               lng: urlState.viewport.lng,
               lat: urlState.viewport.lat,
@@ -165,17 +165,17 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
             } : undefined}
             onReady={setCesiumInstance}
           />
-          <CesiumFlightLayer 
-            viewer={cesiumInstance} 
+          <CesiumFlightLayer
+            viewer={cesiumInstance}
             visible={showFlights}
           />
         </div>
       )}
 
       {/* 2D Layer (MapLibre) */}
-      <div 
-        className="absolute inset-0" 
-        style={{ 
+      <div
+        className="absolute inset-0"
+        style={{
           zIndex: mode === '2d' ? 10 : (mode === 'hybrid' ? 5 : -1),
           pointerEvents: mode === '3d' ? 'none' : 'auto'
         }}

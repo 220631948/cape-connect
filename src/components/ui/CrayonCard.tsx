@@ -14,22 +14,22 @@ export const CrayonCard: React.FC<CrayonCardProps> = ({ children, colorVariant =
   };
 
   return (
-    <div 
+    <div
       className={`
-        bg-[#161B22]/80 
-        backdrop-blur-sm 
-        border 
-        p-6 
-        transition-all 
-        duration-500 
-        hover:scale-[1.02] 
-        text-zinc-300 
+        bg-[#161B22]/80
+        backdrop-blur-sm
+        border
+        p-6
+        transition-all
+        duration-500
+        hover:scale-[1.02]
+        text-zinc-300
         group
-        ${variantClasses[colorVariant]} 
+        ${variantClasses[colorVariant]}
         ${className}
       `}
-      style={{ 
-        borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' 
+      style={{
+        borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px'
       }}
     >
       {children}

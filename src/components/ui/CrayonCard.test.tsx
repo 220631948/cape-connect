@@ -10,7 +10,7 @@ describe('CrayonCard', () => {
         <div data-testid="test-child">Hello Crayon</div>
       </CrayonCard>
     );
-    
+
     expect(screen.getByTestId('test-child')).toBeInTheDocument();
     expect(screen.getByText('Hello Crayon')).toBeInTheDocument();
   });
@@ -21,7 +21,7 @@ describe('CrayonCard', () => {
         <div>Pink Card</div>
       </CrayonCard>
     );
-    
+
     let card = container.firstChild as HTMLElement;
     expect(card).toHaveClass('border-crayon-pink/20');
 
@@ -48,7 +48,7 @@ describe('CrayonCard', () => {
         <div>Custom Class Card</div>
       </CrayonCard>
     );
-    
+
     const card = container.firstChild as HTMLElement;
     expect(card).toHaveClass('custom-class');
   });

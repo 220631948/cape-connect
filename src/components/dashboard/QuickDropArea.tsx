@@ -32,7 +32,7 @@ const QuickDropArea: React.FC<QuickDropAreaProps> = () => {
 
     const files = Array.from(e.dataTransfer.files);
     const allowedExtensions = ['.geojson', '.kml', '.czml', '.gpx', '.csv'];
-    
+
     const invalidFiles = files.filter(file => {
       const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
       return !allowedExtensions.includes(extension);
@@ -48,14 +48,14 @@ const QuickDropArea: React.FC<QuickDropAreaProps> = () => {
   };
 
   return (
-    <div 
+    <div
       className="relative h-full group"
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <CrayonCard 
-        colorVariant="yellow" 
+      <CrayonCard
+        colorVariant="yellow"
         className={`h-full flex flex-col items-center justify-center min-h-[120px] md:min-h-[200px] border-dashed border-2 border-crayon-yellow/50 transition-all duration-300 overflow-hidden ${
           isDragging ? 'scale-[1.02] border-crayon-yellow' : ''
         }`}

@@ -6,7 +6,7 @@
       <feDropShadow dx="-1" dy="-1" stdDeviation="2" flood-color="rgba(255,255,255,0.8)" />
     </filter>
   </defs>
-  <path d="M8,56 L56,56 L56,32 L44,44 L44,32 L32,44 L32,32 L20,44 L20,24 Q20,20 24,20 L28,20 L28,8 L40,8 L40,20 L8,20 Z" 
+  <path d="M8,56 L56,56 L56,32 L44,44 L44,32 L32,44 L32,32 L20,44 L20,24 Q20,20 24,20 L28,20 L28,8 L40,8 L40,20 L8,20 Z"
         fill="#F0F0F5" filter="url(#lightShadow)" stroke="#FB923C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   <circle cx="34" cy="4" r="3" fill="#A0A0B8" opacity="0.4" />
   <circle cx="38" cy="1" r="2" fill="#A0A0B8" opacity="0.2" />

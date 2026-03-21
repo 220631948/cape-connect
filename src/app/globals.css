@@ -6,7 +6,7 @@
   --color-crayon-pink: #FF61EF;
   --color-crayon-yellow: #FFD700;
   --color-crayon-blue: #00D1FF;
-  
+
   --animate-crayon-pulse: crayon-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
   @keyframes crayon-pulse {

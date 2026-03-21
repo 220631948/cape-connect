@@ -13,13 +13,13 @@ export interface SentinelSceneMetadata {
 
 /**
  * Fetches the latest Sentinel-2 scene metadata for a given bounding box (Cape Town).
- * In a real implementation, this would query a STAC catalog (e.g. Earth Search) 
+ * In a real implementation, this would query a STAC catalog (e.g. Earth Search)
  * or the Copernicus Open Access Hub.
  */
 export async function fetchLatestSentinelScene(): Promise<SentinelSceneMetadata> {
   // TODO: Implement actual STAC/Copernicus API call here.
   // For now, simulating an API latency and returning mock/placeholder live data structure.
-  
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({

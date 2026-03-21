@@ -58,7 +58,7 @@ export const TenantProvider: React.FC<{ config: Partial<TenantConfig>; children:
     const root = document.documentElement;
     root.style.setProperty('--color-primary', mergedConfig.primaryColor);
     root.style.setProperty('--color-secondary', mergedConfig.secondaryColor);
-    
+
     // Apply font family if provided
     if (mergedConfig.fontFamily !== 'Inter') {
       root.style.fontFamily = mergedConfig.fontFamily;

@@ -21,7 +21,7 @@ export async function GET() {
   const result = await fetchWithFallback({
     source: SOURCE_NAME,
     year: CURRENT_YEAR,
-    
+
     // Tier 1: LIVE (NASA FIRMS API)
     live: async () => {
       // In a real implementation: fetch from FIRMS MAP_KEY endpoint

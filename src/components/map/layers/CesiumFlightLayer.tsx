@@ -32,7 +32,7 @@ export const CesiumFlightLayer: React.FC<CesiumFlightLayerProps> = ({
       try {
         const res = await fetch('/api/flights');
         const json = await res.json();
-        
+
         if (destroyed || !visible) return;
 
         const now = JulianDate.now();
@@ -56,7 +56,7 @@ export const CesiumFlightLayer: React.FC<CesiumFlightLayerProps> = ({
               position: sampledPosition,
               orientation: new VelocityOrientationProperty(sampledPosition),
               billboard: {
-                image: '/cesium/Assets/Textures/maki/airport.png', 
+                image: '/cesium/Assets/Textures/maki/airport.png',
                 width: 32,
                 height: 32,
                 rotation: CesiumMath.toRadians(heading || 0),

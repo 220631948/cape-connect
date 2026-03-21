@@ -7,10 +7,10 @@
 'use client';
 
 import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
-import { 
-  Viewer, 
-  Ion, 
-  createWorldTerrainAsync, 
+import {
+  Viewer,
+  Ion,
+  createWorldTerrainAsync,
   OpenStreetMapImageryProvider,
   Cartesian3,
   Color,
@@ -66,7 +66,7 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
 
     const initCesium = async () => {
       const terrainProvider = await createWorldTerrainAsync();
-      
+
       const viewer = new Viewer(containerRef.current!, {
         terrainProvider,
         baseLayer: false, // We'll add our own or use OSM
@@ -94,8 +94,8 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
       if (initialViewport) {
         viewer.camera.setView({
           destination: Cartesian3.fromDegrees(
-            initialViewport.lng, 
-            initialViewport.lat, 
+            initialViewport.lng,
+            initialViewport.lat,
             initialViewport.height
           ),
           orientation: {
@@ -130,10 +130,10 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
   }, [ionToken]);
 
   return (
-    <div 
-      ref={containerRef} 
-      className={className} 
-      style={{ width: '100%', height: '100%', position: 'relative' }} 
+    <div
+      ref={containerRef}
+      className={className}
+      style={{ width: '100%', height: '100%', position: 'relative' }}
     >
       <div style={{ position: 'absolute', bottom: '12px', left: '12px', zIndex: 10 }}>
         <SourceBadge source="CesiumJS" year={2026} tier="LIVE" />

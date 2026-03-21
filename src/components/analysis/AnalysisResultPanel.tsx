@@ -10,7 +10,7 @@ import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import dynamic from 'next/dynamic';
 
-const ExportPanel = dynamic(() => import('./ExportPanel'), { 
+const ExportPanel = dynamic(() => import('./ExportPanel'), {
   ssr: false,
   loading: () => <div className="text-[10px] text-slate-500 mt-2 italic">Loading export tools...</div>
 });
@@ -42,7 +42,7 @@ export const AnalysisResultPanel: React.FC<AnalysisResultPanelProps> = ({
 }) => {
   if (!results && !loading && bufferDistance === 0) return null;
 
-  const zoningData = results?.zoning_breakdown 
+  const zoningData = results?.zoning_breakdown
     ? Object.entries(results.zoning_breakdown).map(([name, value]) => ({ name, value }))
     : [];
 
@@ -66,7 +66,7 @@ export const AnalysisResultPanel: React.FC<AnalysisResultPanelProps> = ({
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0 }}>🔍 Spatial Analysis</h3>
-        <button 
+        <button
           onClick={onClose}
           style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '18px', color: colors.textSecondary }}
         >
@@ -130,7 +130,7 @@ export const AnalysisResultPanel: React.FC<AnalysisResultPanelProps> = ({
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip 
+                  <Tooltip
                     contentStyle={{ background: colors.surface, border: `1px solid ${colors.border}`, borderRadius: '8px', fontSize: '10px' }}
                   />
                 </PieChart>

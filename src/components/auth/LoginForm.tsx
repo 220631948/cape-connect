@@ -30,9 +30,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     e.preventDefault();
     setIsLoading(true);
     onPoseChange('thinking');
-    
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+
     setIsLoading(false);
     onPoseChange('celebrating');
     onLogin?.(email, password);

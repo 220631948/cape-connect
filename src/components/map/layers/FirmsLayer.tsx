@@ -53,7 +53,7 @@ export const FirmsLayer: React.FC<FirmsLayerProps> = ({ map, visible = false }) 
         const res = await fetch('/api/firms');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json: FirmsTier = await res.json();
-        
+
         if (destroyed) return;
 
         setTierInfo(json);

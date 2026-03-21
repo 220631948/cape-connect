@@ -2,7 +2,7 @@
  * AnalysisToolbar.tsx
  * ===================
  * Spatial analysis tool controls for buffer and intersection operations.
- * 
+ *
  * @compliance Rule 1: Source badge on analysis outputs
  * @compliance POPIA: Aggregate results only - no personal data exposed
  */
@@ -46,8 +46,8 @@ export const AnalysisToolbar: React.FC<AnalysisToolbarProps> = ({
                 {mode === 'buffer' ? 'Buffer Analysis' : 'Spatial Query'}
               </h3>
               <p className="text-xs text-zinc-400">
-                {mode === 'buffer' 
-                  ? 'Analyze properties within distance of drawn feature' 
+                {mode === 'buffer'
+                  ? 'Analyze properties within distance of drawn feature'
                   : 'Intersect with selected geometry'}
               </p>
             </div>
@@ -95,7 +95,7 @@ export const AnalysisToolbar: React.FC<AnalysisToolbarProps> = ({
           >
             {isProcessing ? '⏳ Processing...' : '🚀 Run Analysis'}
           </button>
-          
+
           {mode === 'buffer' && (
             <button
               onClick={() => {}}

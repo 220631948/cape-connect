@@ -267,4 +267,3 @@ Deviations and approvals: Any format/tool not explicitly listed in CLAUDE.md mus
 Authorship & next steps:
 - Add this file to the repo under docs/research/
 - Raise a PR with implementation notes and a test plan (see PR body).
-

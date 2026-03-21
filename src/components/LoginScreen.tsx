@@ -50,13 +50,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           <p style={{ fontSize: '14px', color: colors.textSecondary, margin: 0 }}>Cape Town GIS Platform</p>
         </div>
 
-        <LoginForm 
-          colors={colors} 
-          insetShadowStyle={insetShadowStyle} 
-          shadowStyle={shadowStyle} 
-          theme={theme} 
-          onLogin={onLogin} 
-          onPoseChange={setMascotPose} 
+        <LoginForm
+          colors={colors}
+          insetShadowStyle={insetShadowStyle}
+          shadowStyle={shadowStyle}
+          theme={theme}
+          onLogin={onLogin}
+          onPoseChange={setMascotPose}
         />
 
         <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '13px' }}>

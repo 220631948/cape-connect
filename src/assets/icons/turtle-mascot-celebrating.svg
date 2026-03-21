@@ -1,7 +1,7 @@
 <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
   <title>Turtle Mascot - Celebrating Pose</title>
   <desc>An excited turtle character with arms raised in celebration, perfect for success moments and achievements.</desc>
-  
+
   <defs>
     <filter id="turtleGlow">
       <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
@@ -15,13 +15,13 @@
       <stop offset="100%" style="stop-color:#2d9d7f;stop-opacity:1" />
     </radialGradient>
   </defs>
-  
+
   <!-- Shadow -->
   <ellipse cx="64" cy="95" rx="42" ry="12" fill="rgba(0,0,0,0.1)" filter="url(#turtleGlow)"/>
-  
+
   <!-- Shell (rocked back in celebration) -->
   <ellipse cx="64" cy="52" rx="38" ry="42" fill="url(#shellGradient)" stroke="#1d6b5f" stroke-width="2" transform="rotate(-10 64 52)"/>
-  
+
   <!-- Shell pattern -->
   <g stroke="#1d6b5f" stroke-width="1.5" fill="none" opacity="0.6" transform="rotate(-10 64 52)">
     <circle cx="48" cy="35" r="5"/>
@@ -32,13 +32,13 @@
     <circle cx="72" cy="52" r="5"/>
     <circle cx="88" cy="52" r="5"/>
   </g>
-  
+
   <!-- Shell highlight -->
   <ellipse cx="48" cy="38" rx="12" ry="16" fill="rgba(255,255,255,0.3)" opacity="0.8" transform="rotate(-10 64 52)"/>
-  
+
   <!-- Head (happy, tilted up) -->
   <circle cx="64" cy="100" r="16" fill="#7dd3c0" stroke="#1d6b5f" stroke-width="2" transform="rotate(10 64 100)"/>
-  
+
   <!-- Eyes (closed in joy) -->
   <g transform="rotate(10 64 100)">
     <!-- Left eye (closed, happy) -->
@@ -46,23 +46,23 @@
     <!-- Right eye (closed, happy) -->
     <path d="M 68 94 Q 70 96 72 94" stroke="#1d6b5f" stroke-width="2" fill="none" stroke-linecap="round"/>
   </g>
-  
+
   <!-- Big joyful open mouth -->
   <ellipse cx="64" cy="106" rx="6" ry="5" fill="#ff85a1" stroke="#1d6b5f" stroke-width="1"/>
-  
+
   <!-- Victory arms (raised up) -->
   <g>
     <!-- Left arm (raised) -->
     <path d="M 48 70 Q 25 45 20 25" stroke="#7dd3c0" stroke-width="7" fill="none" stroke-linecap="round"/>
     <!-- Left hand (fist) -->
     <circle cx="18" cy="22" r="6" fill="#7dd3c0" stroke="#1d6b5f" stroke-width="1.5"/>
-    
+
     <!-- Right arm (raised) -->
     <path d="M 80 70 Q 103 45 108 25" stroke="#7dd3c0" stroke-width="7" fill="none" stroke-linecap="round"/>
     <!-- Right hand (fist) -->
     <circle cx="110" cy="22" r="6" fill="#7dd3c0" stroke="#1d6b5f" stroke-width="1.5"/>
   </g>
-  
+
   <!-- Celebration sparkles (stars) -->
   <g fill="#ffd700" opacity="0.8">
     <!-- Top left sparkle -->
@@ -74,21 +74,21 @@
     <!-- Bottom right sparkle -->
     <polygon points="103,75 104,79 108,79 105,81 106,85 103,83 100,85 101,81 98,79 102,79"/>
   </g>
-  
+
   <!-- Front legs (lifted in excitement) -->
   <ellipse cx="42" cy="75" rx="8" ry="14" fill="#7dd3c0" stroke="#1d6b5f" stroke-width="1.5" transform="rotate(-45 42 75)"/>
   <ellipse cx="86" cy="75" rx="8" ry="14" fill="#7dd3c0" stroke="#1d6b5f" stroke-width="1.5" transform="rotate(45 86 75)"/>
-  
+
   <!-- Back legs (hidden behind shell) -->
   <g opacity="0.5">
     <ellipse cx="35" cy="72" rx="6" ry="11" fill="#6bc0ad" stroke="#1d6b5f" stroke-width="1.5" transform="rotate(-45 35 72)"/>
     <ellipse cx="93" cy="72" rx="6" ry="11" fill="#6bc0ad" stroke="#1d6b5f" stroke-width="1.5" transform="rotate(45 93 72)"/>
   </g>
-  
+
   <!-- Tail (wagging happily) -->
   <path d="M 100 60 Q 110 50 115 40" stroke="#1d6b5f" stroke-width="5" fill="none" stroke-linecap="round" transform="rotate(20 100 60)"/>
   <ellipse cx="114" cy="38" rx="4" ry="5" fill="#7dd3c0" stroke="#1d6b5f" stroke-width="1" transform="rotate(20 100 60)"/>
-  
+
   <!-- Motion lines (celebration energy) -->
   <g stroke="#1d6b5f" stroke-width="2" opacity="0.4" stroke-linecap="round">
     <path d="M 15 25 L 10 20"/>

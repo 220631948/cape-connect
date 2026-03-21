@@ -21,10 +21,10 @@ export const ValuationBadge: React.FC<ValuationBadgeProps> = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
       <SourceBadge source="CoCT GV Roll" year={year} tier={tier} />
-      <span 
-        style={{ 
-          fontSize: '10px', 
-          color: '#718096', 
+      <span
+        style={{
+          fontSize: '10px',
+          color: '#718096',
           fontStyle: 'italic',
           lineHeight: '1.2'
         }}

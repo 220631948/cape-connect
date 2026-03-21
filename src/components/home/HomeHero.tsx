@@ -8,19 +8,19 @@ export const HomeHero: React.FC = () => {
       {/* Background Decorative Scribble (simulated with SVG) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 opacity-20 blur-xl pointer-events-none w-full max-w-4xl">
         <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
-          <path 
-            d="M100,500 Q 250,100 500,500 T 900,500" 
-            fill="none" 
-            stroke="var(--color-crayon-blue)" 
-            strokeWidth="20" 
+          <path
+            d="M100,500 Q 250,100 500,500 T 900,500"
+            fill="none"
+            stroke="var(--color-crayon-blue)"
+            strokeWidth="20"
             strokeLinecap="round"
             className="animate-pulse"
           />
-          <path 
-            d="M200,400 Q 400,800 600,400 T 800,400" 
-            fill="none" 
-            stroke="var(--color-crayon-pink)" 
-            strokeWidth="15" 
+          <path
+            d="M200,400 Q 400,800 600,400 T 800,400"
+            fill="none"
+            stroke="var(--color-crayon-pink)"
+            strokeWidth="15"
             strokeLinecap="round"
             className="animate-pulse"
             style={{ animationDelay: '0.5s' }}
@@ -34,7 +34,7 @@ export const HomeHero: React.FC = () => {
       </h1>
 
       <p className="max-w-2xl text-xl text-zinc-400 mb-12 font-medium">
-        Cape Town's definitive spatial intelligence platform. 
+        Cape Town's definitive spatial intelligence platform.
         Where economic data meets the hand-drawn precision of urban exploration.
       </p>
 

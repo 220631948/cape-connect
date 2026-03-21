@@ -53,7 +53,7 @@ export const InvitationBanner: React.FC<InvitationBannerProps> = ({
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <button
               onClick={() => onDecline(invite.id)}
