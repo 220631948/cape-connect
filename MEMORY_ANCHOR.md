@@ -205,8 +205,22 @@
 - [x] `.github/dependabot.yml`: 3 ecosystems (actions/npm/pip), weekly schedule, grouped updates
 - [x] All actions SHA-pinned, all jobs use least-privilege permissions
 
-**Next Agent:** Prompt-8 (Python backend QA). MPA skipped.
-**Next Document:** `docs/SESSION_LOG.md` entry required
+### MP-QA — Python Backend QA (COMPLETE ✓)
+
+**Agent:** TEST-AGENT
+**Deliverables:**
+
+- [x] Doc-coauthoring reader test: 5/5 questions answered from PYTHON_BACKEND_ARCHITECTURE.md
+- [x] QA checklist: 13 PASS, 1 FAIL (BUG-PY-001), 1 SKIP (COG validation)
+- [x] `tests/test_qa_mp8.py`: 19 passed, 1 skipped, 1 xfailed (261 total)
+- [x] `docs/MP-QA_REPORT.md`: Full QA report with deploy verdict
+- [x] `docs/bugs/BUG-PY-001.md`: CRITICAL — invalid JWT returns 503 instead of 401
+- [x] Deploy verdict: **NO-GO** — BUG-PY-001 must be fixed before Railway production deploy
+
+**CRITICAL Bug:** BUG-PY-001 — `auth.py` fetches JWKS before validating token. When JWKS
+endpoint is unreachable, invalid tokens get 503 instead of 401. Routed to PYTHON-BACKEND-AGENT.
+
+**Next Agent:** PYTHON-BACKEND-AGENT (fix BUG-PY-001), then production deploy.
 
 ---
 
