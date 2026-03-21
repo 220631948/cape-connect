@@ -13,7 +13,7 @@ import {
 } from '@/lib/auth/admin-session';
 import { isAdminRole, isPlatformAdmin, normalizeRole } from '@/lib/auth/roles';
 
-const VALID_ASSIGNABLE_ROLES = [
+const VALID_ASSIGNABLE_ROLES_ARRAY = [
   'viewer',
   'analyst',
   'power_user',
@@ -22,7 +22,9 @@ const VALID_ASSIGNABLE_ROLES = [
   'ANALYST',
   'POWER_USER',
   'TENANT_ADMIN',
-];
+] as const;
+
+const VALID_ASSIGNABLE_ROLES = new Set<string>(VALID_ASSIGNABLE_ROLES_ARRAY);
 
 // GET /api/admin/users — List users in caller scope
 export async function GET(request: NextRequest) {
@@ -100,9 +102,9 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'userId and role are required' }, { status: 400 });
     }
 
-    if (!VALID_ASSIGNABLE_ROLES.includes(role)) {
+    if (!VALID_ASSIGNABLE_ROLES.has(role)) {
       return NextResponse.json(
-        { error: `Invalid role. Must be one of: ${VALID_ASSIGNABLE_ROLES.join(', ')}` },
+        { error: `Invalid role. Must be one of: ${VALID_ASSIGNABLE_ROLES_ARRAY.join(', ')}` },
         { status: 400 }
       );
     }
