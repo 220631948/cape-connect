@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import tempfile
 from pathlib import Path
 
@@ -113,8 +114,14 @@ async def _process_geotiff(bucket: str, object_name: str) -> dict:
     gcs_bucket = client.bucket(bucket)
 
     with tempfile.TemporaryDirectory() as tmpdir:
+        # Derive a safe local filename from the GCS object name
+        raw_basename = os.path.basename(object_name)
+        safe_basename = re.sub(r"[^A-Za-z0-9._-]", "_", raw_basename)
+        if not safe_basename:
+            safe_basename = "raster.tif"
+
         # Step 1: Download raw GeoTIFF
-        local_raw = os.path.join(tmpdir, os.path.basename(object_name))
+        local_raw = os.path.join(tmpdir, safe_basename)
         blob = gcs_bucket.blob(object_name)
         blob.download_to_filename(local_raw)
         raw_size = os.path.getsize(local_raw)
@@ -127,7 +134,7 @@ async def _process_geotiff(bucket: str, object_name: str) -> dict:
             was_converted = False
         else:
             # Step 3: Convert to COG
-            cog_path = os.path.join(tmpdir, "cog_" + os.path.basename(object_name))
+            cog_path = os.path.join(tmpdir, "cog_" + safe_basename)
             _convert_to_cog(local_raw, cog_path)
             was_converted = True
 
