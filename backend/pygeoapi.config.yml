@@ -1,0 +1,171 @@
+server:
+  bind:
+    host: 0.0.0.0
+    port: 5000
+  url: ${RAILWAY_URL:-http://localhost:8000}/ogc
+  mimetype: application/json; charset=UTF-8
+  encoding: utf-8
+  gzip: true
+  language: en-US
+  cors: false  # CORS handled by FastAPI middleware
+
+logging:
+  level: ERROR
+  logfile: ''
+
+metadata:
+  identification:
+    title: CapeTown GIS Hub — OGC API
+    description: >
+      OGC API Features / WFS / WMS services for the City of Cape Town
+      and Western Cape Province geospatial data.
+    keywords:
+      - Cape Town
+      - GIS
+      - OGC
+      - WFS
+      - WMS
+      - geospatial
+    keywords_type: theme
+    terms_of_service: https://capegis.vercel.app/terms
+    url: https://capegis.vercel.app
+  license:
+    name: Mixed — see individual collection attribution
+    url: https://capegis.vercel.app/license
+  provider:
+    name: CapeTown GIS Hub
+    url: https://capegis.vercel.app
+  contact:
+    name: CapeTown GIS Hub Support
+    email: support@capegis.app
+    url: https://capegis.vercel.app
+    role: pointOfContact
+  attribution:
+    title: Data Attribution
+    text: >
+      Base map data © OpenStreetMap contributors (ODbL).
+      Map tiles by CARTO (CC BY 3.0).
+      Spatial data from City of Cape Town Open Data Portal.
+
+resources:
+  cape_town_zoning:
+    type: collection
+    title: Cape Town Zoning
+    description: Integrated Zoning Scheme (IZS) zoning polygons for the City of Cape Town.
+    keywords:
+      - zoning
+      - land use
+      - Cape Town
+    extents:
+      spatial:
+        bbox: [ 18.28, -34.36, 19.02, -33.48 ]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${DATABASE_HOST:-localhost}
+          port: ${DATABASE_PORT:-5432}
+          dbname: ${DATABASE_NAME:-postgres}
+          user: ${DATABASE_USER:-postgres}
+          password: ${DATABASE_PASSWORD:-postgres}
+        id_field: id
+        table: zoning
+        geom_field: geom
+    links:
+      - type: text/html
+        rel: canonical
+        title: City of Cape Town Open Data Portal
+        href: https://odp-cctegis.opendata.arcgis.com/
+
+  cape_town_parcels:
+    type: collection
+    title: Cape Town Parcels
+    description: Land parcels for the City of Cape Town.
+    keywords:
+      - parcels
+      - land
+      - cadastral
+      - Cape Town
+    extents:
+      spatial:
+        bbox: [ 18.28, -34.36, 19.02, -33.48 ]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${DATABASE_HOST:-localhost}
+          port: ${DATABASE_PORT:-5432}
+          dbname: ${DATABASE_NAME:-postgres}
+          user: ${DATABASE_USER:-postgres}
+          password: ${DATABASE_PASSWORD:-postgres}
+        id_field: id
+        table: parcels
+        geom_field: geom
+    links:
+      - type: text/html
+        rel: canonical
+        title: City of Cape Town Open Data Portal
+        href: https://odp-cctegis.opendata.arcgis.com/
+
+  cape_town_suburbs:
+    type: collection
+    title: Cape Town Suburbs
+    description: Suburb boundaries for the City of Cape Town metropolitan area.
+    keywords:
+      - suburbs
+      - boundaries
+      - Cape Town
+    extents:
+      spatial:
+        bbox: [ 18.28, -34.36, 19.02, -33.48 ]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${DATABASE_HOST:-localhost}
+          port: ${DATABASE_PORT:-5432}
+          dbname: ${DATABASE_NAME:-postgres}
+          user: ${DATABASE_USER:-postgres}
+          password: ${DATABASE_PASSWORD:-postgres}
+        id_field: id
+        table: suburbs
+        geom_field: geom
+    links:
+      - type: text/html
+        rel: canonical
+        title: City of Cape Town Open Data Portal
+        href: https://odp-cctegis.opendata.arcgis.com/
+
+  cape_town_flood_risk:
+    type: collection
+    title: Cape Town Flood Risk
+    description: Flood susceptibility raster for the City of Cape Town.
+    keywords:
+      - flood
+      - risk
+      - hazard
+      - Cape Town
+    extents:
+      spatial:
+        bbox: [ 18.28, -34.36, 19.02, -33.48 ]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${DATABASE_HOST:-localhost}
+          port: ${DATABASE_PORT:-5432}
+          dbname: ${DATABASE_NAME:-postgres}
+          user: ${DATABASE_USER:-postgres}
+          password: ${DATABASE_PASSWORD:-postgres}
+        id_field: id
+        table: flood_risk
+        geom_field: geom
+    links:
+      - type: text/html
+        rel: canonical
+        title: City of Cape Town Open Data Portal
+        href: https://odp-cctegis.opendata.arcgis.com/
