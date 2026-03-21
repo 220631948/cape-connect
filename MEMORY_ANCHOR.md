@@ -217,10 +217,39 @@
 - [x] `docs/bugs/BUG-PY-001.md`: CRITICAL — invalid JWT returns 503 instead of 401
 - [x] Deploy verdict: **NO-GO** — BUG-PY-001 must be fixed before Railway production deploy
 
-**CRITICAL Bug:** BUG-PY-001 — `auth.py` fetches JWKS before validating token. When JWKS
-endpoint is unreachable, invalid tokens get 503 instead of 401. Routed to PYTHON-BACKEND-AGENT.
+**CRITICAL Bug:** BUG-PY-001 — ~~OPEN~~ **FIXED** ✓. `auth.py` now validates token structure
+(3-part JWT, decodable header/claims) BEFORE any JWKS network call. Malformed tokens always
+get 401, never 503. Deploy verdict updated: **GO** (pending integration testing).
 
-**Next Agent:** PYTHON-BACKEND-AGENT (fix BUG-PY-001), then production deploy.
+### Architecture Restructure (COMPLETE ✓)
+
+**Agent:** Junie (Architecture Refactor)
+**Deliverables:**
+
+- [x] **Hexagonal Architecture** — `backend/app/domain/`, `ports/`, `adapters/`, `infrastructure/`
+- [x] **Domain Layer** — 3 value objects (BoundingBox, SuitabilityScore, GeoJSONGeometry),
+  3 entities (AnalysisJob, GISLayer, TenantContext), 7 domain exceptions
+- [x] **Port Interfaces** — 4 outbound ports (SpatialRepositoryPort, StoragePort, ArcGISPort,
+  FileProcessorPort) with Big O annotations and GOTCHA references
+- [x] **BUG-PY-001 FIXED** — auth.py validates token structure before JWKS fetch (262 tests pass)
+- [x] **shared/** — Cross-cutting constants (bbox.ts, roles.ts, formats.ts) mirroring backend domain
+- [x] **infra/** — Deployment documentation and CI/CD reference
+- [x] **.env.example** — All frontend + backend environment variables documented
+- [x] **AI Instruction Files** — .junie/guidelines.md, .claude/ARCHITECTURE.md Section 9,
+  .github/copilot/instructions.md — all mandate pattern-driven, Big O-aware, secure coding
+- [x] **CONTRIBUTING.md** — Developer onboarding with architecture rules, security checklist
+- [x] **CLAUDE.md Section 8** — Updated file structure reflecting hexagonal architecture
+
+**Design Patterns Applied:**
+
+- Value Object (DDD) — BoundingBox, SuitabilityScore, GeoJSONGeometry
+- Entity (DDD) — AnalysisJob (state machine), GISLayer, TenantContext
+- Repository (DDD + Hexagonal) — SpatialRepositoryPort abstract interface
+- Strategy (GoF) — FileProcessorPort for format-specific dispatch
+- Factory — `@classmethod` constructors with validation on all domain objects
+- Port/Adapter (Hexagonal) — All external deps behind abstract interfaces
+
+**Next:** Production deploy readiness (integration testing on Railway).
 
 ---
 
