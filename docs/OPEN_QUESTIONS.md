@@ -46,6 +46,34 @@ as a named constant.
 
 ---
 
+## OQ-001 — City of Cape Town ArcGIS REST Service Authentication Status
+
+| Field             | Value                             |
+|-------------------|-----------------------------------|
+| **Status**        | **RESOLVED** ✓                    |
+| **Blocks**        | MP3 — ArcGIS Proxy + Cache Warmer |
+| **Date Raised**   | Pre-project (inherited)           |
+| **Date Resolved** | 2026-03-21                        |
+| **Resolved By**   | DATA-AGENT (MP3)                  |
+
+### Evidence
+
+| Endpoint                                                        | HTTP Status | Result                             |
+|-----------------------------------------------------------------|-------------|------------------------------------|
+| `https://citymaps.capetown.gov.za/agsext1/rest/services?f=json` | **404**     | IIS "File or directory not found"  |
+| `https://gis.westerncape.gov.za/server2/rest/services?f=json`   | **200**     | ArcGIS 11.3, 17 folders, no auth   |
+| `https://odp-cctegis.opendata.arcgis.com/`                      | **200**     | CoCT Open Data Portal (HTML + API) |
+
+### Conclusion
+
+The CoCT ArcGIS REST service directory at `/agsext1/` **does not exist** (HTTP 404). This is NOT an authentication
+issue (401/403) — the endpoint path itself has been removed or renamed. The Western Cape Government Spatial Data
+Warehouse is available as an alternative source (no auth required). Mock fallback activated for all CoCT layers.
+
+Full details: `docs/API_STATUS.md`
+
+---
+
 ## OQ-NEW-A — GV Roll Format (CSV or PDF?)
 
 | Field      | Value                                              |

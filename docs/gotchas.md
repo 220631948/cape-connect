@@ -93,6 +93,28 @@ file is actually WGS84, the geometry will land somewhere in the ocean.
 
 ---
 
+### GOTCHA-DATA-002 — esriJSON Is NOT GeoJSON
+
+**Category:** Data Pipeline | **Severity:** Critical | **Date:** 2026-03-21
+
+**Problem:** ArcGIS REST services return features in esriJSON format, which looks similar to GeoJSON but uses different
+coordinate structures. Storing esriJSON directly as GeoJSON causes geometry errors:
+
+- esriJSON `rings` ≠ GeoJSON `coordinates` for polygons
+- esriJSON spatial reference uses `wkid` numbers, not standard CRS strings
+- Point geometry uses `{x, y}` instead of `[lon, lat]`
+
+**Solution:** Always convert via the `arcgis2geojson` library before storing or returning to clients:
+
+```python
+from arcgis2geojson import arcgis2geojson
+geojson_feature = arcgis2geojson(esri_feature)
+```
+
+**Prevention:** The `arcgis_client.py` service always converts esriJSON → GeoJSON before caching or returning data.
+
+---
+
 ### GOTCHA-PY-005 — GeoPandas Blocking Operations in Async Context
 
 **Category:** Python Backend | **Severity:** High | **Date:** 2026-03-21
