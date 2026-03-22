@@ -10,12 +10,14 @@ import { themes, ThemeName } from '../assets/tokens/themes';
 interface LoginScreenProps {
   theme?: ThemeName;
   onLogin?: (email: string, password: string) => void;
+  onGoogleLogin?: () => void;
   showMascot?: boolean;
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({
   theme = 'light',
   onLogin,
+  onGoogleLogin,
   showMascot = true,
 }) => {
   const [mascotPose, setMascotPose] = useState('default');
@@ -56,6 +58,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           shadowStyle={shadowStyle}
           theme={theme}
           onLogin={onLogin}
+          onGoogleLogin={onGoogleLogin}
           onPoseChange={setMascotPose}
         />
 

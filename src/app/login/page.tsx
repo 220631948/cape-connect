@@ -47,9 +47,28 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setError(null);
+    const { error: oauthError } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
+    });
+
+    if (oauthError) {
+      console.error('[OAuth Frontend Forensic] Error triggering Google login:', oauthError.message);
+      setError(oauthError.message);
+    }
+  };
+
   return (
     <>
-      <LoginScreen theme="dark" onLogin={handleLogin} />
+      <LoginScreen theme="dark" onLogin={handleLogin} onGoogleLogin={handleGoogleLogin} />
       {error && (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-500/90 text-white px-4 py-2 rounded-lg text-sm z-50 shadow-lg border border-white/20">
           ⚠️ {error}
