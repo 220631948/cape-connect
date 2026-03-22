@@ -122,6 +122,25 @@
 
 ---
 
+### ♊ Gemini-Native Skills (Specialized)
+
+| Skill | Directory | Description | Primary Agent | Trigger Keywords |
+|-------|-----------|-------------|--------------|-----------------|
+| `stac-catalog-sync` | `.gemini/extensions/capegis-ai/skills/stac-catalog-sync/` | Sync and validate SpatioTemporal Asset Catalog (STAC) metadata | GEO-DATA-AGENT | "stac", "catalog sync", "raster metadata" |
+| `gcs-cost-audit` | `.gemini/extensions/capegis-ai/skills/gcs-cost-audit/` | Audit and optimize Google Cloud Storage (GCS) storage and egress costs | CLOUD-OPS-AGENT | "gcs cost", "finops", "egress audit" |
+| `db-raster-wire-check` | `.gemini/extensions/capegis-ai/skills/db-raster-wire-check/` | Verify PostGIS out-db raster references against actual files in GCS | GEO-DATA-AGENT | "raster check", "out-db", "postgis raster" |
+| `check-popia-compliance` | `.gemini/extensions/capegis-ai/skills/check-popia-compliance/` | Audit for South African POPIA compliance in geospatial data and APIs | GEO-DATA-AGENT | "popia", "privacy audit", "sanitization" |
+
+---
+
+### 📚 Research & Analysis Skills (Extended)
+
+| Skill | Directory | Description | Primary Agent | Trigger Keywords |
+|-------|-----------|-------------|--------------|-----------------|
+| `notebooklm` | `notebooklm/` | Query Google NotebookLM for source-grounded, citation-backed answers | RESEARCHER | "notebooklm", "ask my notebook", "query documentation" |
+
+---
+
 ### 🌍 Spatial & Data (formerly 5 skills, now 9 with new additions)
 
 | Skill | Directory | Description | Primary Agent | Trigger Keywords |

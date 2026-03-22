@@ -1,30 +1,29 @@
 ---
 name: db-raster-wire-check
-description: |
-  Verify PostGIS out-db raster references against actual files in GCS.
-  Diagnoses broken map layers where metadata points to missing files.
+description: Verify PostGIS out-db raster references against actual files in GCS.
+version: 1.0.0
 ---
 
-# DB Raster Wiring Check Skill
+# DB Raster Wire Check
 
 ## Capability
-Cross-references raster metadata in PostGIS with the availability of the corresponding raster files in Google Cloud Storage.
+This skill validates that all "out-db" raster records in the PostGIS database point to valid, accessible objects within the configured GCS buckets, diagnosing "broken map layers" before deployment.
 
 ## Triggers
-- "Check raster wiring"
-- "Why are rasters not loading?"
-- "Verify out-db raster references"
+- User asks to "check raster connections."
+- User asks "Are any map layers broken?"
+- Before running database migrations that involve rasters.
 
 ## Instructions
-1. Run the wiring script: `scripts/env-raster-wiring.sh --check`.
-2. Use `mcp__postgres__query` to list all `out-db` raster URIs from the database.
-3. Compare the list with actual file paths in GCS (can use `gsutil ls` or `mcp__filesystem` if mounted).
-4. Identify broken links (URIs in DB that don't exist in storage).
+1.  Connect to the PostGIS database using the `postgres` tool.
+2.  Query for all raster columns using `ST_BandFile` or custom reference fields.
+3.  Cross-reference the resulting URIs against the `gcloud storage ls` output.
+4.  Report any "dangling" references (database records with no matching file).
 
 ## Tools / Commands
-- `scripts/env-raster-wiring.sh`: Main wiring configuration and check tool.
-- `mcp__postgres`: To query the database for raster URIs.
+- `mcp__postgres__query("SELECT ...")`: Used to extract raster URIs from the database.
+- `gcloud storage ls <uri>`: Used to verify file existence.
 
-## Example
-User: "Check if all rasters in the database are correctly wired to GCS."
-Action: Query Postgres for raster paths, check their existence in GCS, and report missing files.
+## Examples
+User: "Verify all out-db raster links are valid."
+Action: `mcp__postgres__query("SELECT filename FROM raster_metadata WHERE out_db = true")` followed by GCS checks.

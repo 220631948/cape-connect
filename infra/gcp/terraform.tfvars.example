@@ -1,0 +1,11 @@
+# GCP Project ID where the budget will be monitored
+project_id = "your-gcp-project-id"
+
+# Billing account name in the format: billingAccounts/XXXXXX-XXXXXX-XXXXXX
+billing_account_name = "billingAccounts/000000-000000-000000"
+
+# List of email addresses to receive alerts
+alert_emails = [
+  "admin@example.com",
+  "billing@example.com"
+]

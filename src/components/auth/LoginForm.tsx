@@ -55,8 +55,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <form onSubmit={handleSubmit}>
       <div style={{ marginBottom: '20px' }}>
-        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '8px' }}>Email Address</label>
+        <label htmlFor="email" style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '8px' }}>Email Address</label>
         <input
+          id="email"
+          name="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -69,8 +71,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       </div>
 
       <div style={{ marginBottom: '28px' }}>
-        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '8px' }}>Password</label>
+        <label htmlFor="password" style={{ display: 'block', fontSize: '13px', fontWeight: 600, marginBottom: '8px' }}>Password</label>
         <input
+          id="password"
+          name="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

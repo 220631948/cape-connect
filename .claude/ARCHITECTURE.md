@@ -3,7 +3,7 @@
 > Navigation map for all AI agents. Read before touching any file.
 > **Cross-refs:
 ** [AGENTS.md](./AGENTS.md) · [SKILLS.md](./SKILLS.md) · [COMMANDS.md](./COMMANDS.md) · [HOOKS.md](./HOOKS.md) · [MCP_SERVERS.md](./MCP_SERVERS.md) · [PLAN.md](../PLAN.md) · [CLAUDE.md](../CLAUDE.md)
-> `__generated_by: aris-unit-1 | __timestamp: 2026-03-14`
+> `__generated_by: aris-unit-1 | __timestamp: 2026-03-14 | __updated: 2026-03-22 (version sync)`
 
 ---
 
@@ -11,20 +11,22 @@
 
 | Layer            | Technology                         | Version  | Notes                          |
 |------------------|------------------------------------|----------|--------------------------------|
-| Framework        | Next.js (App Router, RSC)          | 15       | Vercel-hosted                  |
+| Framework        | Next.js (App Router, RSC)          | 16       | Vercel-hosted                  |
 | UI Runtime       | React                              | 19       | Server + Client Components     |
-| Mapping          | MapLibre GL JS                     | 4        | NOT Leaflet / NOT Mapbox GL JS |
-| State            | Zustand                            | latest   | Client stores only             |
-| Styling          | Tailwind CSS                       | latest   | Dark mode default              |
-| Charts           | Recharts                           | latest   | Dashboard widgets              |
-| PWA              | Serwist                            | latest   | Tile caching zoom 8–12         |
-| Offline storage  | Dexie.js                           | latest   | IndexedDB                      |
-| Offline tiles    | PMTiles                            | latest   | Vector tiles, Supabase Storage |
-| Spatial (client) | Turf.js                            | latest   | < 10 k features; PostGIS above |
-| Database         | Supabase (PostgreSQL 15 + PostGIS) | 3.x      | EPSG:4326 storage              |
+| Mapping          | MapLibre GL JS                     | 5        | NOT Leaflet / NOT Mapbox GL JS |
+| State            | Zustand                            | 5        | Client stores only             |
+| Styling          | Tailwind CSS                       | 4        | Dark mode default              |
+| Charts           | Recharts                           | 3        | Dashboard widgets              |
+| PWA              | Serwist                            | 9        | Tile caching zoom 8–12         |
+| Offline storage  | Dexie.js                           | 4        | IndexedDB                      |
+| Offline tiles    | PMTiles                            | 4        | Vector tiles, Supabase Storage |
+| Spatial (client) | Turf.js                            | 7        | < 10 k features; PostGIS above |
+| PDF export       | jsPDF + jsPDF-autotable            | 4 / 5    | Client-side PDF generation     |
+| Analytics        | DuckDB WASM + Apache Arrow         | latest   | In-browser raster/tabular      |
+| Database         | Supabase (PostgreSQL 15 + PostGIS) | 3.5      | EPSG:4326 storage              |
 | Auth             | Supabase Auth (GoTrue)             | latest   | Email/pw + Google OAuth        |
 | Tile server      | Martin (Rust MVT)                  | latest   | Docker, DigitalOcean Droplet   |
-| Testing (unit)   | Vitest                             | 3        | vi.mock stubs for MapLibre     |
+| Testing (unit)   | Vitest                             | 4        | vi.mock stubs for MapLibre     |
 | Testing (e2e)    | Playwright                         | 1        | Lighthouse, axe-core           |
 | CI/CD            | GitHub Actions                     | —        | ci.yml, spatial-validation.yml |
 | Errors           | Sentry                             | optional | Gracefully absent              |

@@ -755,6 +755,35 @@ Delegate complex research to `researcher` and architectural decisions to `planne
 
 ---
 
+---
+
+## ♊ Gemini-Native Agents
+
+Specialized agents provided by the `.gemini/extensions/capegis-ai` extension for high-performance geospatial and infrastructure tasks.
+
+---
+
+### 🌍 GEO-DATA-AGENT — Geospatial Data Automator
+**File:** `.gemini/extensions/capegis-ai/agents/geo-data-agent.md`
+**Purpose:** Automates ingestion and validation of spatial data; STAC cataloging.
+**Skills:** `stac-catalog-sync`, `db-raster-wire-check`, `spatial_validation`
+
+---
+
+### ☁️ CLOUD-OPS-AGENT — GCP Infrastructure & FinOps
+**File:** `.gemini/extensions/capegis-ai/agents/cloud-ops-agent.md`
+**Purpose:** Manages GCP Terraform and GCS FinOps; enforces WIF.
+**Skills:** `gcs-cost-audit`, `terraform-security-guardian`
+
+---
+
+### 🥽 IMMERSIVE-AGENT — 3DGS & Cesium Orchestrator
+**File:** `.gemini/extensions/capegis-ai/agents/immersive-agent.md`
+**Purpose:** Orchestrates NeRF/3DGS and Cesium integrations; 3D Tiles validation.
+**Skills:** `cesium_3d_tiles`, `nerf_3dgs_pipeline`
+
+---
+
 ## 🏗️ ARIS Agents (General Workflow)
 
 Cross-milestone supporting agents added by the ARIS self-evolution pass (2026-03-14).

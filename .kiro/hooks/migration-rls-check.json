@@ -1,0 +1,13 @@
+{
+  "name": "Migration RLS Check",
+  "version": "1.0.0",
+  "description": "When a new Supabase migration file is saved, checks that RLS is enabled and policies are defined for any new tables.",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["supabase/migrations/*.sql"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A Supabase migration file was just saved. Scan it and check: (1) Any new table created with `CREATE TABLE` has a corresponding `ALTER TABLE ... ENABLE ROW LEVEL SECURITY` statement. (2) At least one RLS policy is defined for each new table that contains user or tenant data (look for columns named tenant_id, user_id, email, role, or geometry tied to a user). (3) Any `CREATE FUNCTION ... SECURITY DEFINER` includes `SET search_path = public, pg_temp`. Report ✅ PASS or ❌ FAIL for each check with the table/function name. A missing RLS policy on a tenant-scoped table is a P0 violation — flag it clearly."
+  }
+}

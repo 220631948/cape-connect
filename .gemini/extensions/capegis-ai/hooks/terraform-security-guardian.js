@@ -1,44 +1,37 @@
 /**
- * terraform-security-guardian.js
- * 
- * Pre-commit hook to ensure no hardcoded GCP keys in Terraform files
- * and enforce Workload Identity Federation (WIF).
+ * @hook pre-commit
+ * @description Prevents hardcoded GCP JSON keys and ensures WIF is used in Terraform.
  */
-
 const fs = require('fs');
 const path = require('path');
 
-async function run() {
-  const files = process.argv.slice(2);
-  const tfFiles = files.filter(f => f.endsWith('.tf') && f.includes('infra/gcp/'));
+function checkFile(filePath) {
+  const content = fs.readFileSync(filePath, 'utf8');
+  
+  // Pattern for GCP Service Account JSON keys
+  const gcpKeyPattern = /"type":\s*"service_account"/;
+  const privateKeyPattern = /"private_key":\s*"-----BEGIN PRIVATE KEY-----/;
 
-  if (tfFiles.length === 0) return;
-
-  console.log('🛡️  CapeGIS AI: Auditing Terraform files for security...');
-
-  let errors = [];
-
-  for (const file of tfFiles) {
-    const content = fs.readFileSync(file, 'utf8');
-
-    // Check for hardcoded GCP_SA_KEY pattern
-    if (content.includes('GCP_SA_KEY') || /"credentials"\s*=\s*".*"/.test(content)) {
-      errors.push(`❌ ${file}: Hardcoded GCP service account keys detected. Use Workload Identity Federation (WIF) instead.`);
-    }
-
-    // Check for WIF provider usage in workflows (not in .tf usually, but good to check context)
-    // Actually, the hook is triggered on write_file/replace/edit_file of .tf files.
-  }
-
-  if (errors.length > 0) {
-    console.error(errors.join('\n'));
+  if (gcpKeyPattern.test(content) || privateKeyPattern.test(content)) {
+    console.error(`❌ ERROR: Hardcoded GCP Service Account key found in ${filePath}`);
+    console.error('   Please use Workload Identity Federation (WIF) instead of JSON keys.');
     process.exit(1);
   }
-
-  console.log('✅ Terraform security audit passed.');
 }
 
-run().catch(err => {
-  console.error(err);
-  process.exit(1);
+// Scanned directories
+const targets = ['infra/gcp', '.github/workflows'];
+
+targets.forEach(dir => {
+  if (fs.existsSync(dir)) {
+    const files = fs.readdirSync(dir);
+    files.forEach(file => {
+      const fullPath = path.join(dir, file);
+      if (fs.lstatSync(fullPath).isFile()) {
+        checkFile(fullPath);
+      }
+    });
+  }
 });
+
+console.log('✅ terraform-security-guardian: No hardcoded keys detected.');

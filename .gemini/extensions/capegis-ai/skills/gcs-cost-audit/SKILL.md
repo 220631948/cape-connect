@@ -1,33 +1,28 @@
 ---
 name: gcs-cost-audit
-description: |
-  Audit and optimize Google Cloud Storage (GCS) storage and egress costs.
-  Prevents runaway cloud costs associated with heavy raster (COG) egress.
+description: Estimate and optimize GCS storage and egress costs for CapeTown GIS Hub.
+version: 1.0.0
 ---
 
-# GCS Cost Audit Skill
+# GCS Cost Audit
 
 ## Capability
-Estimates monthly GCS costs and provides autonomous recommendations for optimization based on actual usage metrics.
+This skill executes specialized scripts to analyze the storage usage and egress patterns of GCS buckets, providing actionable insights for FinOps optimization.
 
 ## Triggers
-- "Check GCS costs"
-- "Audit storage budget"
-- "How much is the [bucket] costing?"
+- User asks "How much is GCS costing us?"
+- User asks to "audit cloud costs."
+- Before major data migrations or infrastructure changes.
 
 ## Instructions
-1. Run the estimation script: `./scripts/estimate_gcs_cost.sh <bucket_name>`.
-2. Analyze the stdout for Storage, Egress, and Ops costs.
-3. If the total exceeds the $30 budget ceiling, summarize the warnings.
-4. Suggest Terraform changes:
-   - Enable Cloud CDN for egress reduction.
-   - Configure lifecycle rules (Nearline/Coldline).
-   - Verify if rasters are properly optimized as Cloud Optimized GeoTIFFs (COGs).
+1.  Ensure `gcloud` CLI is authenticated and the correct project is set.
+2.  Run the cost estimation script.
+3.  Analyze the output for "high-cost" items (e.g., standard storage for cold data, high egress regions).
+4.  Recommend lifecycle policy updates or regional shifts.
 
 ## Tools / Commands
-- `./scripts/estimate_gcs_cost.sh`: Primary estimation tool.
-- `mcp__vercel`: To check if environment variables for cost thresholds are set.
+- `bash scripts/estimate_gcs_cost.sh`: Executes the full GCS cost audit and outputs a summary.
 
-## Example
-User: "Audit the costs for the capegis-rasters bucket."
-Action: Run `./scripts/estimate_gcs_cost.sh capegis-rasters`, parse output, and recommend enabling Cloud CDN if egress is high.
+## Examples
+User: "Perform a cost audit on our raster storage."
+Action: `bash scripts/estimate_gcs_cost.sh`

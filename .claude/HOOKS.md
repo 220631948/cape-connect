@@ -2,7 +2,7 @@
 
 > Claude-facing reference for all hooks configured in `.claude/settings.local.json` and planned hooks in the agent pipeline. Cross-reference: `docs/infra/hooks-reference.md`.
 
-**Hook runtime:** Claude Code (`settings.local.json`) | **Last updated:** 2026-03-14 | **Active hooks:** 7
+**Hook runtime:** Claude Code (`settings.local.json`) | **Last updated:** 2026-03-22 | **Active hooks:** 8
 
 ---
 
@@ -29,6 +29,7 @@ Custom Node.js hook scripts live in `.claude/hooks/`. All scripts:
 | `.claude/hooks/fallback-verify-postwrite.js` | D2 — PostToolUse Write on `src/app/api/**/*.ts` | Checks for LIVE/CACHED/MOCK tiers; warns on partial/missing |
 | `.claude/hooks/mcp-health-precheck.js` | D3 — PreToolUse Task | Checks P0 MCP server paths; outputs ESCALATE if any missing |
 | `.claude/hooks/filesize-guard.js` | D5 — PostToolUse Write on `src/**` | Counts lines; warns if > 300 (Rule 7); skips tests/migrations |
+| `.claude/hooks/popia-guard-postwrite.js` | D6 — PostToolUse Write on `src/**/*.ts(x)` | Detects PII field names; warns if @popia annotation missing (Rule 5) |
 
 ---
 

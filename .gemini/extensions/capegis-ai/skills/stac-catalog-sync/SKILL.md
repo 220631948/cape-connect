@@ -1,30 +1,29 @@
 ---
 name: stac-catalog-sync
-description: |
-  Sync and validate SpatioTemporal Asset Catalog (STAC) metadata for geospatial rasters.
-  Ensures malformed metadata doesn't break frontend layer fetching.
+description: Validates and syncs STAC (SpatioTemporal Asset Catalog) metadata for spatial assets.
+version: 1.0.0
 ---
 
-# STAC Catalog Sync Skill
+# STAC Catalog Sync
 
 ## Capability
-Automates the generation and validation of STAC metadata for rasters hosted in GCS or local directories.
+This skill allows the agent to generate and synchronize STAC metadata for newly ingested geospatial rasters and vectors, ensuring they are discoverable and compliant with project standards.
 
 ## Triggers
-- "Sync STAC catalog"
-- "Generate STAC metadata for [directory/bucket]"
-- "Validate STAC catalog"
+- User asks to "sync metadata" for a specific spatial asset.
+- User asks to "generate STAC catalog" for a directory of rasters.
+- Post-ingestion verification steps.
 
 ## Instructions
-1. Run the generation script: `python scripts/generate_stac_catalog.py --path <target_path>`.
-2. Analyze the generated `catalog.json` (or similar).
-3. Verify required fields: `id`, `type`, `stac_version`, `description`, `extent`, `links`.
-4. Use Gemini to check for logical consistency (e.g., temporal extent matches filenames).
+1.  Locate the spatial asset (GeoTIFF, GeoPackage, etc.).
+2.  Run the STAC generation script.
+3.  Validate the generated JSON against the STAC 1.0.0 specification.
+4.  Commit the metadata to the repository or upload to the STAC API endpoint.
 
 ## Tools / Commands
-- `python scripts/generate_stac_catalog.py`: Main generation tool.
-- `mcp__gis-mcp__validate_geometry`: For verifying bounding box extents in metadata.
+- `python scripts/generate_stac_catalog.py --input <path_to_asset> --output <path_to_metadata>`: Generates STAC metadata for a single asset.
+- `python scripts/sync_stac_registry.py`: Syncs local STAC files with the central registry.
 
-## Example
-User: "Sync the STAC catalog for the 2024 aerial imagery in gs://capegis-rasters/aerial-2024"
-Action: Run `python scripts/generate_stac_catalog.py gs://capegis-rasters/aerial-2024`, read output, and validate metadata.
+## Examples
+User: "Sync the STAC metadata for the sentinel2 export."
+Action: `python scripts/generate_stac_catalog.py --input Sentinel2_CT.tif --output sentinel2_stac.json`

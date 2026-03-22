@@ -2,9 +2,8 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # CapeTown GIS Hub — GCP Infrastructure Provisioning Script
 # ─────────────────────────────────────────────────────────────────────────────
-# Phase 4: Provision GCS bucket, IAM service accounts, and Cloud Run service.
-# Budget ceiling: $200 free credit (90-day expiry), $30/mo post-credit.
-# POPIA: all resources in africa-south1.
+# Phase 4: Provision GCS staging bucket and IAM service accounts.
+# Pivoted to Cesium ion for raster serving; GCP used only for staging.
 #
 # Prerequisites:
 #   - gcloud CLI authenticated: gcloud auth login
@@ -34,9 +33,6 @@ echo "═══ Phase 1: GCS Bucket Setup ═══"
 # Enable required APIs
 gcloud services enable \
   storage.googleapis.com \
-  run.googleapis.com \
-  eventarc.googleapis.com \
-  cloudbuild.googleapis.com \
   iam.googleapis.com \
   billingbudgets.googleapis.com \
   --project="$PROJECT_ID"
@@ -99,29 +95,7 @@ echo "✅ GCS bucket gs://$BUCKET_NAME created in $REGION with lifecycle + CORS"
 # ═══════════════════════════════════════════════════════════════════════════════
 echo "═══ Phase 2: IAM & Security ═══"
 
-# --- Service Account 1: Raster Reader (Next.js/Supabase proxy) ---
-# Read-only access to GCS bucket for signed URL generation
-SA_READER="capegis-raster-reader"
-SA_READER_EMAIL="$SA_READER@$PROJECT_ID.iam.gserviceaccount.com"
-
-gcloud iam service-accounts create "$SA_READER" \
-  --project="$PROJECT_ID" \
-  --display-name="CapeTown GIS - Raster Reader (proxy)" \
-  --description="Read-only access to GCS raster bucket for Next.js/Supabase proxy"
-
-gcloud storage buckets add-iam-policy-binding "gs://$BUCKET_NAME" \
-  --member="serviceAccount:$SA_READER_EMAIL" \
-  --role="roles/storage.objectViewer"
-
-# Also grant signBlob for signed URL generation
-gcloud projects add-iam-policy-binding "$PROJECT_ID" \
-  --member="serviceAccount:$SA_READER_EMAIL" \
-  --role="roles/iam.serviceAccountTokenCreator" \
-  --condition=None
-
-echo "✅ Reader SA created: $SA_READER_EMAIL"
-
-# --- Service Account 2: GEE Writer (Earth Engine export pipeline) ---
+# --- Service Account: GEE Writer (Earth Engine export pipeline) ---
 # Write-only access: can create objects but NOT read or delete
 SA_GEE="capegis-gee-writer"
 SA_GEE_EMAIL="$SA_GEE@$PROJECT_ID.iam.gserviceaccount.com"
@@ -141,11 +115,6 @@ echo "✅ GEE Writer SA created: $SA_GEE_EMAIL"
 KEY_DIR="/tmp/capegis-keys"
 mkdir -p "$KEY_DIR"
 
-# Reader key
-gcloud iam service-accounts keys create "$KEY_DIR/reader-key.json" \
-  --iam-account="$SA_READER_EMAIL" \
-  --project="$PROJECT_ID"
-
 # GEE Writer key
 gcloud iam service-accounts keys create "$KEY_DIR/gee-writer-key.json" \
   --iam-account="$SA_GEE_EMAIL" \
@@ -156,10 +125,6 @@ echo "✅ JSON keys generated in $KEY_DIR"
 # Upload keys to GitHub Repository Secrets (requires gh CLI authenticated)
 echo "Uploading keys to GitHub Secrets..."
 
-gh secret set GCP_RASTER_READER_KEY \
-  --repo="$GITHUB_REPO" \
-  < "$KEY_DIR/reader-key.json"
-
 gh secret set GCP_GEE_WRITER_KEY \
   --repo="$GITHUB_REPO" \
   < "$KEY_DIR/gee-writer-key.json"
@@ -169,66 +134,19 @@ gh secret set GCP_PROJECT_ID \
   --body="$PROJECT_ID"
 
 # Securely delete local key files
-shred -u "$KEY_DIR/reader-key.json" "$KEY_DIR/gee-writer-key.json"
+shred -u "$KEY_DIR/gee-writer-key.json"
 rmdir "$KEY_DIR"
 
 echo "✅ Keys uploaded to GitHub Secrets and securely deleted locally"
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# PHASE 3 — CLOUD RUN DEPLOYMENT
-# ═══════════════════════════════════════════════════════════════════════════════
-echo "═══ Phase 3: Cloud Run Deploy ═══"
-
-# Build the raster processor image
-gcloud builds submit \
-  --project="$PROJECT_ID" \
-  --tag="gcr.io/$PROJECT_ID/capegis-raster-processor:latest" \
-  --timeout=600 \
-  backend/
-
-# Deploy to Cloud Run with cost-safe limits
-gcloud run deploy capegis-raster-processor \
-  --project="$PROJECT_ID" \
-  --region="$REGION" \
-  --image="gcr.io/$PROJECT_ID/capegis-raster-processor:latest" \
-  --platform=managed \
-  --memory=512Mi \
-  --cpu=1 \
-  --timeout=300 \
-  --concurrency=10 \
-  --min-instances=0 \
-  --max-instances=3 \
-  --allow-unauthenticated \
-  --service-account="$SA_READER_EMAIL" \
-  --set-env-vars="\
-GCS_BUCKET=$BUCKET_NAME,\
-GDAL_CACHEMAX=256,\
-CPL_VSIL_CURL_CACHE_SIZE=67108864,\
-GDAL_HTTP_MERGE_CONSECUTIVE_RANGES=YES,\
-GDAL_HTTP_MULTIPLEX=YES,\
-VSI_CACHE=TRUE,\
-VSI_CACHE_SIZE=67108864,\
-GDAL_DISABLE_READDIR_ON_OPEN=EMPTY_DIR"
-
-echo "✅ Cloud Run deployed: capegis-raster-processor in $REGION"
-
-# Print the Cloud Run URL for env var configuration
-CLOUD_RUN_URL=$(gcloud run services describe capegis-raster-processor \
-  --project="$PROJECT_ID" \
-  --region="$REGION" \
-  --format="value(status.url)")
-
 echo ""
 echo "═══════════════════════════════════════════════════════════════"
-echo "  DEPLOYMENT COMPLETE"
+echo "  INFRASTRUCTURE SETUP COMPLETE"
 echo "═══════════════════════════════════════════════════════════════"
-echo "  GCS Bucket:      gs://$BUCKET_NAME"
-echo "  Public URL:      https://storage.googleapis.com/$BUCKET_NAME"
-echo "  Cloud Run:       $CLOUD_RUN_URL"
-echo "  Reader SA:       $SA_READER_EMAIL"
-echo "  GEE Writer SA:   $SA_GEE_EMAIL"
+echo "  GCS Staging Bucket:  gs://$BUCKET_NAME"
+echo "  GEE Writer SA:       $SA_GEE_EMAIL"
 echo ""
-echo "  Set in Vercel:"
-echo "    NEXT_PUBLIC_RASTER_BASE_URL=$CLOUD_RUN_URL"
-echo "    GCS_BUCKET_NAME=$BUCKET_NAME"
+echo "  Next Steps:"
+echo "    1. Set CESIUM_ION_ACCESS_TOKEN in Vercel/GitHub secrets."
+echo "    2. Run scripts/data-migration-pipeline.sh to push to ion."
 echo "═══════════════════════════════════════════════════════════════"

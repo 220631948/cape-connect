@@ -17,6 +17,8 @@ import {
   createOsmBuildingsAsync,
   Math as CesiumMath,
   UrlTemplateImageryProvider,
+  IonImageryProvider,
+  Cesium3DTileset,
 } from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import SourceBadge from '../ui/SourceBadge';
@@ -43,6 +45,10 @@ interface CesiumViewerProps {
   onReady?: (viewer: Viewer) => void;
   cogUrl?: string;
   showCogs?: boolean;
+  /** Array of Cesium ion Asset IDs to load as imagery layers */
+  ionAssetIds?: number[];
+  /** Array of Cesium ion Asset IDs to load as 3D Tiles primitives */
+  tilesetAssetIds?: number[];
 }
 
 const INITIAL_CENTER = Cartesian3.fromDegrees(18.4241, -33.9249, 15000);
@@ -54,6 +60,8 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
   onReady,
   cogUrl,
   showCogs = false,
+  ionAssetIds = [],
+  tilesetAssetIds = [],
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
@@ -94,6 +102,26 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
       // Add OSM Buildings
       const buildings = await createOsmBuildingsAsync();
       viewer.scene.primitives.add(buildings);
+
+      // Add custom Ion Assets
+      for (const assetId of ionAssetIds) {
+        try {
+          const imageryProvider = await IonImageryProvider.fromAssetId(assetId);
+          viewer.imageryLayers.addImageryProvider(imageryProvider);
+        } catch (error) {
+          console.error(`Failed to load Ion Asset ID ${assetId}:`, error);
+        }
+      }
+
+      // Add custom 3D Tilesets
+      for (const assetId of tilesetAssetIds) {
+        try {
+          const tileset = await Cesium3DTileset.fromIonAssetId(assetId);
+          viewer.scene.primitives.add(tileset);
+        } catch (error) {
+          console.error(`Failed to load Ion Tileset ID ${assetId}:`, error);
+        }
+      }
 
       // Set initial view
       if (initialViewport) {

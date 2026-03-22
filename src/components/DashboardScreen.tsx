@@ -17,6 +17,9 @@ import InvitationBanner, {Invitation} from './dashboard/InvitationBanner';
 import type {ImpersonationState} from './admin/impersonation-types';
 import {ThemeName, themes} from '../assets/tokens/themes';
 import {useDomainState} from '@/hooks/useDomainState';
+import { useAuthRefresh } from '@/hooks/useAuthRefresh';
+import { useSessionRole } from '@/hooks/useSessionRole';
+import { useInvitations } from '@/hooks/useInvitations';
 
 const SpatialView = dynamic(() => import('./map/SpatialView'), {
     ssr: false,
@@ -29,6 +32,12 @@ interface DashboardScreenProps {
 }
 
 export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}) => {
+    useAuthRefresh();
+    
+    // Bug 1.4: fetch session role to gate UI
+    const { role, loading: roleLoading } = useSessionRole();
+    const isAdmin = role === 'TENANT_ADMIN' || role === 'PLATFORM_ADMIN';
+
     const {mode, setDomainMode, updateDomainParam} = useDomainState();
 
     // Layer Toggles
@@ -47,9 +56,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
     const [bufferedFeature, setBufferedFeature] = useState<any>(null);
 
     // Admin & User State
-    const [impersonationState, setImpersonationState] = useState<ImpersonationState | null>(null);
+    const [impersonationState, setImpersonationState] = useState<ImpersonationState>({is_impersonating: false});
     const [stopImpersonationLoading, setStopImpersonationLoading] = useState(false);
-    const [invitations, setInvitations] = useState<Invitation[]>([]);
+    // const [invitations, setInvitations] = useState<Invitation[]>([]); // Removed, now handled by useInvitations hook
 
     const mapRef = useRef<MapRef>(null);
 
@@ -75,21 +84,21 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
         }
     };
 
-    const fetchInvitations = async () => {
-        try {
-            const response = await fetch('/api/invitations/pending');
-            const json = await response.json();
-            if (json.data) {
-                setInvitations(json.data);
-            }
-        } catch (error) {
-            console.error('Failed to fetch invitations:', error);
-        }
-    };
+    // const fetchInvitations = async () => { // Removed, now handled by useInvitations hook
+    //     try {
+    //         const response = await fetch('/api/invitations/pending');
+    //         const json = await response.json();
+    //         if (json.data) {
+    //             setInvitations(json.data);
+    //         }
+    //     } catch (error) {
+    //         console.error('Failed to fetch invitations:', error);
+    //     }
+    // };
 
     useEffect(() => {
         refreshImpersonationState();
-        fetchInvitations();
+        // fetchInvitations(); // Removed, now handled by useInvitations hook
         const sync = () => {
             refreshImpersonationState();
         };
@@ -97,36 +106,21 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
         return () => window.removeEventListener('impersonation:changed', sync);
     }, []);
 
+    const {
+        invitations: hookInvitations,
+        fetchError,
+        acceptInvitation,
+        declineInvitation,
+        dismissError
+    } = useInvitations();
+
     const handleAcceptInvitation = async (id: string) => {
-        try {
-            const response = await fetch('/api/invitations/accept', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({invitationId: id}),
-            });
-            if (response.ok) {
-                setInvitations(invitations.filter(i => i.id !== id));
-                window.location.reload();
-            }
-        } catch (error) {
-            console.error('Failed to accept invitation:', error);
-        }
+        await acceptInvitation(id);
+        window.location.reload(); // Reload after accepting to reflect new role/permissions
     };
 
     const handleDeclineInvitation = async (id: string) => {
-        try {
-            const response = await fetch('/api/invitations/decline', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({invitationId: id}),
-            });
-            if (response.ok) {
-                setInvitations(invitations.filter(i => i.id !== id));
-            }
-        } catch (error) {
-            console.error('Failed to decline invitation:', error);
-            setInvitations(invitations.filter(i => i.id !== id));
-        }
+        await declineInvitation(id);
     };
 
     const stopImpersonation = async () => {
@@ -219,8 +213,18 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
                 role={impersonationState?.target_user?.role}
             />
 
+            {/* Bug 1.14: Show error banner if invitations fail to load */}
+            {fetchError && (
+              <div className="absolute top-24 left-1/2 -translate-x-1/2 bg-red-500/90 text-white px-4 py-2 rounded-md shadow-lg pointer-events-auto flex items-center justify-between gap-3 backdrop-blur-sm z-50">
+                <span className="text-sm font-medium">{fetchError}</span>
+                <button onClick={dismissError} className="hover:bg-black/20 p-1 rounded-full transition-colors text-white">
+                  ✕
+                </button>
+              </div>
+            )}
+
             <InvitationBanner
-                invitations={invitations}
+                invitations={hookInvitations}
                 onAccept={handleAcceptInvitation}
                 onDecline={handleDeclineInvitation}
                 colors={colors}
@@ -280,14 +284,15 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
                 </div>
 
                 {/* Row 3: Admin Panel (full width) */}
+                {/* Bug 1.4: Hide UserManagementPanel for non-admins */}
+                {!roleLoading && isAdmin && (
                 <div className="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4">
                     <UserManagementPanel/>
                 </div>
+                )}
             </div>
 
-            <footer className="mt-10 p-4 text-center text-xs text-gray-500">
-                Cape Town GIS Platform • 🐢✨
-            </footer>
+            <footer className="mt-10 p-4 text-center text-xs text-gray-500">Cape Town GIS Platform • 🐢✨</footer>
         </div>
     );
 };

@@ -1,0 +1,43 @@
+{
+  "phaseGates": {
+    "enabled": true
+  },
+  "autoVerification": {
+    "enabled": true,
+    "typecheck": true,
+    "lint": true
+  },
+  "security": {
+    "gitCheckpoints": true,
+    "blockedCommands": [
+      "rm -rf",
+      "DROP TABLE",
+      "DROP DATABASE",
+      "TRUNCATE",
+      "DELETE FROM.*WHERE.*1=1"
+    ],
+    "blockedPaths": [
+      "public/mock",
+      ".env",
+      ".env.local",
+      "supabase/migrations"
+    ]
+  },
+  "ralph": {
+    "enabled": true,
+    "maxRetries": 3
+  },
+  "toolFilter": {
+    "enabled": true
+  },
+  "contextInjection": {
+    "conductorState": true
+  },
+  "projectRules": {
+    "maxFileLinesWarning": 300,
+    "requireSourceBadge": true,
+    "requireThreeTierFallback": true,
+    "requirePopiaAnnotation": true,
+    "geoBbox": { "west": 18.0, "south": -34.5, "east": 19.5, "north": -33.0 }
+  }
+}

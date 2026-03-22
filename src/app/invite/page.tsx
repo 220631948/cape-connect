@@ -15,17 +15,30 @@ function InviteContent() {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('Checking your invitation... 🐢✨');
+  const [error, setError] = useState<string | null>(null); // Added new state for error messages
 
   useEffect(() => {
-    const acceptInvite = async () => {
-      const token = searchParams.get('token');
+    const token = searchParams.get('token'); // Moved token extraction here
+    async function handleInvite() {
       if (!token) {
+        setError('No invitation token provided');
         setStatus('error');
-        setMessage('No invitation token found in the URL.');
         return;
       }
 
       try {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+        const supabase = createClient(supabaseUrl!, supabaseKey!);
+        const { data: { session } } = await supabase.auth.getSession();
+
+        // Bug 1.9 Fix: Persist token to sessionStorage and redirect to login if unauthenticated
+        if (!session) {
+          sessionStorage.setItem('pendingInviteToken', token);
+          router.push('/login?redirectTo=/invite');
+          return;
+        }
+
         const res = await fetch('/api/invitations/accept', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -33,48 +46,70 @@ function InviteContent() {
         });
 
         const json = await res.json();
-        if (res.ok) {
-          setStatus('success');
-          setMessage('Invitation accepted! Redirecting to dashboard...');
-          setTimeout(() => {
-            router.push('/dashboard');
-          }, 2000);
-        } else {
-          setStatus('error');
-          setMessage(json.error || 'Failed to accept invitation.');
+        
+        if (!res.ok) {
+          // Bug 1.10 Fix: Handle 410 Expired explicitly
+          if (res.status === 410) {
+            setError(json.error || 'Invitation expired');
+            setStatus('error');
+            return;
+          }
+          throw new Error(json.error || 'Failed to accept invitation');
         }
-      } catch (err) {
-        setStatus('error');
-        setMessage('An unexpected error occurred.');
-      }
-    };
 
-    acceptInvite();
-  }, [searchParams, router]);
+        setStatus('success');
+        
+        // Brief delay so user sees success message
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 1500);
+
+      } catch (err: any) {
+        setStatus('error');
+        setError(err.message);
+      }
+    }
+
+    handleInvite();
+  }, [searchParams, router]); // Changed dependency array to include searchParams for token
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-capetown-dark p-4">
-      <CrayonCard colorVariant={status === 'error' ? 'pink' : 'blue'} className="max-w-md w-full text-center">
-        <h1 className="text-2xl font-bold mb-4 text-white">
-          {status === 'loading' && 'Joining Tenant...'}
-          {status === 'success' && 'Welcome Aboard! 🎉'}
-          {status === 'error' && 'Invitation Error'}
-        </h1>
-        <p className={`text-sm ${status === 'error' ? 'text-red-400' : 'text-crayon-blue'}`}>
-          {message}
-        </p>
-        {status === 'error' && (
-          <button
-            onClick={() => router.push('/')}
-            className="mt-6 px-6 py-2 rounded-lg bg-crayon-blue text-black font-bold hover:brightness-110 transition-all"
-          >
-            Back to Home
-          </button>
+    <div className="min-h-screen flex items-center justify-center bg-capetown-dark text-white p-4">
+      <div className="w-full max-w-md p-8 rounded-xl shadow-2xl bg-black border border-white/10 text-center">
+        {status === 'loading' && (
+          <div className="animate-pulse flex flex-col items-center">
+            <span className="text-4xl mb-4">🐢</span>
+            <h2 className="text-xl font-bold">Verifying invitation...</h2>
+          </div>
         )}
-      </CrayonCard>
+        
+        {status === 'success' && (
+          <div className="flex flex-col items-center text-emerald-400">
+            <span className="text-5xl mb-4">✨</span>
+            <h2 className="text-xl font-bold mb-2">Welcome to your Tenant</h2>
+            <p className="text-sm text-emerald-400/80">Taking you to the dashboard...</p>
+          </div>
+        )}
+        
+        {status === 'error' && (
+          <div className="flex flex-col items-center text-red-400">
+            <span className="text-5xl mb-4">⚠️</span>
+            <h2 className="text-xl font-bold mb-2">Invitation Error</h2>
+            <p className="text-sm mb-6">{error}</p>
+            <button 
+              onClick={() => router.push('/login')}
+              className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+            >
+              Return to Login
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
+import { createClient } from '@supabase/supabase-js';
 
 export default function InvitePage() {
   return (

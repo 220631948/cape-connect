@@ -13,9 +13,11 @@ const ROLE_CONFIG: Record<Role, { label: string; emoji: string }> = {
 interface InvitesTabProps {
   invitations: Invitation[];
   onInvite: (email: string, role: Role) => Promise<void>;
+  error?: string | null;
+  onClearError?: () => void;
 }
 
-export const InvitesTab: React.FC<InvitesTabProps> = ({ invitations, onInvite }) => {
+export const InvitesTab: React.FC<InvitesTabProps> = ({ invitations, onInvite, error, onClearError }) => {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<Role>('viewer');
   const [loading, setLoading] = useState(false);
@@ -66,6 +68,20 @@ export const InvitesTab: React.FC<InvitesTabProps> = ({ invitations, onInvite })
           {loading ? 'Sending...' : '📧 Send Invite'}
         </button>
       </form>
+      {error && (
+        <div className="mb-4 p-2 rounded bg-crayon-coral/10 border border-crayon-coral/30 flex justify-between items-center">
+          <span className="text-[10px] text-crayon-coral">⚠️ {error}</span>
+          {onClearError && (
+            <button 
+              onClick={onClearError}
+              className="text-crayon-coral hover:text-white transition-colors p-1"
+              aria-label="✕"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      )}
       <div className="space-y-2">
         {invitations.map((inv) => (
           <div key={inv.id} className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">

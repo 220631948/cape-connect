@@ -1,30 +1,29 @@
 ---
 name: check-popia-compliance
-description: |
-  Audit for South African POPIA (Protection of Personal Information Act) compliance in geospatial data and APIs.
-  Ensures spatial data linked with PII is properly sanitized.
+description: Audit for South African POPIA (Protection of Personal Information Act) compliance in geospatial data and APIs.
+version: 1.0.0
 ---
 
-# POPIA Compliance Audit Skill
+# POPIA Compliance Check
 
 ## Capability
-Scans schemas, data ingestion scripts, and file diffs for potential POPIA privacy violations, leveraging a Knowledge Base of regulations.
+This skill scans spatial datasets and API responses for potential POPIA violations, such as unmasked residential coordinates, cadastral owner details, or other PII linked to locations.
 
 ## Triggers
-- "Check POPIA compliance"
-- "Is this data POPIA compliant?"
-- "Audit [file/migration] for PII"
+- User asks "Is this dataset POPIA compliant?"
+- User asks to "audit privacy" for a new GIS layer.
+- Before publishing any new dataset to the public portal.
 
 ## Instructions
-1. Scan target files for sensitive keywords: `owner`, `identity_number`, `phone`, `email`, `physical_address`, `erf_number`.
-2. Use `mcp__notebooklm__ask_question` to query current POPIA constraints related to the identified fields and their geographical linkage.
-3. Assess if PII is properly masked, redacted, or if there is a legitimate processing basis documented.
-4. Flag any instances where raw PII is being written to logs or sent to external 3rd-party APIs.
+1.  Identify the target dataset or API endpoint.
+2.  Run the POPIA scanner script to detect PII patterns (e.g., owner names, full addresses).
+3.  Check spatial resolution: Ensure residential point data is sufficiently aggregated or jittered.
+4.  Verify that RLS policies are enabled on all tables containing sensitive attributes.
 
 ## Tools / Commands
-- `mcp__notebooklm-connector`: To query the POPIA knowledge base.
-- `grep_search`: To find sensitive keywords in the codebase.
+- `python scripts/scan_popia_violation.py --input <dataset>`: Scans a local file for PII patterns.
+- `mcp__postgres__query("SELECT ...")`: Used to audit RLS policies on spatial tables.
 
-## Example
-User: "Check if the new valuation migration is POPIA compliant."
-Action: Scan the migration for owner names/IDs, query NotebookLM for POPIA rules on cadastral owner data, and recommend RLS or masking if needed.
+## Examples
+User: "Audit the new valuation_data layer for POPIA compliance."
+Action: `python scripts/scan_popia_violation.py --input valuation_data.gpkg`

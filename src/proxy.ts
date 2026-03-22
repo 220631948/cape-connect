@@ -37,6 +37,16 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // 0.1 Public Routes early exit
+  const isPublicRoute = pathname.startsWith('/login') ||
+                       pathname === '/' ||
+                       pathname.startsWith('/api/health') ||
+                       pathname.startsWith('/api/public');
+
+  if (isPublicRoute && !pathname.startsWith('/api/admin') && !pathname.startsWith('/admin')) {
+      return NextResponse.next();
+  }
+
   // 1. Rate limit API routes
   if (pathname.startsWith('/api/')) {
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
@@ -157,11 +167,7 @@ export async function proxy(request: NextRequest) {
     }
 
     // 4. Auth & RBAC Guard
-    const isPublicRoute = pathname.startsWith('/login') ||
-                         pathname === '/' ||
-                         pathname.startsWith('/api/public');
-
-    if (!session && !hasImpersonationContext && !isPublicRoute) {
+    if (!session && !hasImpersonationContext) {
       const redirectUrl = new URL('/login', request.url);
 
       // Prevent open redirect vulnerabilities by ensuring redirectTo is a safe relative path
