@@ -7,6 +7,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
+const VALID_ROLES = new Set(['viewer', 'analyst', 'power_user', 'admin']);
+
 function createClient(request: NextRequest) {
   const response = NextResponse.next();
   return {
@@ -45,9 +47,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'userId and role are required' }, { status: 400 });
     }
 
-    const validRoles = ['viewer', 'analyst', 'power_user', 'admin'];
-    if (!validRoles.includes(role)) {
-      return NextResponse.json({ error: `Invalid role. Must be one of: ${validRoles.join(', ')}` }, { status: 400 });
+    if (!VALID_ROLES.has(role)) {
+      return NextResponse.json({ error: `Invalid role. Must be one of: ${Array.from(VALID_ROLES).join(', ')}` }, { status: 400 });
     }
 
     // Call the RPC function (handles admin check + audit internally)
