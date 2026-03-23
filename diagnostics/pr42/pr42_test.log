@@ -1,0 +1,934 @@
+
+[1m[46m RUN [49m[22m [36mv4.1.0 [39m[90m/home/mr/Desktop/Geographical Informations Systems (GIS)[39m
+
+ [32m✓[39m src/lib/__tests__/opensky-rate-limit.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 109[2mms[22m[39m
+ [31m❯[39m src/lib/validation/__tests__/schemas.test.ts [2m([22m[2m61 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m1 skipped[39m[2m)[22m[32m 240[2mms[22m[39m
+     [32m✓[39m returns 400 for invalid JSON[32m 57[2mms[22m[39m
+     [32m✓[39m returns 400 with issues for schema mismatch[32m 16[2mms[22m[39m
+     [32m✓[39m returns success with parsed data for valid input[32m 4[2mms[22m[39m
+     [32m✓[39m accepts valid input[32m 1[2mms[22m[39m
+     [32m✓[39m rejects non-UUID userId[32m 5[2mms[22m[39m
+     [32m✓[39m rejects invalid role[32m 2[2mms[22m[39m
+     [32m✓[39m rejects missing fields[32m 2[2mms[22m[39m
+     [32m✓[39m accepts valid input with defaults[32m 3[2mms[22m[39m
+     [32m✓[39m accepts explicit role[32m 3[2mms[22m[39m
+     [32m✓[39m rejects invalid email[32m 2[2mms[22m[39m
+     [32m✓[39m accepts optional tenantId[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input[32m 2[2mms[22m[39m
+     [32m✓[39m accepts name without slug (slug optional)[32m 1[2mms[22m[39m
+     [32m✓[39m rejects short name[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid slug format[32m 2[2mms[22m[39m
+[31m     [31m×[31m accepts valid input[39m[32m 43[2mms[22m[39m
+     [32m✓[39m rejects missing reason[32m 1[2mms[22m[39m
+     [32m✓[39m rejects duration out of range[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid Polygon geometry[32m 5[2mms[22m[39m
+     [32m✓[39m accepts valid Point geometry[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing geometry[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid geometry type[32m 3[2mms[22m[39m
+     [32m✓[39m accepts valid address[32m 2[2mms[22m[39m
+     [32m✓[39m rejects too short address[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid export request[32m 2[2mms[22m[39m
+     [32m✓[39m defaults format to pdf[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid format[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid NDVI request[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid date format[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid spatial stats request[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid statType[32m 1[2mms[22m[39m
+     [32m✓[39m accepts empty object[32m 1[2mms[22m[39m
+     [32m✓[39m accepts any valid JSON object[32m 1[2mms[22m[39m
+     [32m✓[39m rejects non-object input[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid query[32m 1[2mms[22m[39m
+     [32m✓[39m accepts query with context[32m 1[2mms[22m[39m
+     [32m✓[39m rejects too short query[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing query[32m 1[2mms[22m[39m
+     [32m✓[39m accepts invitationId[32m 2[2mms[22m[39m
+     [32m✓[39m accepts token[32m 1[2mms[22m[39m
+     [32m✓[39m accepts both invitationId and token[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing both fields[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid UUID invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid UUID[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input with nerfacto[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input with 3dgs[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing scene_path[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing method[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid method[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid enrichment request[32m 1[2mms[22m[39m
+     [2m[90m↓[39m[22m accepts valid stats request with geometry
+     [32m✓[39m rejects invalid type[32m 3[2mms[22m[39m
+     [32m✓[39m rejects missing type[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid NDVI request[32m 2[2mms[22m[39m
+     [32m✓[39m accepts NDWI request with explicit index[32m 1[2mms[22m[39m
+     [32m✓[39m defaults index to NDVI[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid date format[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing bbox[32m 1[2mms[22m[39m
+     [32m✓[39m rejects incomplete bbox[32m 1[2mms[22m[39m
+ [32m✓[39m src/lib/__tests__/ndvi-engine.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+ [31m❯[39m src/app/api/admin/__tests__/impersonation-routes.test.ts [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 434[2mms[22m[39m
+[31m     [31m×[31m starts impersonation successfully[39m[33m 337[2mms[22m[39m
+[31m     [31m×[31m blocks impersonation when authorization fails[39m[32m 7[2mms[22m[39m
+     [32m✓[39m stops impersonation successfully[32m 68[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/lib/validation/__tests__/schemas.test.ts [2m([22m[2m61 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m1 skipped[39m[2m)[22m[33m 311[2mms[22m[39m
+     [32m✓[39m returns 400 for invalid JSON[32m 57[2mms[22m[39m
+     [32m✓[39m returns 400 with issues for schema mismatch[32m 13[2mms[22m[39m
+     [32m✓[39m returns success with parsed data for valid input[32m 11[2mms[22m[39m
+     [32m✓[39m accepts valid input[32m 1[2mms[22m[39m
+     [32m✓[39m rejects non-UUID userId[32m 5[2mms[22m[39m
+     [32m✓[39m rejects invalid role[32m 2[2mms[22m[39m
+     [32m✓[39m rejects missing fields[32m 2[2mms[22m[39m
+     [32m✓[39m accepts valid input with defaults[32m 11[2mms[22m[39m
+     [32m✓[39m accepts explicit role[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid email[32m 1[2mms[22m[39m
+     [32m✓[39m accepts optional tenantId[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input[32m 10[2mms[22m[39m
+     [32m✓[39m accepts name without slug (slug optional)[32m 1[2mms[22m[39m
+     [32m✓[39m rejects short name[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid slug format[32m 3[2mms[22m[39m
+[31m     [31m×[31m accepts valid input[39m[32m 64[2mms[22m[39m
+     [32m✓[39m rejects missing reason[32m 1[2mms[22m[39m
+     [32m✓[39m rejects duration out of range[32m 6[2mms[22m[39m
+     [32m✓[39m accepts valid Polygon geometry[32m 15[2mms[22m[39m
+     [32m✓[39m accepts valid Point geometry[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing geometry[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid geometry type[32m 7[2mms[22m[39m
+     [32m✓[39m accepts valid address[32m 5[2mms[22m[39m
+     [32m✓[39m rejects too short address[32m 3[2mms[22m[39m
+     [32m✓[39m accepts valid export request[32m 5[2mms[22m[39m
+     [32m✓[39m defaults format to pdf[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid format[32m 2[2mms[22m[39m
+     [32m✓[39m accepts valid NDVI request[32m 5[2mms[22m[39m
+     [32m✓[39m rejects invalid date format[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid spatial stats request[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid statType[32m 1[2mms[22m[39m
+     [32m✓[39m accepts empty object[32m 1[2mms[22m[39m
+     [32m✓[39m accepts any valid JSON object[32m 1[2mms[22m[39m
+     [32m✓[39m rejects non-object input[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid query[32m 1[2mms[22m[39m
+     [32m✓[39m accepts query with context[32m 1[2mms[22m[39m
+     [32m✓[39m rejects too short query[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing query[32m 1[2mms[22m[39m
+     [32m✓[39m accepts invitationId[32m 2[2mms[22m[39m
+     [32m✓[39m accepts token[32m 1[2mms[22m[39m
+     [32m✓[39m accepts both invitationId and token[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing both fields[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid UUID invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid UUID[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input with nerfacto[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input with 3dgs[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing scene_path[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing method[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid method[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid enrichment request[32m 1[2mms[22m[39m
+     [2m[90m↓[39m[22m accepts valid stats request with geometry
+     [32m✓[39m rejects invalid type[32m 5[2mms[22m[39m
+     [32m✓[39m rejects missing type[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid NDVI request[32m 2[2mms[22m[39m
+     [32m✓[39m accepts NDWI request with explicit index[32m 1[2mms[22m[39m
+     [32m✓[39m defaults index to NDVI[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid date format[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing bbox[32m 1[2mms[22m[39m
+     [32m✓[39m rejects incomplete bbox[32m 4[2mms[22m[39m
+ [32m✓[39m src/components/home/FeatureGrid.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 558[2mms[22m[39m
+     [33m[2m✓[22m[39m renders all three feature cards [33m 464[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/invites-tab-error.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 1004[2mms[22m[39m
+     [33m[2m✓[22m[39m renders the invitation form [33m 863[2mms[22m[39m
+ [32m✓[39m src/components/home/HomeHero.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 1274[2mms[22m[39m
+     [33m[2m✓[22m[39m renders the main headline [33m 382[2mms[22m[39m
+     [33m[2m✓[22m[39m contains Link buttons with correct hrefs [33m 830[2mms[22m[39m
+[90mstderr[2m | src/__tests__/properties/invitation-token.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+[90mstderr[2m | src/__tests__/properties/dashboard-rbac.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+[90mstderr[2m | src/__tests__/properties/useInvitations-retry.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m src/__tests__/unit/dashboard-role-gate.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 604[2mms[22m[39m
+     [33m[2m✓[22m[39m hides UserManagementPanel for VIEWER role [33m 514[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/useAuthRefresh.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 305[2mms[22m[39m
+[90mstderr[2m | src/components/ui/WaxTrailCursor.test.tsx[2m > [22m[2mWaxTrailCursor[2m > [22m[2mgenerates trails with string IDs on mouse move
+[22m[39mAn update to WaxTrailCursor inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ [32m✓[39m src/components/ui/WaxTrailCursor.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 342[2mms[22m[39m
+ [32m✓[39m src/__tests__/properties/guest-access.prop.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 133[2mms[22m[39m
+ [31m❯[39m src/__tests__/properties/invitation-token.prop.test.tsx [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 5077[2mms[22m[39m
+[31m     [31m×[31m always persists non-empty token to sessionStorage when unauthenticated (with seed=-2107282294)[39m[33m 5045[2mms[22m[39m
+[90mstderr[2m | src/__tests__/properties/no-reload.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m src/components/ui/CrayonCard.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 262[2mms[22m[39m
+ [32m✓[39m src/__tests__/properties/no-reload.prop.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 1115[2mms[22m[39m
+     [33m[2m✓[22m[39m acceptInvitation never triggers page reload (with seed=-1379786277) [33m 640[2mms[22m[39m
+     [33m[2m✓[22m[39m declineInvitation never triggers page reload (with seed=-407528763) [33m 465[2mms[22m[39m
+ [32m✓[39m src/__tests__/properties/dashboard-rbac.prop.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 6444[2mms[22m[39m
+     [33m[2m✓[22m[39m hides UserManagementPanel for any non-admin role (with seed=1058195751) [33m 3358[2mms[22m[39m
+     [33m[2m✓[22m[39m shows UserManagementPanel for any admin role (with seed=-1546341504) [33m 3072[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/useSessionRole.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 354[2mms[22m[39m
+ [31m❯[39m src/__tests__/properties/useInvitations-retry.prop.test.tsx [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 10120[2mms[22m[39m
+[31m     [31m×[31m retries exactly once for any failure type (with seed=1287518335)[39m[33m 5081[2mms[22m[39m
+[31m     [31m×[31m shows error after second failure of any type (with seed=1754816468)[39m[33m 5012[2mms[22m[39m
+ [31m❯[39m src/__tests__/unit/useInvitations.test.tsx [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 20222[2mms[22m[39m
+[31m     [31m×[31m fetches invitations on mount[39m[33m 5137[2mms[22m[39m
+[31m     [31m×[31m retries once after 3s on fetch failure[39m[33m 5024[2mms[22m[39m
+[31m     [31m×[31m shows error after second failure[39m[33m 5026[2mms[22m[39m
+[31m     [31m×[31m optimistically removes invitation on accept[39m[33m 5004[2mms[22m[39m
+ [32m✓[39m src/lib/auth/__tests__/admin-session.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 81[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/app/api/admin/__tests__/impersonation-routes.test.ts [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 471[2mms[22m[39m
+[31m     [31m×[31m starts impersonation successfully[39m[33m 430[2mms[22m[39m
+[31m     [31m×[31m blocks impersonation when authorization fails[39m[32m 7[2mms[22m[39m
+     [32m✓[39m stops impersonation successfully[32m 23[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/auth/__tests__/admin-session.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 68[2mms[22m[39m
+ [32m✓[39m src/app/api/admin/__tests__/users-route-impersonation.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 145[2mms[22m[39m
+ [32m✓[39m src/lib/auth/__tests__/impersonation-token.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 94[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/invitations-accept.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 71[2mms[22m[39m
+[90mstderr[2m | src/__tests__/properties/api-validation.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+[90mstderr[2m | src/__tests__/properties/tenant-context.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+[90mstderr[2m | src/__tests__/properties/cross-tenant.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m src/__tests__/properties/cross-tenant.prop.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 151[2mms[22m[39m
+ [32m✓[39m src/__tests__/properties/tenant-context.prop.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 271[2mms[22m[39m
+ [32m✓[39m src/__tests__/properties/api-validation.prop.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 468[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/invitations-accept.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 86[2mms[22m[39m
+ [32m✓[39m src/lib/__tests__/monitoring.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m src/lib/auth/__tests__/arcgis.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 124[2mms[22m[39m
+ [32m✓[39m src/lib/__tests__/opensky-api.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/dashboard-role-gate.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 780[2mms[22m[39m
+     [33m[2m✓[22m[39m hides UserManagementPanel for VIEWER role [33m 693[2mms[22m[39m
+ [32m✓[39m src/lib/__tests__/fail.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/health.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 148[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/dashboard-rbac.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m src/lib/__tests__/flight-data-transformer.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 52[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/auth/__tests__/arcgis.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 62[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/flight-data-transformer.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 50[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/useAuthRefresh.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 771[2mms[22m[39m
+     [33m[2m✓[22m[39m shows toast on refresh failure [33m 434[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/app/api/admin/__tests__/users-route-impersonation.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 74[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/useSessionRole.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 310[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/properties/guest-access.prop.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 256[2mms[22m[39m
+     [32m✓[39m redirects to login when no session[32m 19[2mms[22m[39m
+[31m     [31m×[31m renders GuestDashboard when role is GUEST[39m[32m 197[2mms[22m[39m
+[31m     [31m×[31m renders DashboardScreen when role is VIEWER[39m[32m 29[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/dashboard-rbac.prop.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 7959[2mms[22m[39m
+     [33m[2m✓[22m[39m hides UserManagementPanel for any non-admin role (with seed=-982230964) [33m 4618[2mms[22m[39m
+     [33m[2m✓[22m[39m shows UserManagementPanel for any admin role (with seed=2139903144) [33m 3320[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/cross-tenant.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/opensky-rate-limit.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/cross-tenant.prop.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 270[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/useInvitations-retry.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/ndvi-engine.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m src/lib/auth/__tests__/roles.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/auth/__tests__/roles.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/api-validation.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/invitation-token.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/opensky-api.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/api-validation.prop.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 183[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/auth/__tests__/impersonation-token.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 56[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/properties/useInvitations-retry.prop.test.tsx [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 10104[2mms[22m[39m
+[31m     [31m×[31m retries exactly once for any failure type (with seed=28462698)[39m[33m 5071[2mms[22m[39m
+[31m     [31m×[31m shows error after second failure of any type (with seed=462879961)[39m[33m 5016[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/e2e/rbac-enforcement.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/e2e/invitation-management.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/e2e/cog-range-requests.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/e2e/tenant-onboarding.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/e2e/session-refresh.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/monitoring.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 77[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 20172[2mms[22m[39m
+[31m     [31m×[31m fetches invitations on mount[39m[33m 5080[2mms[22m[39m
+[31m     [31m×[31m retries once after 3s on fetch failure[39m[33m 5029[2mms[22m[39m
+[31m     [31m×[31m shows error after second failure[39m[33m 5026[2mms[22m[39m
+[31m     [31m×[31m optimistically removes invitation on accept[39m[33m 5004[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/properties/invitation-token.prop.test.tsx [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 5084[2mms[22m[39m
+[31m     [31m×[31m always persists non-empty token to sessionStorage when unauthenticated (with seed=180284503)[39m[33m 5064[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/supabase-tenant-context.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/ui/CrayonCard.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 353[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/invites-tab-error.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 1095[2mms[22m[39m
+     [33m[2m✓[22m[39m renders the invitation form [33m 932[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/supabase-tenant-context.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 88[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/e2e/basic-journeys.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/components/ui/WaxTrailCursor.test.tsx[2m > [22m[2mWaxTrailCursor[2m > [22m[2mgenerates trails with string IDs on mouse move
+[22m[39mAn update to WaxTrailCursor inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/ui/WaxTrailCursor.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 245[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/tenant-context.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/tenant-context.prop.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 225[2mms[22m[39m
+ [32m✓[39m src/components/map/__tests__/CameraSync.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/map/__tests__/CameraSync.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/health.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 35[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/home/FeatureGrid.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 273[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/e2e/auth-flow.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/fail.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/no-reload.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/home/HomeHero.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 586[2mms[22m[39m
+     [33m[2m✓[22m[39m contains Link buttons with correct hrefs [33m 384[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/no-reload.prop.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 394[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 7 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/e2e/auth-flow.spec.ts[2m [ worktrees/disable-vercel-workflow/src/__tests__/e2e/auth-flow.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.[39m
+[90m [2m❯[22m TestTypeImpl._currentSuite node_modules/playwright/lib/common/testType.js:[2m75:13[22m[39m
+[90m [2m❯[22m TestTypeImpl._describe node_modules/playwright/lib/common/testType.js:[2m115:24[22m[39m
+[90m [2m❯[22m Function.describe node_modules/playwright/lib/transform/transform.js:[2m282:12[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/e2e/auth-flow.spec.ts:[2m3:6[22m[39m
+    [90m  1|[39m [35mimport[39m { test[33m,[39m expect } [35mfrom[39m [32m'@playwright/test'[39m[33m;[39m
+    [90m  2|[39m
+    [90m  3|[39m test[33m.[39m[34mdescribe[39m([32m'Auth Flow & Redirection'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  4|[39m   test[33m.[39m[34mbeforeEach[39m([35masync[39m ({ page }) [33m=>[39m {
+    [90m  5|[39m     [90m// Basic Supabase Mocking[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/e2e/basic-journeys.spec.ts[2m [ worktrees/disable-vercel-workflow/src/__tests__/e2e/basic-journeys.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.[39m
+[90m [2m❯[22m TestTypeImpl._currentSuite node_modules/playwright/lib/common/testType.js:[2m75:13[22m[39m
+[90m [2m❯[22m TestTypeImpl._describe node_modules/playwright/lib/common/testType.js:[2m115:24[22m[39m
+[90m [2m❯[22m Function.describe node_modules/playwright/lib/transform/transform.js:[2m282:12[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/e2e/basic-journeys.spec.ts:[2m3:6[22m[39m
+    [90m  1|[39m [35mimport[39m { test[33m,[39m expect } [35mfrom[39m [32m'@playwright/test'[39m[33m;[39m
+    [90m  2|[39m
+    [90m  3|[39m test[33m.[39m[34mdescribe[39m([32m'GIS Hub Basic User Journeys'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  4|[39m   [34mtest[39m([32m'Successful Login'[39m[33m,[39m [35masync[39m ({ page }) [33m=>[39m {
+    [90m  5|[39m     [35mawait[39m page[33m.[39m[34mgoto[39m([32m'/login'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/e2e/cog-range-requests.spec.ts[2m [ worktrees/disable-vercel-workflow/src/__tests__/e2e/cog-range-requests.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.[39m
+[90m [2m❯[22m TestTypeImpl._currentSuite node_modules/playwright/lib/common/testType.js:[2m75:13[22m[39m
+[90m [2m❯[22m TestTypeImpl._describe node_modules/playwright/lib/common/testType.js:[2m115:24[22m[39m
+[90m [2m❯[22m Function.describe node_modules/playwright/lib/transform/transform.js:[2m282:12[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/e2e/cog-range-requests.spec.ts:[2m18:6[22m[39m
+    [90m 16|[39m const RASTER_BASE_PATH_PREFIX = new URL(RASTER_BASE_URL).pathname.repl…
+    [90m 17|[39m
+    [90m 18|[39m test[33m.[39m[34mdescribe[39m([32m'COG Range Requests — HTTP 206 Validation'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m 19|[39m     test('raster tile requests return HTTP 206 Partial Content', async…
+    [90m 20|[39m         [35mconst[39m rangeResponses[33m:[39m [33mArray[39m[33m<[39m{
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/e2e/invitation-management.spec.ts[2m [ worktrees/disable-vercel-workflow/src/__tests__/e2e/invitation-management.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.[39m
+[90m [2m❯[22m TestTypeImpl._currentSuite node_modules/playwright/lib/common/testType.js:[2m75:13[22m[39m
+[90m [2m❯[22m TestTypeImpl._describe node_modules/playwright/lib/common/testType.js:[2m115:24[22m[39m
+[90m [2m❯[22m Function.describe node_modules/playwright/lib/transform/transform.js:[2m282:12[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/e2e/invitation-management.spec.ts:[2m3:6[22m[39m
+    [90m  1|[39m [35mimport[39m { test[33m,[39m expect } [35mfrom[39m [32m'@playwright/test'[39m[33m;[39m
+    [90m  2|[39m
+    [90m  3|[39m test[33m.[39m[34mdescribe[39m([32m'Invitation Management (Bugs 1.8, 1.10, 1.11)'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  4|[39m   test[33m.[39m[34mbeforeEach[39m([35masync[39m ({ page }) [33m=>[39m {
+    [90m  5|[39m     [35mawait[39m page[33m.[39m[34maddInitScript[39m(() [33m=>[39m {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/e2e/rbac-enforcement.spec.ts[2m [ worktrees/disable-vercel-workflow/src/__tests__/e2e/rbac-enforcement.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.[39m
+[90m [2m❯[22m TestTypeImpl._currentSuite node_modules/playwright/lib/common/testType.js:[2m75:13[22m[39m
+[90m [2m❯[22m TestTypeImpl._describe node_modules/playwright/lib/common/testType.js:[2m115:24[22m[39m
+[90m [2m❯[22m Function.describe node_modules/playwright/lib/transform/transform.js:[2m282:12[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/e2e/rbac-enforcement.spec.ts:[2m3:6[22m[39m
+    [90m  1|[39m [35mimport[39m { test[33m,[39m expect } [35mfrom[39m [32m'@playwright/test'[39m[33m;[39m
+    [90m  2|[39m
+    [90m  3|[39m test[33m.[39m[34mdescribe[39m([32m'RBAC & Cross-Tenant Enforcement'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  4|[39m   test[33m.[39m[34mbeforeEach[39m([35masync[39m ({ page }) [33m=>[39m {
+    [90m  5|[39m     [35mawait[39m page[33m.[39m[34maddInitScript[39m(() [33m=>[39m {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/e2e/session-refresh.spec.ts[2m [ worktrees/disable-vercel-workflow/src/__tests__/e2e/session-refresh.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.[39m
+[90m [2m❯[22m TestTypeImpl._currentSuite node_modules/playwright/lib/common/testType.js:[2m75:13[22m[39m
+[90m [2m❯[22m TestTypeImpl._describe node_modules/playwright/lib/common/testType.js:[2m115:24[22m[39m
+[90m [2m❯[22m Function.describe node_modules/playwright/lib/transform/transform.js:[2m282:12[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/e2e/session-refresh.spec.ts:[2m3:6[22m[39m
+    [90m  1|[39m [35mimport[39m { test[33m,[39m expect } [35mfrom[39m [32m'@playwright/test'[39m[33m;[39m
+    [90m  2|[39m
+    [90m  3|[39m test[33m.[39m[34mdescribe[39m([32m'Session Refresh (Bug 1.3)'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  4|[39m   test[33m.[39m[34mbeforeEach[39m([35masync[39m ({ page }) [33m=>[39m {
+    [90m  5|[39m     [35mawait[39m page[33m.[39m[34maddInitScript[39m(() [33m=>[39m {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/e2e/tenant-onboarding.spec.ts[2m [ worktrees/disable-vercel-workflow/src/__tests__/e2e/tenant-onboarding.spec.ts ][22m
+[31m[1mError[22m: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.[39m
+[90m [2m❯[22m TestTypeImpl._currentSuite node_modules/playwright/lib/common/testType.js:[2m75:13[22m[39m
+[90m [2m❯[22m TestTypeImpl._describe node_modules/playwright/lib/common/testType.js:[2m115:24[22m[39m
+[90m [2m❯[22m Function.describe node_modules/playwright/lib/transform/transform.js:[2m282:12[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/e2e/tenant-onboarding.spec.ts:[2m3:6[22m[39m
+    [90m  1|[39m [35mimport[39m { test[33m,[39m expect } [35mfrom[39m [32m'@playwright/test'[39m[33m;[39m
+    [90m  2|[39m
+    [90m  3|[39m test[33m.[39m[34mdescribe[39m([32m'Tenant Onboarding Flow (Bug 1.7)'[39m[33m,[39m () [33m=>[39m {
+    [90m   |[39m      [31m^[39m
+    [90m  4|[39m   test[33m.[39m[34mbeforeEach[39m([35masync[39m ({ page }) [33m=>[39m {
+    [90m  5|[39m     [90m// 1. Disable Service Worker[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/29]⎯[22m[39m
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 22 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/properties/invitation-token.prop.test.tsx[2m > [22mInvitation Token Persistence Properties[2m > [22malways persists non-empty token to sessionStorage when unauthenticated (with seed=-2107282294)
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[90m [2m❯[22m buildTestWithPropRunner ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m53:2[22m[39m
+[90m [2m❯[22m ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m115:71[22m[39m
+[36m [2m❯[22m src/__tests__/properties/invitation-token.prop.test.tsx:[2m50:43[22m[39m
+    [90m 48|[39m   })[33m;[39m
+    [90m 49|[39m
+    [90m 50|[39m   test.prop([fc.string({ minLength: 1 })])('always persists non-empty …
+    [90m   |[39m                                           [31m^[39m
+    [90m 51|[39m     (useSearchParams [35mas[39m any)[33m.[39m[34mmockReturnValue[39m({
+    [90m 52|[39m       [35mget[39m[33m:[39m (key[33m:[39m string) [33m=>[39m (key [33m===[39m [32m'token'[39m [33m?[39m token [33m:[39m [35mnull[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/properties/useInvitations-retry.prop.test.tsx[2m > [22museInvitations Retry Properties[2m > [22mretries exactly once for any failure type (with seed=1287518335)
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[90m [2m❯[22m buildTestWithPropRunner ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m53:2[22m[39m
+[90m [2m❯[22m ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m115:71[22m[39m
+[36m [2m❯[22m src/__tests__/properties/useInvitations-retry.prop.test.tsx:[2m25:43[22m[39m
+    [90m 23|[39m   )[33m;[39m
+    [90m 24|[39m
+    [90m 25|[39m   test.prop([failureArb], { numRuns: 20 })('retries exactly once for a…
+    [90m   |[39m                                           [31m^[39m
+    [90m 26|[39m     [35mconst[39m fetchMock [33m=[39m global[33m.[39mfetch [35mas[39m any[33m;[39m
+    [90m 27|[39m     fetchMock[33m.[39m[34mmockClear[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/properties/useInvitations-retry.prop.test.tsx[2m > [22museInvitations Retry Properties[2m > [22mshows error after second failure of any type (with seed=1754816468)
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[90m [2m❯[22m buildTestWithPropRunner ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m53:2[22m[39m
+[90m [2m❯[22m ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m115:71[22m[39m
+[36m [2m❯[22m src/__tests__/properties/useInvitations-retry.prop.test.tsx:[2m56:43[22m[39m
+    [90m 54|[39m   })[33m;[39m
+    [90m 55|[39m
+    [90m 56|[39m   test.prop([failureArb], { numRuns: 20 })('shows error after second f…
+    [90m   |[39m                                           [31m^[39m
+    [90m 57|[39m     [35mconst[39m fetchMock [33m=[39m global[33m.[39mfetch [35mas[39m any[33m;[39m
+    [90m 58|[39m     fetchMock[33m.[39m[34mmockClear[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/unit/useInvitations.test.tsx[2m > [22museInvitations[2m > [22mfetches invitations on mount
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m src/__tests__/unit/useInvitations.test.tsx:[2m18:3[22m[39m
+    [90m 16|[39m   })[33m;[39m
+    [90m 17|[39m
+    [90m 18|[39m   [34mit[39m([32m'fetches invitations on mount'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   |[39m   [31m^[39m
+    [90m 19|[39m     const mockInvitations = [{ id: '1', email: 'test@test.com', role: …
+    [90m 20|[39m     (global[33m.[39mfetch [35mas[39m any)[33m.[39m[34mmockResolvedValue[39m({
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/unit/useInvitations.test.tsx[2m > [22museInvitations[2m > [22mretries once after 3s on fetch failure
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m src/__tests__/unit/useInvitations.test.tsx:[2m31:3[22m[39m
+    [90m 29|[39m   })[33m;[39m
+    [90m 30|[39m
+    [90m 31|[39m   [34mit[39m([32m'retries once after 3s on fetch failure'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   |[39m   [31m^[39m
+    [90m 32|[39m     (global[33m.[39mfetch [35mas[39m any)
+    [90m 33|[39m       [33m.[39m[34mmockRejectedValueOnce[39m([35mnew[39m [33mError[39m([32m'Network error'[39m))
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/unit/useInvitations.test.tsx[2m > [22museInvitations[2m > [22mshows error after second failure
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m src/__tests__/unit/useInvitations.test.tsx:[2m51:3[22m[39m
+    [90m 49|[39m   })[33m;[39m
+    [90m 50|[39m
+    [90m 51|[39m   [34mit[39m([32m'shows error after second failure'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   |[39m   [31m^[39m
+    [90m 52|[39m     (global.fetch as any).mockRejectedValue(new Error('Network error')…
+    [90m 53|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/unit/useInvitations.test.tsx[2m > [22museInvitations[2m > [22moptimistically removes invitation on accept
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m src/__tests__/unit/useInvitations.test.tsx:[2m66:3[22m[39m
+    [90m 64|[39m   })[33m;[39m
+    [90m 65|[39m
+    [90m 66|[39m   [34mit[39m([32m'optimistically removes invitation on accept'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   |[39m   [31m^[39m
+    [90m 67|[39m     const mockInvitations = [{ id: '1', email: 'test@test.com', role: …
+    [90m 68|[39m     (global[33m.[39mfetch [35mas[39m any)[33m.[39m[34mmockResolvedValue[39m({
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/lib/validation/__tests__/schemas.test.ts[2m > [22mimpersonateSchema[2m > [22maccepts valid input
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m src/lib/validation/__tests__/schemas.test.ts:[2m162:32[22m[39m
+    [90m160|[39m             reason[33m:[39m [32m'Support request #1234'[39m[33m,[39m
+    [90m161|[39m         })[33m;[39m
+    [90m162|[39m         [34mexpect[39m(result[33m.[39msuccess)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   |[39m                                [31m^[39m
+    [90m163|[39m     })[33m;[39m
+    [90m164|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/app/api/admin/__tests__/impersonation-routes.test.ts[2m > [22madmin impersonation routes[2m > [22mstarts impersonation successfully
+[31m[1mAssertionError[22m: expected 400 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m src/app/api/admin/__tests__/impersonation-routes.test.ts:[2m138:29[22m[39m
+    [90m136|[39m     [35mconst[39m body [33m=[39m [35mawait[39m response[33m.[39m[34mjson[39m()[33m;[39m
+    [90m137|[39m
+    [90m138|[39m     [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   |[39m                             [31m^[39m
+    [90m139|[39m     [34mexpect[39m(body[33m.[39mimpersonation_token)[33m.[39m[34mtoBe[39m([32m'mock.token.value'[39m)[33m;[39m
+    [90m140|[39m     [34mexpect[39m(mocks[33m.[39msetImpersonationCookie)[33m.[39m[34mtoHaveBeenCalled[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/app/api/admin/__tests__/impersonation-routes.test.ts[2m > [22madmin impersonation routes[2m > [22mblocks impersonation when authorization fails
+[31m[1mAssertionError[22m: expected 400 to be 403 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 403[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m src/app/api/admin/__tests__/impersonation-routes.test.ts:[2m158:29[22m[39m
+    [90m156|[39m     [35mconst[39m body [33m=[39m [35mawait[39m response[33m.[39m[34mjson[39m()[33m;[39m
+    [90m157|[39m
+    [90m158|[39m     [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m403[39m)[33m;[39m
+    [90m   |[39m                             [31m^[39m
+    [90m159|[39m     [34mexpect[39m(body[33m.[39merror)[33m.[39m[34mtoContain[39m([32m'Tenant mismatch'[39m)[33m;[39m
+    [90m160|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/properties/guest-access.prop.test.tsx[2m > [22mDashboard Page Guest Gate Properties[2m > [22mrenders GuestDashboard when role is GUEST
+[31m[1mTestingLibraryElementError[22m: Unable to find an element by: [data-testid="guest-dashboard"]
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"flex h-screen bg-capetown-dark text-white/90 font-sans overflow-hidden"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"w-[300px] flex-shrink-0 bg-black/60 border-r border-white/10 flex flex-col p-6 z-10 backdrop-blur-md shadow-2xl relative"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"mb-8"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"flex items-center gap-3"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)] overflow-hidden"[31m
+            [36m>[31m
+              [36m<span[31m
+                [33mclass[31m=[32m"text-xl"[31m
+              [36m>[31m
+                [0m🌍[0m
+              [36m</span>[31m
+            [36m</div>[31m
+            [36m<div>[31m
+              [36m<h1[31m
+                [33mclass[31m=[32m"text-xl font-bold tracking-tight text-white leading-tight"[31m
+              [36m>[31m
+                [0mGuest View[0m
+              [36m</h1>[31m
+              [36m<p[31m
+                [33mclass[31m=[32m"text-xs text-white/50 uppercase tracking-widest font-semibold mt-0.5"[31m
+              [36m>[31m
+                [0mCapeTown GIS[0m
+              [36m</p>[31m
+            [36m</div>[31m
+          [36m</div>[31m
+        [36m</div>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"flex-1"[31m
+        [36m>[31m
+          [36m<p[31m
+            [33mclass[31m=[32m"text-sm text-white/70 bg-white/5 p-4 rounded-lg border border-white/10 mb-6"[31m
+          [36m>[31m
+            [0mYou are currently logged in as a [0m
+            [36m<strong>[31m
+              [0mGuest[0m
+            [36m</strong>[31m
+            [0m. You can view the public map, but analytics, exports, and admin tools require a role assignment.[0m
+          [36m</p>[31m
+          [36m<p[31m
+            [33mclass[31m=[32m"text-xs text-white/50 px-2 italic"[31m
+          [36m>[31m
+            [0mWait for an invitation to join a workspace, or contact a PLATFORM_ADMIN.[0m
+          [36m</p>[31m
+        [36m</div>[31m
+      [36m</div>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"flex-1 relative order-first md:order-none z-0"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"w-full h-full flex items-center justify-center bg-capetown-dark text-white/50"[31m
+        [36m>[31m
+          [0mLoading map...[0m
+        [36m</div>[31m
+      [36m</div>[31m
+    [36m</div>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/properties/guest-access.prop.test.tsx:[2m65:19[22m[39m
+    [90m 63|[39m     [34mrender[39m(page)[33m;[39m
+    [90m 64|[39m
+    [90m 65|[39m     [34mexpect[39m(screen[33m.[39m[34mgetByTestId[39m([32m'guest-dashboard'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m   |[39m                   [31m^[39m
+    [90m 66|[39m     [34mexpect[39m(screen[33m.[39m[34mqueryByTestId[39m([32m'dashboard-screen'[39m))[33m.[39m[34mtoBeNull[39m()[33m;[39m
+    [90m 67|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/properties/guest-access.prop.test.tsx[2m > [22mDashboard Page Guest Gate Properties[2m > [22mrenders DashboardScreen when role is VIEWER
+[31m[1mError[22m: [vitest] No "useSearchParams" export is defined on the "next/navigation" mock. Did you forget to return it from "vi.mock"?
+If you need to partially mock a module, you can use "importOriginal" helper inside:
+[39m
+vi.mock(import("next/navigation"), async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    // your mocked methods
+  }
+})
+
+[36m [2m❯[22m useDomainState src/hooks/useDomainState.ts:[2m20:24[22m[39m
+    [90m 18|[39m
+    [90m 19|[39m [35mexport[39m [35mfunction[39m [34museDomainState[39m() {
+    [90m 20|[39m   [35mconst[39m searchParams [33m=[39m [34museSearchParams[39m()[33m;[39m
+    [90m   |[39m                        [31m^[39m
+    [90m 21|[39m   [35mconst[39m router [33m=[39m [34museRouter[39m()[33m;[39m
+    [90m 22|[39m
+[90m [2m❯[22m DashboardScreen src/components/DashboardScreen.tsx:[2m41:54[22m[39m
+[90m [2m❯[22m Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:[2m25904:20[22m[39m
+[90m [2m❯[22m renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:[2m7662:22[22m[39m
+[90m [2m❯[22m updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:[2m10166:19[22m[39m
+[90m [2m❯[22m beginWork node_modules/react-dom/cjs/react-dom-client.development.js:[2m11778:18[22m[39m
+[90m [2m❯[22m runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:[2m874:13[22m[39m
+[90m [2m❯[22m performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:[2m17641:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/properties/invitation-token.prop.test.tsx[2m > [22mInvitation Token Persistence Properties[2m > [22malways persists non-empty token to sessionStorage when unauthenticated (with seed=180284503)
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[90m [2m❯[22m buildTestWithPropRunner ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m53:2[22m[39m
+[90m [2m❯[22m ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m115:71[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/properties/invitation-token.prop.test.tsx:[2m50:43[22m[39m
+    [90m 48|[39m   })[33m;[39m
+    [90m 49|[39m
+    [90m 50|[39m   test.prop([fc.string({ minLength: 1 })])('always persists non-empty …
+    [90m   |[39m                                           [31m^[39m
+    [90m 51|[39m     (useSearchParams [35mas[39m any)[33m.[39m[34mmockReturnValue[39m({
+    [90m 52|[39m       [35mget[39m[33m:[39m (key[33m:[39m string) [33m=>[39m (key [33m===[39m [32m'token'[39m [33m?[39m token [33m:[39m [35mnull[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/properties/useInvitations-retry.prop.test.tsx[2m > [22museInvitations Retry Properties[2m > [22mretries exactly once for any failure type (with seed=28462698)
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[90m [2m❯[22m buildTestWithPropRunner ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m53:2[22m[39m
+[90m [2m❯[22m ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m115:71[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/properties/useInvitations-retry.prop.test.tsx:[2m25:43[22m[39m
+    [90m 23|[39m   )[33m;[39m
+    [90m 24|[39m
+    [90m 25|[39m   test.prop([failureArb], { numRuns: 20 })('retries exactly once for a…
+    [90m   |[39m                                           [31m^[39m
+    [90m 26|[39m     [35mconst[39m fetchMock [33m=[39m global[33m.[39mfetch [35mas[39m any[33m;[39m
+    [90m 27|[39m     fetchMock[33m.[39m[34mmockClear[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/properties/useInvitations-retry.prop.test.tsx[2m > [22museInvitations Retry Properties[2m > [22mshows error after second failure of any type (with seed=462879961)
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[90m [2m❯[22m buildTestWithPropRunner ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m53:2[22m[39m
+[90m [2m❯[22m ../Geographical%20Informations%20Systems%20(GIS)/node_modules/@fast-check/vitest/lib/vitest-fast-check.js:[2m115:71[22m[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/properties/useInvitations-retry.prop.test.tsx:[2m56:43[22m[39m
+    [90m 54|[39m   })[33m;[39m
+    [90m 55|[39m
+    [90m 56|[39m   test.prop([failureArb], { numRuns: 20 })('shows error after second f…
+    [90m   |[39m                                           [31m^[39m
+    [90m 57|[39m     [35mconst[39m fetchMock [33m=[39m global[33m.[39mfetch [35mas[39m any[33m;[39m
+    [90m 58|[39m     fetchMock[33m.[39m[34mmockClear[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx[2m > [22museInvitations[2m > [22mfetches invitations on mount
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx:[2m18:3[22m[39m
+    [90m 16|[39m   })[33m;[39m
+    [90m 17|[39m
+    [90m 18|[39m   [34mit[39m([32m'fetches invitations on mount'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   |[39m   [31m^[39m
+    [90m 19|[39m     const mockInvitations = [{ id: '1', email: 'test@test.com', role: …
+    [90m 20|[39m     (global[33m.[39mfetch [35mas[39m any)[33m.[39m[34mmockResolvedValue[39m({
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx[2m > [22museInvitations[2m > [22mretries once after 3s on fetch failure
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx:[2m31:3[22m[39m
+    [90m 29|[39m   })[33m;[39m
+    [90m 30|[39m
+    [90m 31|[39m   [34mit[39m([32m'retries once after 3s on fetch failure'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   |[39m   [31m^[39m
+    [90m 32|[39m     (global[33m.[39mfetch [35mas[39m any)
+    [90m 33|[39m       [33m.[39m[34mmockRejectedValueOnce[39m([35mnew[39m [33mError[39m([32m'Network error'[39m))
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx[2m > [22museInvitations[2m > [22mshows error after second failure
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx:[2m51:3[22m[39m
+    [90m 49|[39m   })[33m;[39m
+    [90m 50|[39m
+    [90m 51|[39m   [34mit[39m([32m'shows error after second failure'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   |[39m   [31m^[39m
+    [90m 52|[39m     (global.fetch as any).mockRejectedValue(new Error('Network error')…
+    [90m 53|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx[2m > [22museInvitations[2m > [22moptimistically removes invitation on accept
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx:[2m66:3[22m[39m
+    [90m 64|[39m   })[33m;[39m
+    [90m 65|[39m
+    [90m 66|[39m   [34mit[39m([32m'optimistically removes invitation on accept'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   |[39m   [31m^[39m
+    [90m 67|[39m     const mockInvitations = [{ id: '1', email: 'test@test.com', role: …
+    [90m 68|[39m     (global[33m.[39mfetch [35mas[39m any)[33m.[39m[34mmockResolvedValue[39m({
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/lib/validation/__tests__/schemas.test.ts[2m > [22mimpersonateSchema[2m > [22maccepts valid input
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/lib/validation/__tests__/schemas.test.ts:[2m162:32[22m[39m
+    [90m160|[39m             reason[33m:[39m [32m'Support request #1234'[39m[33m,[39m
+    [90m161|[39m         })[33m;[39m
+    [90m162|[39m         [34mexpect[39m(result[33m.[39msuccess)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   |[39m                                [31m^[39m
+    [90m163|[39m     })[33m;[39m
+    [90m164|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/app/api/admin/__tests__/impersonation-routes.test.ts[2m > [22madmin impersonation routes[2m > [22mstarts impersonation successfully
+[31m[1mAssertionError[22m: expected 400 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/app/api/admin/__tests__/impersonation-routes.test.ts:[2m138:29[22m[39m
+    [90m136|[39m     [35mconst[39m body [33m=[39m [35mawait[39m response[33m.[39m[34mjson[39m()[33m;[39m
+    [90m137|[39m
+    [90m138|[39m     [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   |[39m                             [31m^[39m
+    [90m139|[39m     [34mexpect[39m(body[33m.[39mimpersonation_token)[33m.[39m[34mtoBe[39m([32m'mock.token.value'[39m)[33m;[39m
+    [90m140|[39m     [34mexpect[39m(mocks[33m.[39msetImpersonationCookie)[33m.[39m[34mtoHaveBeenCalled[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/29]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m worktrees/disable-vercel-workflow/src/app/api/admin/__tests__/impersonation-routes.test.ts[2m > [22madmin impersonation routes[2m > [22mblocks impersonation when authorization fails
+[31m[1mAssertionError[22m: expected 400 to be 403 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 403[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m worktrees/disable-vercel-workflow/src/app/api/admin/__tests__/impersonation-routes.test.ts:[2m158:29[22m[39m
+    [90m156|[39m     [35mconst[39m body [33m=[39m [35mawait[39m response[33m.[39m[34mjson[39m()[33m;[39m
+    [90m157|[39m
+    [90m158|[39m     [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m403[39m)[33m;[39m
+    [90m   |[39m                             [31m^[39m
+    [90m159|[39m     [34mexpect[39m(body[33m.[39merror)[33m.[39m[34mtoContain[39m([32m'Tenant mismatch'[39m)[33m;[39m
+    [90m160|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/29]⎯[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Errors [49m[22m[31m⎯⎯⎯⎯⎯⎯[39m
+[31m[1m
+Vitest caught 2 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.[22m[39m
+
+[31m⎯⎯⎯⎯⎯[39m[1m[41m Uncaught Exception [49m[22m[31m⎯⎯⎯⎯⎯[39m
+[31m[1mTypeError[22m: The provided value is not of type 'Element'.[39m
+[90m [2m❯[22m Object.exports.convert node_modules/jsdom/lib/generated/idl/Element.js:[2m28:9[22m[39m
+[90m [2m❯[22m window.getComputedStyle node_modules/jsdom/lib/jsdom/browser/Window.js:[2m856:33[22m[39m
+[36m [2m❯[22m onMouseMove src/components/ui/WaxTrailCursor.tsx:[2m17:27[22m[39m
+    [90m 15|[39m
+    [90m 16|[39m       [35mconst[39m target [33m=[39m e[33m.[39mtarget [35mas[39m [33mHTMLElement[39m[33m;[39m
+    [90m 17|[39m       setIsPointer(window.getComputedStyle(target).cursor === 'pointer…
+    [90m   |[39m                           [31m^[39m
+    [90m 18|[39m
+    [90m 19|[39m       [90m// Add to trails with a unique ID[39m
+[90m [2m❯[22m callTheUserObjectsOperation node_modules/jsdom/lib/generated/idl/EventListener.js:[2m26:30[22m[39m
+[90m [2m❯[22m innerInvokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m360:16[22m[39m
+[90m [2m❯[22m invokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m296:3[22m[39m
+[90m [2m❯[22m EventTargetImpl._dispatch node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m243:9[22m[39m
+[90m [2m❯[22m EventTargetImpl.dispatchEvent node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m114:17[22m[39m
+[90m [2m❯[22m dispatchEvent node_modules/jsdom/lib/generated/idl/EventTarget.js:[2m241:34[22m[39m
+[90m [2m❯[22m src/components/ui/WaxTrailCursor.test.tsx:[2m30:12[22m[39m
+
+[31mThis error originated in "[1msrc/components/ui/WaxTrailCursor.test.tsx[22m" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.[39m
+[31mThe latest test that might've caused the error is "[1mgenerates trails with string IDs on mouse move[22m". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.[39m
+
+[31m⎯⎯⎯⎯⎯[39m[1m[41m Uncaught Exception [49m[22m[31m⎯⎯⎯⎯⎯[39m
+[31m[1mTypeError[22m: The provided value is not of type 'Element'.[39m
+[90m [2m❯[22m Object.exports.convert node_modules/jsdom/lib/generated/idl/Element.js:[2m28:9[22m[39m
+[90m [2m❯[22m window.getComputedStyle node_modules/jsdom/lib/jsdom/browser/Window.js:[2m856:33[22m[39m
+[36m [2m❯[22m onMouseMove worktrees/disable-vercel-workflow/src/components/ui/WaxTrailCursor.tsx:[2m17:27[22m[39m
+    [90m 15|[39m
+    [90m 16|[39m       [35mconst[39m target [33m=[39m e[33m.[39mtarget [35mas[39m [33mHTMLElement[39m[33m;[39m
+    [90m 17|[39m       setIsPointer(window.getComputedStyle(target).cursor === 'pointer…
+    [90m   |[39m                           [31m^[39m
+    [90m 18|[39m
+    [90m 19|[39m       [90m// Add to trails with a unique ID[39m
+[90m [2m❯[22m callTheUserObjectsOperation node_modules/jsdom/lib/generated/idl/EventListener.js:[2m26:30[22m[39m
+[90m [2m❯[22m innerInvokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m360:16[22m[39m
+[90m [2m❯[22m invokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m296:3[22m[39m
+[90m [2m❯[22m EventTargetImpl._dispatch node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m243:9[22m[39m
+[90m [2m❯[22m EventTargetImpl.dispatchEvent node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:[2m114:17[22m[39m
+[90m [2m❯[22m dispatchEvent node_modules/jsdom/lib/generated/idl/EventTarget.js:[2m241:34[22m[39m
+[90m [2m❯[22m worktrees/disable-vercel-workflow/src/components/ui/WaxTrailCursor.test.tsx:[2m30:12[22m[39m
+
+[31mThis error originated in "[1mworktrees/disable-vercel-workflow/src/components/ui/WaxTrailCursor.test.tsx[22m" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.[39m
+[31mThe latest test that might've caused the error is "[1mgenerates trails with string IDs on mouse move[22m". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.[39m
+[31m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39m
+
+
+[2m Test Files [22m [1m[31m18 failed[39m[22m[2m | [22m[1m[32m57 passed[39m[22m[90m (75)[39m
+[2m      Tests [22m [1m[31m22 failed[39m[22m[2m | [22m[1m[32m322 passed[39m[22m[2m | [22m[33m2 skipped[39m[90m (346)[39m
+[2m     Errors [22m [1m[31m2 errors[39m[22m
+[2m   Start at [22m 16:10:08
+[2m   Duration [22m 79.46s[2m (transform 6.33s, setup 61.64s, import 132.05s, tests 101.10s, environment 284.99s)[22m
+
