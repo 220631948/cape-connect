@@ -9,6 +9,7 @@ import { NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 
 const VALID_TABLES = ['properties', 'valuation_data', 'user_features', 'izs_zones'] as const;
+const VALID_TABLES_SET = new Set<string>(VALID_TABLES);
 type ValidTable = typeof VALID_TABLES[number];
 
 // Mock spatial stats for offline fallback
@@ -43,7 +44,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const tableName = searchParams.get('table') as ValidTable | null;
 
-  if (!tableName || !VALID_TABLES.includes(tableName)) {
+  if (!tableName || !VALID_TABLES_SET.has(tableName)) {
     return NextResponse.json(
       { error: `table parameter required. Valid: ${VALID_TABLES.join(', ')}` },
       { status: 400 }

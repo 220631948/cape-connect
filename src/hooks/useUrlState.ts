@@ -43,12 +43,13 @@ export function useUrlState() {
       bearing: v[4]
     } : null;
 
+    const layerSet = l != null ? new Set(l) : undefined;
     const layers: LayerState = {
-      zoning: l?.includes('z') ?? true,
-      flights: l?.includes('f') ?? true,
-      suburbs: l?.includes('s') ?? true,
-      firms: l?.includes('m') ?? false,
-      traffic: l?.includes('t') ?? false,
+      zoning: layerSet ? layerSet.has('z') : true,
+      flights: layerSet ? layerSet.has('f') : true,
+      suburbs: layerSet ? layerSet.has('s') : true,
+      firms: layerSet ? layerSet.has('m') : false,
+      traffic: layerSet ? layerSet.has('t') : false,
     };
 
     return { viewport, layers };
