@@ -1,0 +1,247 @@
+
+> capegis@0.1.0 build
+> next build
+
+▲ Next.js 16.2.1 (Turbopack)
+- Environments: .env.local, .env
+- Experiments (use with caution):
+  · clientTraceMetadata
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 13 errors:
+./src/app/api/admin/assign-role/route.ts:8:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 6 |[0m
+  [90m 7 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m
+  [90m10 |[0m [36mfunction[0m createClient(request: [33mNextRequest[0m) {
+  [90m11 |[0m   [36mconst[0m response = [33mNextResponse[0m.next();
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/api/admin/audit/route.ts:8:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 6 |[0m
+  [90m 7 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m [36mimport[0m { isAdminRole } [36mfrom[0m [32m'@/lib/auth/roles'[0m;
+  [90m10 |[0m
+  [90m11 |[0m [36mfunction[0m createClient(request: [33mNextRequest[0m) {
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/api/admin/invite/route.ts:8:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 6 |[0m
+  [90m 7 |[0m [36mimport[0m {[33mNextRequest[0m, [33mNextResponse[0m} [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m {[36mtype[0m [33mCookieOptions[0m, createServerClient} [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m [36mimport[0m {getRequestMetadata, logImpersonationActionIfNeeded} [36mfrom[0m [32m'@/lib/auth/admin-session'[0m;
+  [90m10 |[0m [36mimport[0m {isAdminRole} [36mfrom[0m [32m'@/lib/auth/roles'[0m;
+  [90m11 |[0m [36mimport[0m {validateBody} [36mfrom[0m [32m'@/lib/validation'[0m;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/api/admin/tenant/route.ts:8:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 6 |[0m
+  [90m 7 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m [36mimport[0m { getRequestMetadata, logImpersonationActionIfNeeded } [36mfrom[0m [32m'@/lib/auth/admin-session'[0m;
+  [90m10 |[0m [36mimport[0m { isAdminRole } [36mfrom[0m [32m'@/lib/auth/roles'[0m;
+  [90m11 |[0m
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/api/invitations/accept/route.ts:7:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 5 |[0m
+  [90m 6 |[0m [36mimport[0m {[33mNextRequest[0m, [33mNextResponse[0m} [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m {[36mtype[0m [33mCookieOptions[0m, createServerClient} [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m {validateBody} [36mfrom[0m [32m'@/lib/validation'[0m;
+  [90m 9 |[0m [36mimport[0m {acceptInvitationSchema} [36mfrom[0m [32m'@/lib/validation/schemas/invitations'[0m;
+  [90m10 |[0m
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/api/invitations/decline/route.ts:7:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 5 |[0m
+  [90m 6 |[0m [36mimport[0m {[33mNextRequest[0m, [33mNextResponse[0m} [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m {[36mtype[0m [33mCookieOptions[0m, createServerClient} [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m {validateBody} [36mfrom[0m [32m'@/lib/validation'[0m;
+  [90m 9 |[0m [36mimport[0m {declineInvitationSchema} [36mfrom[0m [32m'@/lib/validation/schemas/invitations'[0m;
+  [90m10 |[0m
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/api/invitations/pending/route.ts:7:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 5 |[0m
+  [90m 6 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mfunction[0m createClient(request: [33mNextRequest[0m) {
+  [90m10 |[0m   [36mconst[0m response = [33mNextResponse[0m.next();
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/api/invitations_backup/accept/route.ts:7:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 5 |[0m
+  [90m 6 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mfunction[0m createClient(request: [33mNextRequest[0m) {
+  [90m10 |[0m   [36mconst[0m response = [33mNextResponse[0m.next();
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/api/invitations_backup/decline/route.ts:7:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 5 |[0m
+  [90m 6 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mfunction[0m createClient(request: [33mNextRequest[0m) {
+  [90m10 |[0m   [36mconst[0m response = [33mNextResponse[0m.next();
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/api/invitations_backup/pending/route.ts:7:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 5 |[0m
+  [90m 6 |[0m [36mimport[0m { [33mNextRequest[0m, [33mNextResponse[0m } [36mfrom[0m [32m'next/server'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mfunction[0m createClient(request: [33mNextRequest[0m) {
+  [90m10 |[0m   [36mconst[0m response = [33mNextResponse[0m.next();
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/lib/supabase/server.ts:7:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 5 |[0m [90m */[0m
+  [90m 6 |[0m
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m'next/headers'[0m;
+  [90m 9 |[0m [36mimport[0m { [33mDatabase[0m } [36mfrom[0m [32m'@/types/supabase'[0m;
+  [90m10 |[0m
+
+
+
+Import traces:
+  App Route:
+    ./src/lib/supabase/server.ts
+    ./src/app/api/search/route.ts
+
+  Server Component:
+    ./src/lib/supabase/server.ts
+    ./src/lib/tenant/server.ts
+    ./src/app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/proxy.ts:7:1
+Module not found: Can't resolve '@supabase/auth-helpers-nextjs'
+  [90m 5 |[0m [90m */[0m
+  [90m 6 |[0m
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/auth-helpers-nextjs'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mNextResponse[0m, [36mtype[0m [33mNextRequest[0m } [36mfrom[0m [32m'next/server'[0m;
+  [90m 9 |[0m [36mimport[0m { verifyImpersonationToken } [36mfrom[0m [32m'@/lib/auth/impersonation-token'[0m;
+  [90m10 |[0m [36mimport[0m { isAdminRole } [36mfrom[0m [32m'@/lib/auth/roles'[0m;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/lib/email.ts:1:1
+Module not found: Can't resolve 'resend'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { [33mResend[0m } [36mfrom[0m [32m'resend'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m
+  [90m3 |[0m [90m// Initialize Resend with the API key[0m
+  [90m4 |[0m [90m// If the key is missing, it will log a warning.[0m
+
+
+
+Import trace:
+  App Route:
+    ./src/lib/email.ts
+    ./src/app/api/admin/invite/route.ts
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./src/app/api/admin/assign-role/route.ts:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/api/admin/audit/route.ts:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/api/admin/invite/route.ts:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/api/admin/tenant/route.ts:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/api/invitations/accept/route.ts:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/api/invitations/decline/route.ts:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/api/invitations/pending/route.ts:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/api/invitations_backup/accept/route.ts:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/api/invitations_backup/decline/route.ts:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/api/invitations_backup/pending/route.ts:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/lib/supabase/server.ts:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/proxy.ts:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/lib/email.ts:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
