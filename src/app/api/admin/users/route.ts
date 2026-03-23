@@ -12,6 +12,7 @@ import {
   requireAuthenticatedSession,
 } from '@/lib/auth/admin-session';
 import { isAdminRole, isPlatformAdmin, normalizeRole } from '@/lib/auth/roles';
+import monitor from '@/lib/monitoring';
 
 const VALID_ASSIGNABLE_ROLES_ARRAY = [
   'viewer',
@@ -79,8 +80,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ data: normalizedUsers, tier: 'LIVE' });
   } catch (error: unknown) {
     console.error('[Admin Users GET]:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Internal error';
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Internal error';
+    if (error instanceof Error) monitor.trackError(error, { context: 'Admin Users GET' });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -153,7 +155,8 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ success: true, message: `Role updated to ${role}` });
   } catch (error: unknown) {
     console.error('[Admin Users PATCH]:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Internal error';
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Internal error';
+    if (error instanceof Error) monitor.trackError(error, { context: 'Admin Users PATCH' });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
