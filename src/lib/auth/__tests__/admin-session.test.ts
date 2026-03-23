@@ -1,5 +1,6 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { verifyReauthentication } from '../admin-session';
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
+import { NextResponse } from 'next/server';
+import { verifyReauthentication, setImpersonationCookie } from '../admin-session';
 
 describe('admin-session: verifyReauthentication', () => {
   const mockClient = {
@@ -131,5 +132,74 @@ describe('admin-session: verifyReauthentication', () => {
       'wrong-code'
     );
     expect(result).toEqual({ ok: false, error: 'MFA verification failed' });
+  });
+});
+
+
+describe('admin-session: setImpersonationCookie', () => {
+  let mockResponse: any;
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    // 2024-01-01T12:00:00.000Z = 1704110400000 ms
+    vi.setSystemTime(new Date('2024-01-01T12:00:00.000Z'));
+
+    mockResponse = {
+      cookies: {
+        set: vi.fn(),
+      },
+    } as unknown as NextResponse;
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.clearAllMocks();
+  });
+
+  it('sets maxAge correctly for a future expiration date', () => {
+    const token = 'fake-token';
+    // Expire 1 hour from "now" (3600 seconds)
+    // 1704110400 + 3600 = 1704114000
+    const expiresAtUnix = 1704114000;
+
+    setImpersonationCookie(mockResponse, token, expiresAtUnix);
+
+    expect(mockResponse.cookies.set).toHaveBeenCalledWith({
+      name: 'capegis_impersonation',
+      value: token,
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false, // process.env.NODE_ENV is test
+      path: '/',
+      maxAge: 3600,
+    });
+  });
+
+  it('sets maxAge to 1 if the expiration is exactly the current time', () => {
+    const token = 'fake-token';
+    // Expire exactly "now"
+    const expiresAtUnix = 1704110400;
+
+    setImpersonationCookie(mockResponse, token, expiresAtUnix);
+
+    expect(mockResponse.cookies.set).toHaveBeenCalledWith(
+      expect.objectContaining({
+        maxAge: 1,
+      })
+    );
+  });
+
+  it('sets maxAge to 1 if the expiration is in the past', () => {
+    const token = 'fake-token';
+    // Expire 1 hour in the past
+    const expiresAtUnix = 1704110400 - 3600;
+
+    setImpersonationCookie(mockResponse, token, expiresAtUnix);
+
+    expect(mockResponse.cookies.set).toHaveBeenCalledWith(
+      expect.objectContaining({
+        maxAge: 1,
+      })
+    );
   });
 });
