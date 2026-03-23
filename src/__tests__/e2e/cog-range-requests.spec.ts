@@ -12,6 +12,9 @@ const RASTER_BASE_URL = process.env.NEXT_PUBLIC_RASTER_BASE_URL
     || process.env.NEXT_PUBLIC_GCS_PUBLIC_URL
     || 'https://storage.googleapis.com/capegis-rasters';
 
+const RASTER_BASE_ORIGIN = new URL(RASTER_BASE_URL).origin;
+const RASTER_BASE_PATH_PREFIX = new URL(RASTER_BASE_URL).pathname.replace(/\/+$/, '');
+
 test.describe('COG Range Requests — HTTP 206 Validation', () => {
     test('raster tile requests return HTTP 206 Partial Content', async ({page}) => {
         const rangeResponses: Array<{
@@ -24,11 +27,31 @@ test.describe('COG Range Requests — HTTP 206 Validation', () => {
         // Intercept all network requests to raster endpoints
         page.on('response', (response) => {
             const url = response.url();
-            const isRasterRequest =
+            let isRasterRequest = false;
+
+            // Heuristic based on file extensions / known bucket name
+            if (
                 url.includes('.tif') ||
                 url.includes('.pmtiles') ||
-                url.includes('capegis-rasters') ||
-                url.includes(RASTER_BASE_URL);
+                url.includes('capegis-rasters')
+            ) {
+                isRasterRequest = true;
+            } else {
+                // Precise match against the configured raster base URL (origin + path prefix)
+                try {
+                    const parsed = new URL(url);
+                    const normalizedPath = parsed.pathname.replace(/\/+$/, '');
+                    if (
+                        parsed.origin === RASTER_BASE_ORIGIN &&
+                        (normalizedPath === RASTER_BASE_PATH_PREFIX ||
+                            normalizedPath.startsWith(RASTER_BASE_PATH_PREFIX + '/'))
+                    ) {
+                        isRasterRequest = true;
+                    }
+                } catch {
+                    // Ignore invalid URLs; they are not treated as raster requests
+                }
+            }
 
             if (isRasterRequest) {
                 rangeResponses.push({
