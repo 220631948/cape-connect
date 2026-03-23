@@ -125,6 +125,21 @@ async def _process_geotiff(bucket: str, object_name: str) -> dict:
         if not safe_basename:
             safe_basename = "raster.tif"
 
+        # Further constrain basename: enforce reasonable length and extension
+        max_basename_len = 64
+        if len(safe_basename) > max_basename_len:
+            root, ext = os.path.splitext(safe_basename)
+            safe_root = root[: max_basename_len - len(ext)]
+            safe_basename = f"{safe_root}{ext}"
+
+        # Ensure we always have a .tif extension for the local file
+        base_root, base_ext = os.path.splitext(safe_basename)
+        if not base_root:
+            base_root = "raster"
+        if base_ext.lower() not in (".tif", ".tiff", ".geotiff"):
+            base_ext = ".tif"
+        safe_basename = f"{base_root}{base_ext}"
+
         # Step 1: Download raw GeoTIFF
         local_raw = os.path.join(tmpdir, safe_basename)
         blob = gcs_bucket.blob(object_name)
