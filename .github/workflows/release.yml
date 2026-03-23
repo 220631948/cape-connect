@@ -1,0 +1,71 @@
+# CapeTown GIS Hub — Automated Semantic Release
+# Generates version tags, GitHub Releases, and changelogs from Conventional Commits.
+# Triggers only on main after CI passes. Zero overlap with existing workflows.
+# ─────────────────────────────────────────────────────────────────────────────
+# Required GitHub Secrets:
+#   (none — uses default GITHUB_TOKEN with contents:write + pull-requests:write)
+# Optional:
+#   SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT — to create Sentry releases
+#   VERCEL_TOKEN — to tag Vercel deployments (future use)
+# ─────────────────────────────────────────────────────────────────────────────
+name: Semantic Release
+
+on:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false # never cancel a release mid-flight
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  release:
+    name: Version & Publish Release
+    runs-on: ubuntu-latest
+    # Only run after CI succeeds on main
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0 # full history needed for changelog generation
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install semantic-release
+        run: |
+          npm install --no-save \
+            semantic-release@24 \
+            @semantic-release/changelog@6 \
+            @semantic-release/git@10 \
+            conventional-changelog-conventionalcommits@8
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+        # Configuration is in .releaserc.json (created below if absent)
+
+      # ── Optional: Create Sentry release to link source maps ──
+      - name: Create Sentry Release
+        if: env.SENTRY_AUTH_TOKEN != ''
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        run: |
+          VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -n "$VERSION" ]; then
+            npx @sentry/cli releases new "$VERSION"
+            npx @sentry/cli releases set-commits "$VERSION" --auto
+            npx @sentry/cli releases finalize "$VERSION"
+            echo "✅ Sentry release $VERSION created"
+          fi

@@ -9,12 +9,12 @@
 
 ## Current Session State
 
-| Field                | Value                                         |
-|----------------------|-----------------------------------------------|
-| **Last Updated**     | 2026-03-21                                    |
-| **Active Milestone** | MPA — GV Roll OCR (SKIPPED) + DevSecOps CI/CD |
-| **Active Agent**     | ML-PIPELINE-AGENT                             |
-| **Phase**            | MPA SKIPPED → DevSecOps CI/CD COMPLETE        |
+| Field                | Value                                                      |
+|----------------------|------------------------------------------------------------|
+| **Last Updated**     | 2026-03-21                                                 |
+| **Active Milestone** | Phase 4 — GCP Infrastructure Provisioning + Data Migration |
+| **Active Agent**     | CLOUD-INFRA-AGENT                                          |
+| **Phase**            | GEE→GCS migration pipeline ACTIVE. Deadline: Apr 27, 2026  |
 
 ---
 
@@ -22,16 +22,17 @@
 
 ### Backend Architecture
 
-| Decision          | Value                                            | Rationale                                                       |
-|-------------------|--------------------------------------------------|-----------------------------------------------------------------|
-| Framework         | FastAPI 0.115+ on Railway.app                    | Async support, auto-docs, Railway-native                        |
-| GDAL Installation | OSGEO Docker base image ONLY                     | `pip install gdal` fails without system deps [GOTCHA-PY-001]    |
-| Auth Validation   | Supabase JWT via JWKS (python-jose)              | No shared secret needed; validates against Supabase public keys |
-| CORS              | Vercel domain only — no wildcard in production   | Security: prevent cross-origin attacks                          |
-| Supabase Role     | DB + Auth only — Python handles ALL API logic    | Clear separation of concerns                                    |
-| Database          | Async GeoAlchemy2 + asyncpg                      | Performance: non-blocking DB calls                              |
-| Task Queue        | Celery + Railway Redis add-on                    | All background jobs (LULC, SAM, imports, cache)                 |
-| Storage           | Hybrid: Supabase <50MB + Cloudflare R2 for large | Cost optimization; R2 for rasters/models                        |
+| Decision          | Value                                                      | Rationale                                                       |
+|-------------------|------------------------------------------------------------|-----------------------------------------------------------------|
+| Framework         | FastAPI 0.115+ on Railway.app                              | Async support, auto-docs, Railway-native                        |
+| GDAL Installation | OSGEO Docker base image ONLY                               | `pip install gdal` fails without system deps [GOTCHA-PY-001]    |
+| Auth Validation   | Supabase JWT via JWKS (python-jose)                        | No shared secret needed; validates against Supabase public keys |
+| CORS              | Vercel domain only — no wildcard in production             | Security: prevent cross-origin attacks                          |
+| Supabase Role     | DB + Auth only — Python handles ALL API logic              | Clear separation of concerns                                    |
+| Database          | Async GeoAlchemy2 + asyncpg                                | Performance: non-blocking DB calls                              |
+| Task Queue        | Celery + Railway Redis add-on                              | All background jobs (LULC, SAM, imports, cache)                 |
+| Storage           | Hybrid: Supabase <50MB + **GCS africa-south1** for rasters | POPIA compliant; COG + HTTP 206 range requests; R2 deprecated   |
+| Raster Offload    | GCS bucket `capegis-rasters` in africa-south1              | COGs served via range requests; STAC catalog; OUT-DB in PostGIS |
 
 ### Frontend Architecture
 
@@ -47,13 +48,14 @@
 
 ### Infrastructure
 
-| Decision         | Value                                  | Rationale                      |
-|------------------|----------------------------------------|--------------------------------|
-| Frontend Hosting | Vercel                                 | Next.js native, edge functions |
-| Backend Hosting  | Railway.app                            | Docker-native, Redis add-on    |
-| Tile Server      | Martin (Rust MVT)                      | High-performance vector tiles  |
-| Database         | Supabase (PostgreSQL 15 + PostGIS 3.3) | Managed, RLS, Auth built-in    |
-| Object Storage   | Supabase Storage + Cloudflare R2       | Hybrid for cost/performance    |
+| Decision          | Value                                                      | Rationale                                        |
+|-------------------|------------------------------------------------------------|--------------------------------------------------|
+| Frontend Hosting  | Vercel                                                     | Next.js native, edge functions                   |
+| Backend Hosting   | Railway.app                                                | Docker-native, Redis add-on                      |
+| Tile Server       | Martin (Rust MVT)                                          | High-performance vector tiles                    |
+| Database          | Supabase (PostgreSQL 15 + PostGIS 3.3)                     | Managed, RLS, Auth built-in                      |
+| Object Storage    | **GCS africa-south1** (rasters) + Supabase Storage (small) | POPIA; COG range requests; $15.88/mo post-credit |
+| Raster Processing | Cloud Run (capegis-raster-processor)                       | Scale-to-zero; 512MB; max 3 instances            |
 
 ---
 

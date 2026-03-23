@@ -156,6 +156,40 @@ resource "google_storage_bucket_iam_member" "sa_admin" {
   member = "serviceAccount:${google_service_account.capegis_raster_sa.email}"
 }
 
+# ─── Service Account for GEE Export (write-only) ─────────────────────────────
+
+resource "google_service_account" "capegis_gee_writer" {
+  account_id   = "capegis-gee-writer"
+  display_name = "CapeTown GIS Hub - GEE Export Writer"
+  description  = "Write-only access to GCS bucket for Earth Engine exports"
+}
+
+resource "google_storage_bucket_iam_member" "gee_writer" {
+  bucket = google_storage_bucket.capegis_rasters.name
+  role   = "roles/storage.objectCreator"
+  member = "serviceAccount:${google_service_account.capegis_gee_writer.email}"
+}
+
+# ─── Service Account for Reader Proxy (signed URLs) ─────────────────────────
+
+resource "google_service_account" "capegis_raster_reader" {
+  account_id   = "capegis-raster-reader"
+  display_name = "CapeTown GIS Hub - Raster Reader (proxy)"
+  description  = "Read-only access to GCS raster bucket for Next.js/Supabase proxy"
+}
+
+resource "google_storage_bucket_iam_member" "reader_viewer" {
+  bucket = google_storage_bucket.capegis_rasters.name
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${google_service_account.capegis_raster_reader.email}"
+}
+
+resource "google_project_iam_member" "reader_token_creator" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:${google_service_account.capegis_raster_reader.email}"
+}
+
 # ─── Cloud Run: Raster Processor ─────────────────────────────────────────────
 
 resource "google_cloud_run_v2_service" "raster_processor" {

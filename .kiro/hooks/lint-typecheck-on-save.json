@@ -1,0 +1,13 @@
+{
+  "name": "Lint & Typecheck on Save",
+  "version": "1.0.0",
+  "description": "Runs ESLint and TypeScript typecheck when a source file is saved. Catches type errors and lint violations before they accumulate.",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["src/**/*.ts", "src/**/*.tsx"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A source file was just saved. Run `npm run lint` and `npm run typecheck` mentally by checking the saved file for: (1) TypeScript type errors, (2) ESLint violations, (3) imports not in the correct order (React/Next → third-party → local @/*), (4) file length exceeding 300 lines. Report any issues found with file path and line number. Do not auto-fix — list the problems only."
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "name": "capegis-ai",
+  "version": "1.1.0",
+  "description": "Custom Gemini CLI extension for CapeTown GIS Hub",
+  "mcpServers": [
+    {
+      "id": "openaware",
+      "command": "node",
+      "args": ["${extensionPath}/../../../mcp/openaware/server.js"],
+      "transport": "stdio"
+    },
+    {
+      "id": "cesium",
+      "command": "node",
+      "args": ["${extensionPath}/../../../mcp/cesium/server.js"],
+      "transport": "stdio"
+    },
+    {
+      "id": "formats",
+      "command": "node",
+      "args": ["${extensionPath}/../../../mcp/formats/server.js"],
+      "transport": "stdio"
+    },
+    {
+      "id": "computerUse",
+      "command": "node",
+      "args": ["${extensionPath}/../../../mcp/computerUse/server.js"],
+      "transport": "stdio"
+    },
+    {
+      "id": "stitch",
+      "command": "node",
+      "args": ["${extensionPath}/../../../mcp/stitch/server.js"],
+      "transport": "stdio"
+    },
+    {
+      "id": "doc-state",
+      "command": "node",
+      "args": ["${extensionPath}/../../../mcp/doc-state/server.js"],
+      "transport": "stdio"
+    },
+    {
+      "id": "filesystem",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/mr/Desktop/Geographical Informations Systems (GIS)"
+      ],
+      "transport": "stdio"
+    },
+    {
+      "id": "postgres",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:postgres@localhost:5432/capegis"
+      ],
+      "transport": "stdio"
+    },
+    {
+      "id": "gis-mcp",
+      "command": "uvx",
+      "args": ["gis-mcp"],
+      "transport": "stdio"
+    },
+    {
+      "id": "context7",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp",
+        "--api-key",
+        "${CONTEXT7_API_KEY}"
+      ],
+      "transport": "stdio"
+    },
+    {
+      "id": "exa",
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server"],
+      "transport": "stdio"
+    }
+  ]
+}

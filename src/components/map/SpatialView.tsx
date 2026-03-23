@@ -15,6 +15,7 @@ import maplibregl from 'maplibre-gl';
 import CesiumFlightLayer from './layers/CesiumFlightLayer';
 import { useUrlState, ViewportState } from '@/hooks/useUrlState';
 import CopilotPanel from '@/components/copilot/CopilotPanel';
+import TemporalScrubber from './controls/TemporalScrubber';
 
 export type ViewMode = '2d' | '3d' | 'hybrid';
 
@@ -56,6 +57,10 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
 
   const mapRef = useRef<MapRef>(null);
   const cesiumRef = useRef<CesiumRef>(null);
+
+  // Cog/STAC state
+  const [selectedStac, setSelectedStac] = useState<any>(null);
+  const [showCogs, setShowCogs] = useState(false);
   const [showCopilot, setShowCopilot] = useState(false);
   const [mapCenter, setMapCenter] = useState<{ lng: number; lat: number }>({ lng: 18.4241, lat: -33.9249 });
 
@@ -151,6 +156,25 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
         🧭 Copilot
       </button>
 
+      {/* Temporal Scrubber Control */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 w-80">
+        <TemporalScrubber 
+          onDateChange={setSelectedStac} 
+        />
+        <div className="mt-2 flex justify-center">
+          <button
+            onClick={() => setShowCogs(!showCogs)}
+            className={`px-3 py-1 text-[10px] font-black uppercase tracking-tighter rounded border transition-all ${
+              showCogs 
+                ? 'bg-crayon-pink border-crayon-pink text-white shadow-[0_0_15px_rgba(255,100,200,0.5)]'
+                : 'bg-slate-900 border-slate-700 text-slate-400'
+            }`}
+          >
+            {showCogs ? '🚀 Offload ACTIVE' : '☁️ Offload Layer'}
+          </button>
+        </div>
+      </div>
+
       {/* 3D Layer (Cesium) */}
       {(mode === '3d' || mode === 'hybrid') && (
         <div className="absolute inset-0 z-0">
@@ -164,6 +188,8 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
               pitch: urlState.viewport.pitch - 90
             } : undefined}
             onReady={setCesiumInstance}
+            cogUrl={selectedStac?.assets.data.href}
+            showCogs={showCogs}
           />
           <CesiumFlightLayer
             viewer={cesiumInstance}
@@ -194,6 +220,8 @@ export const SpatialView: React.FC<SpatialViewProps> = ({
           bufferedFeature={bufferedFeature}
           transparent={mode === 'hybrid'}
           style={{ background: mode === 'hybrid' ? 'transparent' : undefined }}
+          cogUrl={selectedStac?.assets.data.href}
+          showCogs={showCogs}
         />
         {/* GIS Copilot floating overlay */}
         <CopilotPanel

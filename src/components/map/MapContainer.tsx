@@ -29,6 +29,7 @@ import DrawControl from './controls/DrawControl';
 import GeolocationControl from './controls/GeolocationControl';
 import SourceBadge from '../ui/SourceBadge';
 import BufferLayer from './layers/BufferLayer';
+import CogLayer from './layers/CogLayer';
 
 export interface MapRef {
     flyTo: (center: maplibregl.LngLatLike, zoom?: number) => void;
@@ -54,6 +55,8 @@ interface MapContainerProps {
     transparent?: boolean;
     onFeatureCreate?: (feature: any) => void;
     bufferedFeature?: any | null;
+    cogUrl?: string;
+    showCogs?: boolean;
 }
 
 // Geographic Constraints (Western Cape BBox)
@@ -79,6 +82,8 @@ export const MapContainer = forwardRef<MapRef, MapContainerProps>(({
                                                                        transparent = false,
                                                                        onFeatureCreate,
                                                                        bufferedFeature,
+                                                                       cogUrl,
+                                                                       showCogs = false,
                                                                    }, ref) => {
     const mapContainer = useRef<HTMLDivElement>(null);
     const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
@@ -175,6 +180,13 @@ export const MapContainer = forwardRef<MapRef, MapContainerProps>(({
             )}
             {mapInstance && bufferedFeature && (
                 <BufferLayer map={mapInstance} feature={bufferedFeature}/>
+            )}
+            {mapInstance && (
+                <CogLayer 
+                    map={mapInstance} 
+                    visible={showCogs} 
+                    tileUrl={cogUrl}
+                />
             )}
         </div>
     );

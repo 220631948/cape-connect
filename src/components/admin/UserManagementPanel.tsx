@@ -107,6 +107,8 @@ export const UserManagementPanel: React.FC = () => {
     }
   };
 
+  const [inviteError, setInviteError] = useState<string | null>(null);
+
   const handleRoleChange = async (userId: string, newRole: Role) => {
     try {
       const res = await fetch('/api/admin/users', {
@@ -123,6 +125,7 @@ export const UserManagementPanel: React.FC = () => {
   };
 
   const handleInvite = async (email: string, role: Role) => {
+    setInviteError(null);
     try {
       const res = await fetch('/api/admin/invite', {
         method: 'POST',
@@ -130,9 +133,17 @@ export const UserManagementPanel: React.FC = () => {
         body: JSON.stringify({ email, role }),
       });
       const json = await res.json();
-      if (!res.ok) throw new Error(json.error);
+      if (!res.ok) {
+        if (res.status === 409) {
+          // Bug 1.12 Fix: display conflict error strictly in the form, not as a banner
+          setInviteError(json.error || 'User is already a member of this workspace.');
+          return;
+        }
+        throw new Error(json.error);
+      }
       await loadData();
     } catch (err: unknown) {
+      // General errors remain global
       setError(err instanceof Error ? err.message : 'Invite failed');
     }
   };
@@ -206,7 +217,14 @@ export const UserManagementPanel: React.FC = () => {
               disableImpersonation={Boolean(impersonationState?.is_impersonating)}
             />
           )}
-          {activeTab === 'invites' && <InvitesTab invitations={invitations} onInvite={handleInvite} />}
+          {activeTab === 'invites' && (
+            <InvitesTab 
+              invitations={invitations} 
+              onInvite={handleInvite} 
+              error={inviteError}
+              onClearError={() => setInviteError(null)}
+            />
+          )}
           {activeTab === 'audit'   && <AuditTab   events={auditLog} />}
         </>
       )}

@@ -1,0 +1,13 @@
+{
+  "name": "API Route Security Guard",
+  "version": "1.0.0",
+  "description": "Before writing any API route file, verifies the change includes Zod validation, correct Supabase client usage, and role/tenant checks where required.",
+  "when": {
+    "type": "preToolUse",
+    "toolTypes": ["write"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A file is about to be written. If the target path matches `src/app/api/**/*.ts`, verify the following before allowing the write: (1) Mutation handlers (POST/PUT/PATCH/DELETE) parse the request body with a Zod schema and return 400 on failure. (2) The server Supabase client comes from `src/lib/supabase/server.ts` — not the anon key. (3) Routes under `src/app/api/admin/` call the role/session check from `src/lib/auth/admin-session.ts` before any DB operation. (4) No hardcoded secrets or tokens in the file body. If any check fails, list the violations and ask for confirmation before proceeding. If the file is not an API route, allow the write immediately."
+  }
+}

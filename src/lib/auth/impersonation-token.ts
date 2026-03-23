@@ -72,6 +72,15 @@ function fromBase64Url(value: string): Uint8Array {
 
   const base64 = value.replace(/-/g, '+').replace(/_/g, '/');
   const padded = base64 + '='.repeat((4 - (base64.length % 4 || 4)) % 4);
+
+  // Modern browsers and JS environments (like Edge runtime)
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+  if (typeof (Uint8Array as any).fromBase64 === 'function') {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+    return (Uint8Array as any).fromBase64(padded) as Uint8Array;
+  }
+
+  // Fallback for older environments without Buffer or Uint8Array.fromBase64
   const binary = atob(padded);
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i += 1) {

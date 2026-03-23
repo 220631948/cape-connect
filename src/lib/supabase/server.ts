@@ -37,3 +37,29 @@ export const createServerSupabaseClient = async () => {
     }
   );
 };
+
+/**
+ * Sets app.current_tenant via RPC before returning the client.
+ * Must be called before any RLS-protected query.
+ * Throws if tenantId is null/undefined — never silently skip.
+ *
+ * @param client - Supabase server client from createServerSupabaseClient()
+ * @param tenantId - The tenant UUID to inject into the PostgreSQL session
+ * @returns The same client (for chaining)
+ */
+export async function withTenantContext<T extends { rpc: (...args: any[]) => any }>(
+  client: T,
+  tenantId: string | null | undefined
+): Promise<T> {
+  if (!tenantId) {
+    throw new Error('withTenantContext: tenantId is required but was null/undefined');
+  }
+
+  const { error } = await client.rpc('set_tenant_context', { tenant_id: tenantId });
+
+  if (error) {
+    throw new Error(`withTenantContext: failed to set tenant context — ${error.message}`);
+  }
+
+  return client;
+}

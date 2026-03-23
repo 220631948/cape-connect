@@ -98,8 +98,54 @@ export async function POST(request: NextRequest) {
             extra: {invited_email: email, invited_role: role, invitation_id: invitation.id},
         });
 
-        // TODO: Send invitation email via Supabase Edge Function or external service
-        // For now, return the token (in production, this would be sent via email)
+        // Bug 1.8: Invoke Edge Function to send email
+        let deliveryStatus = 'pending';
+        try {
+            // We use the edge function URL from env if present, else fallback
+            const edgeFunctionUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+                ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/send-invitation-email`
+                : null;
+
+            if (edgeFunctionUrl) {
+                const inviteUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/invite?token=${invitation.token}`;
+                
+                // Fetch to Supabase Edge Function using Auth Header
+                const edgeRes = await fetch(edgeFunctionUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+                    },
+                    body: JSON.stringify({
+                        invitation_id: invitation.id,
+                        email: invitation.email,
+                        role: invitation.role,
+                        tenant_name: caller.tenant_id, // We'd ideally fetch real name, using ID as fallback
+                        invite_url: inviteUrl
+                    })
+                });
+
+                if (edgeRes.ok) {
+                    deliveryStatus = 'sent';
+                } else {
+                    console.error('[Admin Invite POST]: Edge Function failed', await edgeRes.text());
+                    deliveryStatus = 'failed';
+                }
+            } else {
+                // Local dev short-circuit without functions
+                deliveryStatus = 'failed';
+                console.warn('[Admin Invite POST]: Edge function URL not configured');
+            }
+        } catch (edgeError) {
+            console.error('[Admin Invite POST]: Error calling Edge Function', edgeError);
+            deliveryStatus = 'failed';
+        }
+
+        // Update the delivery status
+        await client.from('tenant_invitations')
+            .update({ delivery_status: deliveryStatus })
+            .eq('id', invitation.id);
+
         return NextResponse.json({
             success: true,
             message: `Invitation sent to ${email}`,
@@ -108,6 +154,7 @@ export async function POST(request: NextRequest) {
                 email: invitation.email,
                 role: invitation.role,
                 expires_at: invitation.expires_at,
+                delivery_status: deliveryStatus,
                 // Only include token in dev mode
                 ...(process.env.NODE_ENV === 'development' && {token: invitation.token}),
             },

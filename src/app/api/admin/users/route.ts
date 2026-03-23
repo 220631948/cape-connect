@@ -26,6 +26,15 @@ const VALID_ASSIGNABLE_ROLES_ARRAY = [
 
 const VALID_ASSIGNABLE_ROLES = new Set<string>(VALID_ASSIGNABLE_ROLES_ARRAY);
 
+interface UserProfile {
+  id: string;
+  email: string | null;
+  full_name: string | null;
+  role: string;
+  tenant_id: string | null;
+  created_at: string;
+}
+
 // GET /api/admin/users — List users in caller scope
 export async function GET(request: NextRequest) {
   try {
@@ -58,7 +67,7 @@ export async function GET(request: NextRequest) {
     const { data: users, error } = await query;
     if (error) throw error;
 
-    const normalizedUsers = (users ?? []).map((user: any) => {
+    const normalizedUsers = (users ?? []).map((user: UserProfile) => {
       const canonicalRole = normalizeRole(user.role);
       let uiRole = 'viewer';
       if (canonicalRole === 'PLATFORM_ADMIN' || canonicalRole === 'TENANT_ADMIN') uiRole = 'admin';
@@ -68,9 +77,10 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json({ data: normalizedUsers, tier: 'LIVE' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Admin Users GET]:', error);
-    return NextResponse.json({ error: error.message || 'Internal error' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Internal error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -141,8 +151,9 @@ export async function PATCH(request: NextRequest) {
     });
 
     return NextResponse.json({ success: true, message: `Role updated to ${role}` });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Admin Users PATCH]:', error);
-    return NextResponse.json({ error: error.message || 'Internal error' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Internal error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -95,7 +95,7 @@ module.exports = {
       script: ".gemini/extensions/gemini-deep-research/scripts/start.cjs",
       args: [],
       interpreter: "node",
-      env: {"GEMINI_API_KEY": "YOUR_GEMINI_API_KEY"},
+      env: {"GEMINI_API_KEY": process.env.GEMINI_API_KEY},
       autorestart: true,
       watch: false
     },
@@ -104,7 +104,7 @@ module.exports = {
       script: "npx",
       args: ["-y", "@upstash/context7-mcp"],
       interpreter: "none",
-      env: {"CONTEXT7_API_KEY": "ctx7sk-845d7617-bec2-4013-a930-1369661c9c30"},
+      env: {"CONTEXT7_API_KEY": process.env.CONTEXT7_API_KEY},
       autorestart: true,
       watch: false
     },
@@ -113,7 +113,7 @@ module.exports = {
       script: "npx",
       args: ["-y", "exa-mcp-server"],
       interpreter: "none",
-      env: {"EXA_API_KEY": "b9ad4b15-1cc9-42bd-9a9b-55cec7a86edc"},
+      env: {"EXA_API_KEY": process.env.EXA_API_KEY},
       autorestart: true,
       watch: false
     },
@@ -158,7 +158,7 @@ module.exports = {
       script: "npx",
       args: ["-y", "--package", "@vercel/sdk", "--", "mcp", "start"],
       interpreter: "none",
-      env: {"VERCEL_TOKEN": "YOUR_VERCEL_TOKEN"},
+      env: {"VERCEL_TOKEN": process.env.VERCEL_TOKEN},
       autorestart: true,
       watch: false
     },

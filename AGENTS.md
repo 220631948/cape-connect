@@ -10,6 +10,7 @@ Cursor, Aider, and others) must read and respect this file before operating in t
 | Resource | Path |
 |----------|------|
 | Full Agent Registry | `.claude/AGENTS.md` |
+| Gemini AI Extension | `.gemini/extensions/capegis-ai/` |
 | MCP Server Fleet | `.claude/MCP_SERVERS.md` |
 | Project Rules | `CLAUDE.md` |
 | MCP Health Log | `docs/MCP_HEALTH_LOG.md` |

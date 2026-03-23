@@ -15,7 +15,10 @@ import {
   Cartesian3,
   Color,
   createOsmBuildingsAsync,
-  Math as CesiumMath
+  Math as CesiumMath,
+  UrlTemplateImageryProvider,
+  IonImageryProvider,
+  Cesium3DTileset,
 } from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import SourceBadge from '../ui/SourceBadge';
@@ -40,6 +43,12 @@ interface CesiumViewerProps {
     pitch?: number;
   };
   onReady?: (viewer: Viewer) => void;
+  cogUrl?: string;
+  showCogs?: boolean;
+  /** Array of Cesium ion Asset IDs to load as imagery layers */
+  ionAssetIds?: number[];
+  /** Array of Cesium ion Asset IDs to load as 3D Tiles primitives */
+  tilesetAssetIds?: number[];
 }
 
 const INITIAL_CENTER = Cartesian3.fromDegrees(18.4241, -33.9249, 15000);
@@ -48,7 +57,11 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
   className,
   ionToken,
   initialViewport,
-  onReady
+  onReady,
+  cogUrl,
+  showCogs = false,
+  ionAssetIds = [],
+  tilesetAssetIds = [],
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
@@ -90,6 +103,26 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
       const buildings = await createOsmBuildingsAsync();
       viewer.scene.primitives.add(buildings);
 
+      // Add custom Ion Assets
+      for (const assetId of ionAssetIds) {
+        try {
+          const imageryProvider = await IonImageryProvider.fromAssetId(assetId);
+          viewer.imageryLayers.addImageryProvider(imageryProvider);
+        } catch (error) {
+          console.error(`Failed to load Ion Asset ID ${assetId}:`, error);
+        }
+      }
+
+      // Add custom 3D Tilesets
+      for (const assetId of tilesetAssetIds) {
+        try {
+          const tileset = await Cesium3DTileset.fromIonAssetId(assetId);
+          viewer.scene.primitives.add(tileset);
+        } catch (error) {
+          console.error(`Failed to load Ion Tileset ID ${assetId}:`, error);
+        }
+      }
+
       // Set initial view
       if (initialViewport) {
         viewer.camera.setView({
@@ -116,6 +149,18 @@ export const CesiumViewer = forwardRef<CesiumRef, CesiumViewerProps>(({
       }
 
       viewerRef.current = viewer;
+
+      // Add COG layer if provided
+      if (cogUrl && showCogs) {
+        // Cesium expects a tiled URL template for direct raster serving if not using Ion
+        // For COG offload, we assume the proxy or storage provides a {z}/{x}/{y} template
+        // as recommended in the prompt: https://storage.platform.com/bucket/tiles/{z}/{x}/{y}.png
+        const imageryProvider = new UrlTemplateImageryProvider({
+            url: cogUrl.replace('.pmtiles', '/{z}/{x}/{y}.png') // Simplified fallback or direct mapping
+        });
+        viewer.imageryLayers.addImageryProvider(imageryProvider as any);
+      }
+
       onReady?.(viewer);
     };
 
