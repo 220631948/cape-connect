@@ -1,0 +1,67 @@
+name: "PR AI summary (gh-models)"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup gh CLI
+        uses: cli/gh-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install gh-models extension
+        run: |
+          gh extension install github/gh-models || true
+
+      - name: Gather PR data
+        run: |
+          set -euo pipefail
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          echo "PR_NUMBER=$PR_NUMBER" > /tmp/pr_meta.env
+          gh pr view $PR_NUMBER --json title --jq .title > /tmp/pr_title.txt || true
+          gh pr view $PR_NUMBER --json body --jq .body > /tmp/pr_body.txt || true
+          gh pr view $PR_NUMBER --json files --jq '.files[].path' | sed 's/^/ - /' > /tmp/pr_files.txt || true
+          # get commits between base and head (limit 50)
+          git fetch --no-tags --depth=1 origin ${{ github.event.pull_request.head.ref }} || true
+          git fetch --no-tags --depth=1 origin ${{ github.event.pull_request.base.ref }} || true
+          git --no-pager log --format='%h %s' origin/${{ github.event.pull_request.base.ref }}..origin/${{ github.event.pull_request.head.ref }} | sed -n '1,50p' > /tmp/pr_commits.txt || true
+          printf "Title:\n" > /tmp/pr_prompt.txt
+          cat /tmp/pr_title.txt >> /tmp/pr_prompt.txt
+          printf "\n\nBody:\n" >> /tmp/pr_prompt.txt
+          cat /tmp/pr_body.txt >> /tmp/pr_prompt.txt
+          printf "\n\nFiles changed:\n" >> /tmp/pr_prompt.txt
+          cat /tmp/pr_files.txt >> /tmp/pr_prompt.txt
+          printf "\n\nCommits:\n" >> /tmp/pr_prompt.txt
+          cat /tmp/pr_commits.txt >> /tmp/pr_prompt.txt
+
+      - name: Generate PR summary with GH Models
+        id: ai
+        run: |
+          set -euo pipefail
+          # read prompt and escape double quotes
+          PROMPT_RAW=$(cat /tmp/pr_prompt.txt || true)
+          # Run the model (positional args: model then prompt)
+          SUMMARY=$(gh models run openai/gpt-4.1-mini "$PROMPT_RAW" 2>&1 || true)
+          echo "$SUMMARY" > /tmp/pr_summary.txt
+
+      - name: Comment on PR
+        run: |
+          set -euo pipefail
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          # Truncate to avoid excessively long comments
+          COMMENT_BODY="### 🤖 AI PR Summary\n\n$(head -c 64000 /tmp/pr_summary.txt)\n\n*Powered by gh-models*"
+          gh pr comment $PR_NUMBER --body "$COMMENT_BODY"
