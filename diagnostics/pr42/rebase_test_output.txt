@@ -1,0 +1,303 @@
+
+> capegis@0.1.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.1.0 [39m[90m/home/mr/Desktop/Geographical Informations Systems (GIS)[39m
+
+ [32m✓[39m src/lib/__tests__/opensky-rate-limit.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 311[2mms[22m[39m
+ [32m✓[39m src/lib/__tests__/ndvi-engine.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 55[2mms[22m[39m
+ [31m❯[39m src/app/api/admin/__tests__/impersonation-routes.test.ts [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 557[2mms[22m[39m
+[31m     [31m×[31m starts impersonation successfully[39m[33m 443[2mms[22m[39m
+[31m     [31m×[31m blocks impersonation when authorization fails[39m[32m 7[2mms[22m[39m
+     [32m✓[39m stops impersonation successfully[32m 85[2mms[22m[39m
+ [31m❯[39m src/lib/validation/__tests__/schemas.test.ts [2m([22m[2m61 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m1 skipped[39m[2m)[22m[33m 374[2mms[22m[39m
+     [32m✓[39m returns 400 for invalid JSON[32m 56[2mms[22m[39m
+     [32m✓[39m returns 400 with issues for schema mismatch[32m 25[2mms[22m[39m
+     [32m✓[39m returns success with parsed data for valid input[32m 16[2mms[22m[39m
+     [32m✓[39m accepts valid input[32m 1[2mms[22m[39m
+     [32m✓[39m rejects non-UUID userId[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid role[32m 8[2mms[22m[39m
+     [32m✓[39m rejects missing fields[32m 2[2mms[22m[39m
+     [32m✓[39m accepts valid input with defaults[32m 11[2mms[22m[39m
+     [32m✓[39m accepts explicit role[32m 8[2mms[22m[39m
+     [32m✓[39m rejects invalid email[32m 1[2mms[22m[39m
+     [32m✓[39m accepts optional tenantId[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input[32m 4[2mms[22m[39m
+     [32m✓[39m accepts name without slug (slug optional)[32m 1[2mms[22m[39m
+     [32m✓[39m rejects short name[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid slug format[32m 2[2mms[22m[39m
+[31m     [31m×[31m accepts valid input[39m[32m 108[2mms[22m[39m
+     [32m✓[39m rejects missing reason[32m 9[2mms[22m[39m
+     [32m✓[39m rejects duration out of range[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid Polygon geometry[32m 9[2mms[22m[39m
+     [32m✓[39m accepts valid Point geometry[32m 5[2mms[22m[39m
+     [32m✓[39m rejects missing geometry[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid geometry type[32m 7[2mms[22m[39m
+     [32m✓[39m accepts valid address[32m 1[2mms[22m[39m
+     [32m✓[39m rejects too short address[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid export request[32m 6[2mms[22m[39m
+     [32m✓[39m defaults format to pdf[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid format[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid NDVI request[32m 6[2mms[22m[39m
+     [32m✓[39m rejects invalid date format[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid spatial stats request[32m 5[2mms[22m[39m
+     [32m✓[39m rejects invalid statType[32m 1[2mms[22m[39m
+     [32m✓[39m accepts empty object[32m 1[2mms[22m[39m
+     [32m✓[39m accepts any valid JSON object[32m 1[2mms[22m[39m
+     [32m✓[39m rejects non-object input[32m 5[2mms[22m[39m
+     [32m✓[39m accepts valid query[32m 1[2mms[22m[39m
+     [32m✓[39m accepts query with context[32m 1[2mms[22m[39m
+     [32m✓[39m rejects too short query[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing query[32m 5[2mms[22m[39m
+     [32m✓[39m accepts invitationId[32m 2[2mms[22m[39m
+     [32m✓[39m accepts token[32m 1[2mms[22m[39m
+     [32m✓[39m accepts both invitationId and token[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing both fields[32m 5[2mms[22m[39m
+     [32m✓[39m rejects invalid UUID invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid UUID[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input with nerfacto[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input with 3dgs[32m 0[2mms[22m[39m
+     [32m✓[39m rejects missing scene_path[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing method[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid method[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid enrichment request[32m 1[2mms[22m[39m
+     [2m[90m↓[39m[22m accepts valid stats request with geometry
+     [32m✓[39m rejects invalid type[32m 3[2mms[22m[39m
+     [32m✓[39m rejects missing type[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid NDVI request[32m 2[2mms[22m[39m
+     [32m✓[39m accepts NDWI request with explicit index[32m 1[2mms[22m[39m
+     [32m✓[39m defaults index to NDVI[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid date format[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing bbox[32m 1[2mms[22m[39m
+     [32m✓[39m rejects incomplete bbox[32m 2[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/lib/validation/__tests__/schemas.test.ts [2m([22m[2m61 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m1 skipped[39m[2m)[22m[33m 339[2mms[22m[39m
+     [32m✓[39m returns 400 for invalid JSON[32m 78[2mms[22m[39m
+     [32m✓[39m returns 400 with issues for schema mismatch[32m 24[2mms[22m[39m
+     [32m✓[39m returns success with parsed data for valid input[32m 11[2mms[22m[39m
+     [32m✓[39m accepts valid input[32m 1[2mms[22m[39m
+     [32m✓[39m rejects non-UUID userId[32m 6[2mms[22m[39m
+     [32m✓[39m rejects invalid role[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing fields[32m 6[2mms[22m[39m
+     [32m✓[39m accepts valid input with defaults[32m 3[2mms[22m[39m
+     [32m✓[39m accepts explicit role[32m 12[2mms[22m[39m
+     [32m✓[39m rejects invalid email[32m 1[2mms[22m[39m
+     [32m✓[39m accepts optional tenantId[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input[32m 2[2mms[22m[39m
+     [32m✓[39m accepts name without slug (slug optional)[32m 1[2mms[22m[39m
+     [32m✓[39m rejects short name[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid slug format[32m 2[2mms[22m[39m
+[31m     [31m×[31m accepts valid input[39m[32m 69[2mms[22m[39m
+     [32m✓[39m rejects missing reason[32m 9[2mms[22m[39m
+     [32m✓[39m rejects duration out of range[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid Polygon geometry[32m 10[2mms[22m[39m
+     [32m✓[39m accepts valid Point geometry[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing geometry[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid geometry type[32m 7[2mms[22m[39m
+     [32m✓[39m accepts valid address[32m 1[2mms[22m[39m
+     [32m✓[39m rejects too short address[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid export request[32m 2[2mms[22m[39m
+     [32m✓[39m defaults format to pdf[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid format[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid NDVI request[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid date format[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid spatial stats request[32m 2[2mms[22m[39m
+     [32m✓[39m rejects invalid statType[32m 1[2mms[22m[39m
+     [32m✓[39m accepts empty object[32m 1[2mms[22m[39m
+     [32m✓[39m accepts any valid JSON object[32m 1[2mms[22m[39m
+     [32m✓[39m rejects non-object input[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid query[32m 1[2mms[22m[39m
+     [32m✓[39m accepts query with context[32m 1[2mms[22m[39m
+     [32m✓[39m rejects too short query[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing query[32m 1[2mms[22m[39m
+     [32m✓[39m accepts invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m accepts token[32m 1[2mms[22m[39m
+     [32m✓[39m accepts both invitationId and token[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing both fields[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid UUID invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing invitationId[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid UUID[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input with nerfacto[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid input with 3dgs[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing scene_path[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing method[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid method[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid enrichment request[32m 1[2mms[22m[39m
+     [2m[90m↓[39m[22m accepts valid stats request with geometry
+     [32m✓[39m rejects invalid type[32m 2[2mms[22m[39m
+     [32m✓[39m rejects missing type[32m 1[2mms[22m[39m
+     [32m✓[39m accepts valid NDVI request[32m 2[2mms[22m[39m
+     [32m✓[39m accepts NDWI request with explicit index[32m 9[2mms[22m[39m
+     [32m✓[39m defaults index to NDVI[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid date format[32m 1[2mms[22m[39m
+     [32m✓[39m rejects missing bbox[32m 1[2mms[22m[39m
+     [32m✓[39m rejects incomplete bbox[32m 8[2mms[22m[39m
+[90mstderr[2m | src/__tests__/properties/invitation-token.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m src/components/home/HomeHero.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 1164[2mms[22m[39m
+     [33m[2m✓[22m[39m contains Link buttons with correct hrefs [33m 821[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/invites-tab-error.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 710[2mms[22m[39m
+     [33m[2m✓[22m[39m renders the invitation form [33m 631[2mms[22m[39m
+ [32m✓[39m src/components/home/FeatureGrid.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 405[2mms[22m[39m
+[90mstderr[2m | src/__tests__/properties/dashboard-rbac.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+[90mstderr[2m | src/__tests__/properties/useInvitations-retry.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m src/__tests__/unit/dashboard-role-gate.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 418[2mms[22m[39m
+     [33m[2m✓[22m[39m hides UserManagementPanel for VIEWER role [33m 332[2mms[22m[39m
+ [31m❯[39m src/__tests__/properties/invitation-token.prop.test.tsx [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 5074[2mms[22m[39m
+[31m     [31m×[31m always persists non-empty token to sessionStorage when unauthenticated (with seed=780444649)[39m[33m 5055[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/useAuthRefresh.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 324[2mms[22m[39m
+[90mstderr[2m | src/__tests__/properties/no-reload.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m src/__tests__/properties/guest-access.prop.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 255[2mms[22m[39m
+[90mstderr[2m | src/components/ui/WaxTrailCursor.test.tsx[2m > [22m[2mWaxTrailCursor[2m > [22m[2mgenerates trails with string IDs on mouse move
+[22m[39mAn update to WaxTrailCursor inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ [32m✓[39m src/components/ui/WaxTrailCursor.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 378[2mms[22m[39m
+ [32m✓[39m src/components/ui/CrayonCard.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 293[2mms[22m[39m
+ [32m✓[39m src/__tests__/properties/no-reload.prop.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 1513[2mms[22m[39m
+     [33m[2m✓[22m[39m acceptInvitation never triggers page reload (with seed=703351541) [33m 938[2mms[22m[39m
+     [33m[2m✓[22m[39m declineInvitation never triggers page reload (with seed=675436702) [33m 561[2mms[22m[39m
+ [32m✓[39m src/__tests__/properties/dashboard-rbac.prop.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 6087[2mms[22m[39m
+     [33m[2m✓[22m[39m hides UserManagementPanel for any non-admin role (with seed=100418613) [33m 3541[2mms[22m[39m
+     [33m[2m✓[22m[39m shows UserManagementPanel for any admin role (with seed=-666001630) [33m 2534[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/useSessionRole.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 331[2mms[22m[39m
+ [31m❯[39m src/__tests__/properties/useInvitations-retry.prop.test.tsx [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 10117[2mms[22m[39m
+[31m     [31m×[31m retries exactly once for any failure type (with seed=668591061)[39m[33m 5084[2mms[22m[39m
+[31m     [31m×[31m shows error after second failure of any type (with seed=-1427828355)[39m[33m 5020[2mms[22m[39m
+ [32m✓[39m src/lib/auth/__tests__/admin-session.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 99[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/auth/__tests__/admin-session.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 98[2mms[22m[39m
+ [31m❯[39m src/__tests__/unit/useInvitations.test.tsx [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 20171[2mms[22m[39m
+[31m     [31m×[31m fetches invitations on mount[39m[33m 5108[2mms[22m[39m
+[31m     [31m×[31m retries once after 3s on fetch failure[39m[33m 5024[2mms[22m[39m
+[31m     [31m×[31m shows error after second failure[39m[33m 5012[2mms[22m[39m
+[31m     [31m×[31m optimistically removes invitation on accept[39m[33m 5005[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/app/api/admin/__tests__/impersonation-routes.test.ts [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 298[2mms[22m[39m
+[31m     [31m×[31m starts impersonation successfully[39m[32m 259[2mms[22m[39m
+[31m     [31m×[31m blocks impersonation when authorization fails[39m[32m 7[2mms[22m[39m
+     [32m✓[39m stops impersonation successfully[32m 22[2mms[22m[39m
+ [32m✓[39m src/lib/auth/__tests__/impersonation-token.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 77[2mms[22m[39m
+[90mstderr[2m | src/__tests__/properties/api-validation.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+[90mstderr[2m | src/__tests__/properties/cross-tenant.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m src/app/api/admin/__tests__/users-route-impersonation.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 1441[2mms[22m[39m
+     [33m[2m✓[22m[39m logs impersonation_action for important role changes [33m 1424[2mms[22m[39m
+ [32m✓[39m src/__tests__/properties/api-validation.prop.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 278[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/invitations-accept.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 87[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/invitations-accept.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 69[2mms[22m[39m
+[90mstderr[2m | src/__tests__/properties/tenant-context.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m src/__tests__/properties/tenant-context.prop.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 149[2mms[22m[39m
+ [32m✓[39m src/__tests__/properties/cross-tenant.prop.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 271[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/dashboard-role-gate.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 507[2mms[22m[39m
+     [33m[2m✓[22m[39m hides UserManagementPanel for VIEWER role [33m 428[2mms[22m[39m
+ [32m✓[39m src/lib/__tests__/opensky-api.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 55[2mms[22m[39m
+ [32m✓[39m src/lib/__tests__/fail.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 67[2mms[22m[39m
+ [32m✓[39m src/lib/auth/__tests__/arcgis.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+ [32m✓[39m src/lib/__tests__/monitoring.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 105[2mms[22m[39m
+ [32m✓[39m src/lib/__tests__/flight-data-transformer.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/health.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 61[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/dashboard-rbac.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/flight-data-transformer.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/app/api/admin/__tests__/users-route-impersonation.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 127[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/auth/__tests__/arcgis.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 63[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/useAuthRefresh.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 265[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/dashboard-rbac.prop.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 6407[2mms[22m[39m
+     [33m[2m✓[22m[39m hides UserManagementPanel for any non-admin role (with seed=-1569845937) [33m 3898[2mms[22m[39m
+     [33m[2m✓[22m[39m shows UserManagementPanel for any admin role (with seed=-1357981306) [33m 2498[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/properties/guest-access.prop.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 248[2mms[22m[39m
+     [32m✓[39m redirects to login when no session[32m 31[2mms[22m[39m
+[31m     [31m×[31m renders GuestDashboard when role is GUEST[39m[32m 172[2mms[22m[39m
+[31m     [31m×[31m renders DashboardScreen when role is VIEWER[39m[32m 26[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/useSessionRole.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 303[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/cross-tenant.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/cross-tenant.prop.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 268[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/opensky-rate-limit.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 84[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/ndvi-engine.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m src/lib/auth/__tests__/roles.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/auth/__tests__/roles.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/useInvitations-retry.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/opensky-api.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/api-validation.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/auth/__tests__/impersonation-token.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 69[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/invitation-token.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/api-validation.prop.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 232[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/monitoring.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/unit/useInvitations.test.tsx [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 20115[2mms[22m[39m
+[31m     [31m×[31m fetches invitations on mount[39m[33m 5044[2mms[22m[39m
+[31m     [31m×[31m retries once after 3s on fetch failure[39m[33m 5012[2mms[22m[39m
+[31m     [31m×[31m shows error after second failure[39m[33m 5012[2mms[22m[39m
+[31m     [31m×[31m optimistically removes invitation on accept[39m[33m 5009[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/properties/invitation-token.prop.test.tsx [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 5079[2mms[22m[39m
+[31m     [31m×[31m always persists non-empty token to sessionStorage when unauthenticated (with seed=-1470651677)[39m[33m 5056[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/properties/useInvitations-retry.prop.test.tsx [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 10091[2mms[22m[39m
+[31m     [31m×[31m retries exactly once for any failure type (with seed=1942324763)[39m[33m 5068[2mms[22m[39m
+[31m     [31m×[31m shows error after second failure of any type (with seed=2066734730)[39m[33m 5007[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/ui/CrayonCard.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 197[2mms[22m[39m
+ [32m✓[39m src/__tests__/unit/supabase-tenant-context.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/tenant-context.prop.test.ts
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/tenant-context.prop.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 165[2mms[22m[39m
+ [32m✓[39m src/components/map/__tests__/CameraSync.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/invites-tab-error.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 858[2mms[22m[39m
+     [33m[2m✓[22m[39m renders the invitation form [33m 740[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/map/__tests__/CameraSync.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/supabase-tenant-context.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/components/ui/WaxTrailCursor.test.tsx[2m > [22m[2mWaxTrailCursor[2m > [22m[2mgenerates trails with string IDs on mouse move
+[22m[39mAn update to WaxTrailCursor inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/ui/WaxTrailCursor.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 213[2mms[22m[39m
+[90mstderr[2m | worktrees/disable-vercel-workflow/src/__tests__/properties/no-reload.prop.test.tsx
+[22m[39mImporting from "vitest/suite" is deprecated since Vitest 4.1. Please use static methods of "TestRunner" from the "vitest" entry point instead: e.g., `TestRunner.getCurrentTest()`.
+
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/properties/no-reload.prop.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 1045[2mms[22m[39m
+     [33m[2m✓[22m[39m acceptInvitation never triggers page reload (with seed=688476441) [33m 585[2mms[22m[39m
+     [33m[2m✓[22m[39m declineInvitation never triggers page reload (with seed=759758418) [33m 449[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/home/FeatureGrid.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 347[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/components/home/HomeHero.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 845[2mms[22m[39m
+     [33m[2m✓[22m[39m contains Link buttons with correct hrefs [33m 626[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/__tests__/unit/health.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 35[2mms[22m[39m
+ [32m✓[39m worktrees/disable-vercel-workflow/src/lib/__tests__/fail.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/e2e/invitation-management.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m worktrees/disable-vercel-workflow/src/__tests__/e2e/cog-range-requests.spec.ts [2m([22m[2m0 test[22m[2m)[22m

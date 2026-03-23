@@ -1,0 +1,48 @@
+
+> capegis@0.1.0 build
+> next build
+
+▲ Next.js 16.2.1 (Turbopack)
+- Environments: .env.local, .env
+- Experiments (use with caution):
+  · clientTraceMetadata
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 1 errors:
+./src/lib/supabase/server.ts:8:1
+You're importing a module that depends on "next/headers". This API is only available in Server Components in the App Router, but you are using it in the Pages Router.
+    Learn more: https://nextjs.org/docs/app/building-your-application/rendering/server-components
+  [90m 6 |[0m
+  [90m 7 |[0m [36mimport[0m { createServerClient, [36mtype[0m [33mCookieOptions[0m } [36mfrom[0m [32m'@supabase/ssr'[0m;
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m { cookies } [36mfrom[0m [32m'next/headers'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m [36mimport[0m { [33mDatabase[0m } [36mfrom[0m [32m'@/types/supabase'[0m;
+  [90m10 |[0m
+  [90m11 |[0m [36mexport[0m [36mconst[0m createServerSupabaseClient = [36masync[0m () => {
+
+Ecmascript file had an error
+
+Import traces:
+  App Route:
+    ./src/lib/supabase/server.ts
+    ./src/app/api/search/route.ts
+
+  Client Component Browser:
+    ./src/lib/supabase/server.ts [Client Component Browser]
+    ./src/app/dashboard/page.tsx [Client Component Browser]
+    ./src/app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/lib/supabase/server.ts [Client Component SSR]
+    ./src/app/dashboard/page.tsx [Client Component SSR]
+    ./src/app/dashboard/page.tsx [Server Component]
+
+  Server Component:
+    ./src/lib/supabase/server.ts
+    ./src/lib/tenant/server.ts
+    ./src/app/layout.tsx
+
+
+    at <unknown> (./src/lib/supabase/server.ts:8:1)
