@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * @file src/components/dashboard/LiveFlightTelemetry.tsx
  * @description Widget showing live flight statistics with a pink accent.

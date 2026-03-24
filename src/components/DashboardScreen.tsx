@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useEffect, useRef, useState} from 'react';
 import dynamic from 'next/dynamic';
 import * as turf from '@turf/turf';
@@ -13,7 +15,9 @@ import DashboardStatusIndicator from './dashboard/DashboardStatusIndicator';
 import DashboardSidebar from './dashboard/DashboardSidebar';
 import UserManagementPanel from './admin/UserManagementPanel';
 import ImpersonationBanner from './admin/ImpersonationBanner';
-import InvitationBanner, {Invitation} from './dashboard/InvitationBanner';
+import InvitationBanner from './dashboard/InvitationBanner';
+import InvitationErrorBanner from './dashboard/InvitationErrorBanner';
+import DashboardFooter from './dashboard/DashboardFooter';
 import type {ImpersonationState} from './admin/impersonation-types';
 import {ThemeName, themes} from '../assets/tokens/themes';
 import {useDomainState} from '@/hooks/useDomainState';
@@ -33,12 +37,9 @@ interface DashboardScreenProps {
 
 export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}) => {
     useAuthRefresh();
-    
-    // Bug 1.4: fetch session role to gate UI
     const { role, loading: roleLoading } = useSessionRole();
     const isAdmin = role === 'TENANT_ADMIN' || role === 'PLATFORM_ADMIN';
-
-    const {mode, setDomainMode, updateDomainParam} = useDomainState();
+    const {mode} = useDomainState();
 
     // Layer Toggles
     const [showZoning, setShowZoning] = useState(true);
@@ -58,10 +59,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
     // Admin & User State
     const [impersonationState, setImpersonationState] = useState<ImpersonationState>({is_impersonating: false});
     const [stopImpersonationLoading, setStopImpersonationLoading] = useState(false);
-    // const [invitations, setInvitations] = useState<Invitation[]>([]); // Removed, now handled by useInvitations hook
 
     const mapRef = useRef<MapRef>(null);
-
     const colors = themes[theme];
     const cardShadow = {
         boxShadow: theme === 'high-contrast' ? `1px 1px 0 ${colors.border}` : `8px 8px 16px ${colors.shadow}, -4px -4px 12px ${colors.shadowInset}`,
@@ -84,24 +83,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
         }
     };
 
-    // const fetchInvitations = async () => { // Removed, now handled by useInvitations hook
-    //     try {
-    //         const response = await fetch('/api/invitations/pending');
-    //         const json = await response.json();
-    //         if (json.data) {
-    //             setInvitations(json.data);
-    //         }
-    //     } catch (error) {
-    //         console.error('Failed to fetch invitations:', error);
-    //     }
-    // };
-
     useEffect(() => {
         refreshImpersonationState();
-        // fetchInvitations(); // Removed, now handled by useInvitations hook
-        const sync = () => {
-            refreshImpersonationState();
-        };
+        const sync = () => refreshImpersonationState();
         window.addEventListener('impersonation:changed', sync);
         return () => window.removeEventListener('impersonation:changed', sync);
     }, []);
@@ -116,11 +100,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
 
     const handleAcceptInvitation = async (id: string) => {
         await acceptInvitation(id);
-        window.location.reload(); // Reload after accepting to reflect new role/permissions
-    };
-
-    const handleDeclineInvitation = async (id: string) => {
-        await declineInvitation(id);
+        window.location.reload();
     };
 
     const stopImpersonation = async () => {
@@ -167,13 +147,11 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
     const handleBufferChange = async (dist: number) => {
         setBufferDistance(dist);
         if (!selectedFeature) return;
-
         if (dist === 0) {
             setBufferedFeature(selectedFeature);
             await runAnalysis(selectedFeature);
             return;
         }
-
         try {
             const buffered = turf.buffer(selectedFeature, dist, {units: 'meters'});
             setBufferedFeature(buffered);
@@ -192,52 +170,29 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
 
     return (
         <div className="min-h-screen p-4 sm:p-6 lg:p-8 font-sans bg-capetown-dark text-white">
-            <ImpersonationBanner
-                state={impersonationState}
-                stopping={stopImpersonationLoading}
-                onStop={stopImpersonation}
-            />
+            <ImpersonationBanner state={impersonationState} stopping={stopImpersonationLoading} onStop={stopImpersonation}/>
             <DashboardHeader
                 colors={colors}
                 headerShadow={headerShadow}
                 impersonationState={impersonationState}
-                onSearchSelect={(res) => {
-                    if (res.geometry?.coordinates) {
-                        mapRef.current?.flyTo(res.geometry.coordinates);
-                    }
-                }}
+                onSearchSelect={(res) => res.geometry?.coordinates && mapRef.current?.flyTo(res.geometry.coordinates)}
             />
 
-            <DashboardStatusIndicator
-                mode={mode}
-                role={impersonationState?.target_user?.role}
-            />
+            <DashboardStatusIndicator mode={mode} role={impersonationState?.target_user?.role}/>
 
-            {/* Bug 1.14: Show error banner if invitations fail to load */}
-            {fetchError && (
-              <div className="absolute top-24 left-1/2 -translate-x-1/2 bg-red-500/90 text-white px-4 py-2 rounded-md shadow-lg pointer-events-auto flex items-center justify-between gap-3 backdrop-blur-sm z-50">
-                <span className="text-sm font-medium">{fetchError}</span>
-                <button onClick={dismissError} className="hover:bg-black/20 p-1 rounded-full transition-colors text-white">
-                  ✕
-                </button>
-              </div>
-            )}
+            <InvitationErrorBanner error={fetchError} onDismiss={dismissError} />
 
             <InvitationBanner
                 invitations={hookInvitations}
                 onAccept={handleAcceptInvitation}
-                onDecline={handleDeclineInvitation}
+                onDecline={declineInvitation}
                 colors={colors}
             />
 
             <MetricsRow colors={colors} cardShadow={cardShadow} theme={theme}/>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                {/* Row 1: Map (2/4) */}
-                <CrayonCard
-                    colorVariant="blue"
-                    className="md:col-span-2 lg:col-span-2 xl:col-span-2 relative"
-                >
+                <CrayonCard colorVariant="blue" className="md:col-span-2 lg:col-span-2 xl:col-span-2 relative">
                     <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
                         <h2 className="text-base font-bold m-0 text-white">🗺️ Map View</h2>
                         <div className="flex gap-2 flex-wrap">
@@ -264,27 +219,18 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
                 </CrayonCard>
 
                 <DashboardSidebar
-                    colors={colors}
-                    mode={mode}
-                    theme={theme}
-                    showDraw={showDraw}
-                    showFlights={showFlights}
-                    onToggleDraw={() => setShowDraw(!showDraw)}
-                    onToggleFlights={() => setShowFlights(!showFlights)}
+                    colors={colors} mode={mode} theme={theme} showDraw={showDraw} showFlights={showFlights}
+                    onToggleDraw={() => setShowDraw(!showDraw)} onToggleFlights={() => setShowFlights(!showFlights)}
                 />
 
-                {/* Row 2: Live Telemetry */}
                 <div className="md:col-span-2 lg:col-span-2 xl:col-span-2">
                     <LiveFlightTelemetry colors={colors} cardShadow={cardShadow}/>
                 </div>
 
-                {/* Row 2: Quick Drop Area */}
                 <div className="md:col-span-2 lg:col-span-1 xl:col-span-2">
                     <QuickDropArea colors={colors} cardShadow={cardShadow}/>
                 </div>
 
-                {/* Row 3: Admin Panel (full width) */}
-                {/* Bug 1.4: Hide UserManagementPanel for non-admins */}
                 {!roleLoading && isAdmin && (
                 <div className="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4">
                     <UserManagementPanel/>
@@ -292,7 +238,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({theme = 'dark'}
                 )}
             </div>
 
-            <footer className="mt-10 p-4 text-center text-xs text-gray-500">Cape Town GIS Platform • 🐢✨</footer>
+            <DashboardFooter />
         </div>
     );
 };

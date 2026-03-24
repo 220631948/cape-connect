@@ -91,15 +91,6 @@ module.exports = {
       watch: false
     },
     {
-      name: "gemini-deep-research",
-      script: ".gemini/extensions/gemini-deep-research/scripts/start.cjs",
-      args: [],
-      interpreter: "node",
-      env: {"GEMINI_API_KEY": process.env.GEMINI_API_KEY},
-      autorestart: true,
-      watch: false
-    },
-    {
       name: "context7",
       script: "npx",
       args: ["-y", "@upstash/context7-mcp"],
@@ -140,7 +131,7 @@ module.exports = {
       script: "npx",
       args: ["-y", "docker-mcp"],
       interpreter: "none",
-      env: {},
+      env: {"DOCKER_HOST": "unix:///home/mr/.docker/desktop/docker.sock", "HOME": "/home/mr"},
       autorestart: true,
       watch: false
     },

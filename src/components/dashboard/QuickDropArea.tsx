@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * @file src/components/dashboard/QuickDropArea.tsx
  * @description Visual drop-zone for GeoJSON files with a yellow dashed border.

@@ -12,12 +12,8 @@ services:
       POSTGRES_PASSWORD: postgres
       ALLOW_IP_RANGE: "0.0.0.0/0"
       POSTGRES_HOST_AUTH_METHOD: "md5"
-    # Persist listen_addresses=* so PostGIS accepts connections from all interfaces
-    command: >
-      postgres
-      -c listen_addresses='*'
-      -c max_connections=200
-      -c shared_buffers=256MB
+      # kartoza-native way to set pg params (no command: override needed)
+      EXTRA_CONF: "listen_addresses='*'\nmax_connections=200\nshared_buffers=256MB"
     ports:
       - "5432:5432"
     volumes:
@@ -25,10 +21,10 @@ services:
       - ./supabase/migrations:/docker-entrypoint-initdb.d
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres -d capegis" ]
-      interval: 5s
+      interval: 10s
       timeout: 5s
-      retries: 5
-      start_period: 30s
+      retries: 10
+      start_period: 60s
 
   martin:
     image: ghcr.io/maplibre/martin:latest

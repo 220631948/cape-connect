@@ -1,5 +1,3 @@
-'use client';
-
 import { redirect } from 'next/navigation';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { normalizeRole } from '@/lib/auth/roles';

@@ -4,20 +4,51 @@
     "claude-mem@thedotmack": true
   },
   "mcpServers": {
-    "nano-banana": {
-      "httpUrl": "https://nano-banana.googleapis.com/mcp",
-      "httpHeaders": {
-        "Authorization": "Bearer ${GOOGLE_API_KEY}"
-      },
-      "timeout_ms": 20000,
-      "retry_attempts": 3
-    },
-    "chrome-devtools": {
+    "filesystem": {
       "command": "npx",
       "args": [
         "-y",
-        "chrome-devtools-mcp"
-      ]
+        "@modelcontextprotocol/server-filesystem",
+        "/home/mr/Desktop/Geographical Informations Systems (GIS)"
+      ],
+      "type": "stdio"
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:postgres@localhost:5432/capegis"
+      ],
+      "type": "stdio"
+    },
+    "doc-state": {
+      "command": "node",
+      "args": [
+        "mcp/doc-state/server.js"
+      ],
+      "type": "stdio"
+    },
+    "formats": {
+      "command": "node",
+      "args": [
+        "mcp/formats/server.js"
+      ],
+      "type": "stdio"
+    },
+    "cesium": {
+      "command": "node",
+      "args": [
+        "mcp/cesium/server.js"
+      ],
+      "type": "stdio"
+    },
+    "openaware": {
+      "command": "node",
+      "args": [
+        "mcp/openaware/server.js"
+      ],
+      "type": "stdio"
     },
     "stitch": {
       "command": "node",
@@ -26,47 +57,80 @@
       ],
       "env": {
         "NERFSTUDIO_PATH": "/usr/local/bin/ns-train"
-      }
+      },
+      "type": "stdio"
     },
     "computerUse": {
       "command": "node",
       "args": [
         "mcp/computerUse/server.js"
-      ]
+      ],
+      "type": "stdio"
     },
-    "openaware": {
+    "opensky": {
       "command": "node",
       "args": [
-        "mcp/openaware/server.js"
-      ]
+        "scripts/opensky-mcp-wrapper.js"
+      ],
+      "type": "stdio"
     },
-    "cesium": {
-      "command": "node",
+    "gis-mcp": {
+      "command": "uvx",
       "args": [
-        "mcp/cesium/server.js"
-      ]
+        "gis-mcp"
+      ],
+      "type": "stdio"
     },
-    "formats": {
-      "command": "node",
-      "args": [
-        "mcp/formats/server.js"
-      ]
-    },
-    "filesystem": {
+    "context7": {
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/home/mr/Desktop/Geographical Informations Systems (GIS)"
-      ]
+        "@upstash/context7-mcp"
+      ],
+      "env": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      },
+      "type": "stdio"
     },
-    "postgres": {
+    "exa": {
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-postgres",
-        "postgresql://postgres:postgres@localhost:5432/capegis"
-      ]
+        "exa-mcp-server"
+      ],
+      "type": "stdio"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "type": "stdio"
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp"
+      ],
+      "type": "stdio"
+    },
+    "docker": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "docker-mcp"
+      ],
+      "type": "stdio"
+    },
+    "localstack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@localstack/localstack-mcp-server"
+      ],
+      "type": "stdio"
     },
     "vercel": {
       "command": "npx",
@@ -80,53 +144,8 @@
       ],
       "env": {
         "VERCEL_TOKEN": "${VERCEL_TOKEN}"
-      }
-    },
-    "gemini-deep-research": {
-      "command": "node",
-      "args": [
-        ".gemini/extensions/gemini-deep-research/scripts/start.cjs"
-      ],
-      "env": {
-        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
-      }
-    },
-    "context7": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@upstash/context7-mcp",
-        "--api-key",
-        "${CONTEXT7_API_KEY}"
-      ]
-    },
-    "exa": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "exa-mcp-server"
-      ]
-    },
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "playwright-mcp-server"
-      ]
-    },
-    "docker": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "docker-mcp"
-      ]
-    },
-    "localstack": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@localstack/localstack-mcp-server"
-      ]
+      },
+      "type": "stdio"
     },
     "sequentialthinking": {
       "command": "docker",
@@ -137,19 +156,8 @@
         "danielapatin/sequentialthinking:latest",
         "-transport",
         "stdio"
-      ]
-    },
-    "gis-mcp": {
-      "command": "uvx",
-      "args": [
-        "gis-mcp"
-      ]
-    },
-    "doc-state": {
-      "command": "node",
-      "args": [
-        "mcp/doc-state/server.js"
-      ]
+      ],
+      "type": "stdio"
     },
     "cesium-ion": {
       "type": "sse",
@@ -158,18 +166,45 @@
         "Authorization": "Bearer ${COPILOT_MCP_CESIUM_ION_TOKEN}"
       }
     },
-    "opensky": {
-      "command": "node",
-      "args": [
-        "scripts/opensky-mcp-wrapper.js"
-      ]
-    },
     "nerfstudio": {
       "command": "python",
       "args": [
         "-m",
         "nerfstudio.mcp_server"
-      ]
+      ],
+      "type": "stdio"
+    },
+    "nano-banana": {
+      "type": "http",
+      "url": "https://nano-banana.googleapis.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${GOOGLE_API_KEY}"
+      },
+      "timeout_ms": 20000,
+      "retry_attempts": 3
+    },
+    "notebooklm": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "notebooklm-mcp@latest"
+      ],
+      "env": {}
+    },
+    "azure-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "msmcp-azure",
+        "azmcp",
+        "server",
+        "start"
+      ],
+      "env": {}
+    },
+    "huggingface-skills": {
+      "url": "https://huggingface.co/mcp?login"
     }
   }
 }
