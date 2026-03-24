@@ -38,6 +38,7 @@ def create_celery_app() -> Celery:
         Queue("raster", routing_key="raster.#"),
         Queue("import", routing_key="import.#"),
         Queue("cache", routing_key="cache.#"),
+        Queue("notifications", routing_key="notifications.#"),
     ]
 
     app.conf.task_default_queue = "spatial"
@@ -61,6 +62,10 @@ def create_celery_app() -> Celery:
             "routing_key": "spatial.nl",
         },
         "app.tasks.cache_warmer.*": {"queue": "cache", "routing_key": "cache.warm"},
+        "app.tasks.notification_tasks.*": {
+            "queue": "notifications",
+            "routing_key": "notifications.send",
+        },
     }
 
     # Time limits per queue (soft/hard in seconds)
@@ -74,6 +79,7 @@ def create_celery_app() -> Celery:
         "app.tasks.anomaly_detection.*": {"time_limit": 30, "soft_time_limit": 25},
         "app.tasks.nl_spatial_query.*": {"time_limit": 30, "soft_time_limit": 25},
         "app.tasks.cache_warmer.*": {"time_limit": 300, "soft_time_limit": 270},
+        "app.tasks.notification_tasks.*": {"time_limit": 60, "soft_time_limit": 50},
     }
 
     # Worker concurrency per queue (used in docker-compose / Railway service config)
@@ -106,6 +112,7 @@ def create_celery_app() -> Celery:
             "app.tasks.anomaly_detection",
             "app.tasks.nl_spatial_query",
             "app.tasks.cache_warmer",
+            "app.tasks.notification_tasks",
         ]
     )
 

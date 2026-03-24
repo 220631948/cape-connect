@@ -99,19 +99,25 @@ export async function POST(request: NextRequest) {
             extra: {invited_email: email, invited_role: role, invitation_id: invitation.id},
         });
 
-        // Construct the invitation link
-        const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+        // Send invitation email
+        let deliveryStatus = 'pending';
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
         const invitationLink = `${appUrl}/invitations/accept?token=${invitation.token}`;
 
-        // Send invitation email using Resend
+        // Send invitation email using Resend (centralized logic in @/lib/email)
         const emailResult = await sendInvitationEmail(email, role, invitationLink);
 
-        if (!emailResult.success) {
-            // Note: We don't necessarily want to fail the entire request if the email fails,
-            // as the invitation is already in the database and can be resent later.
-            // But we should warn the caller.
+        if (emailResult.success) {
+            deliveryStatus = 'sent';
+        } else {
             console.error('[Admin Invite POST]: Email failed to send:', emailResult.error);
+            deliveryStatus = 'failed';
         }
+
+        // Update the delivery status in the database
+        await client.from('tenant_invitations')
+            .update({ delivery_status: deliveryStatus })
+            .eq('id', invitation.id);
 
         return NextResponse.json({
             success: true,

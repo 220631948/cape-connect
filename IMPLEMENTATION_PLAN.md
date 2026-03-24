@@ -21,13 +21,27 @@
   4. Built 3 security/architectural hooks: `terraform-security-guardian.js` (enforces WIF), `out-db-raster-enforcer.js` (enforces out-db mapping), and `rls-multi-tenant-verifier.js` (enforces multi-tenant RLS on spatial tables).
   5. Formally registered the Gemini extension in root `AGENTS.md`, `.claude/AGENTS.md`, and `.claude/SKILLS.md` for full cross-agent visibility.
   6. Validated hooks and scanners manually; confirmed compliance across `infra/gcp`, `supabase/migrations`, and `scripts`.
+## Task: Redis-Backed Notification Service
+
+- **Goal**: Implement a robust notification service using Redis for in-app storage and Celery for asynchronous delivery.
+- **Learnings & Actions**:
+  1. Established a shared asynchronous Redis connection manager in `backend/app/core/redis.py`.
+  2. Defined a `Notification` domain entity and schema with timezone-aware timestamps in `backend/app/domain/entities/notification.py`.
+  3. Implemented `NotificationService` in `backend/app/services/notification_service.py` with support for Redis-based list storage (capped at 100 per user) and asynchronous task triggering.
+  4. Created a dedicated `notifications` Celery queue and task `send_notification_task` in `backend/app/tasks/notification_tasks.py`.
+  5. Exposed RESTful endpoints in `backend/app/api/routes/notifications.py` for listing and marking notifications as read, integrated into `backend/main.py`.
+  6. Verified core logic with comprehensive unit tests in `backend/tests/test_notifications.py` using `pytest` and `anyio`.
 
 ## State Output
 ```json
 {
-  "prompt": 6,
+  "prompt": 7,
   "architecture": "hybrid",
   "ai_tools": "activated",
+  "notification_service": "implemented",
+  "redis_backend": "active",
+  "celery_queues": ["spatial", "raster", "import", "cache", "notifications"],
+...
   "sub_agents": ["geo-data", "cloud-ops", "immersive"],
   "hooks_enforced": ["WIF", "out-db", "RLS"],
   "registries_updated": ["root/AGENTS", "claude/AGENTS", "claude/SKILLS"],
@@ -42,6 +56,13 @@
   "estimated_monthly_post_credit": "< $20/mo"
 }
 ```
+
+## Tasks Completed (2026-03-24)
+- [x] Implement Redis-backed Notification Service (backend)
+- [x] Create shared async Redis client manager
+- [x] Implement notification Celery queue and async task
+- [x] Add FastAPI endpoints for notification management
+- [x] Unit test notification service logic with pytest
 
 ## Tasks Completed (2026-03-22)
 - [x] Evaluate Vector Data PostGIS vs FlatGeobuf requirements
