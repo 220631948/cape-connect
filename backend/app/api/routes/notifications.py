@@ -25,7 +25,7 @@ async def list_notifications(
     user_id = user.get("sub") or user.get("id")
     if not user_id:
         raise HTTPException(status_code=401, detail="User ID not found in token")
-    
+
     return await service.get_user_notifications(user_id)
 
 
@@ -41,9 +41,9 @@ async def mark_notification_as_read(
     user_id = user.get("sub") or user.get("id")
     if not user_id:
         raise HTTPException(status_code=401, detail="User ID not found in token")
-    
+
     success = await service.mark_as_read(user_id, notification_id)
     if not success:
         raise HTTPException(status_code=404, detail="Notification not found")
-    
+
     return {"status": "success", "message": "Notification marked as read"}

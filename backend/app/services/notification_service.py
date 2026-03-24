@@ -2,7 +2,6 @@
 Notification Service — Business logic for notification management.
 """
 
-import json
 from datetime import datetime, timezone
 from typing import List, Optional
 from uuid import UUID
@@ -60,6 +59,7 @@ class NotificationService:
 
         if send_email:
             from app.tasks.notification_tasks import send_notification_task
+
             send_notification_task.delay(notification.model_dump())
 
         return notification
@@ -68,35 +68,35 @@ class NotificationService:
         """Retrieve recent notifications for a user."""
         key = f"{NOTIFICATION_KEY_PREFIX}{user_id}"
         raw_notifications = await self.redis.lrange(key, 0, -1)
-        
+
         notifications = []
         for raw in raw_notifications:
             try:
                 notifications.append(Notification.model_validate_json(raw))
             except Exception as e:
                 logger.error("Failed to parse notification", error=str(e), raw=raw)
-        
+
         return notifications
 
     async def mark_as_read(self, user_id: str, notification_id: UUID) -> bool:
         """Mark a specific notification as read."""
         key = f"{NOTIFICATION_KEY_PREFIX}{user_id}"
         raw_notifications = await self.redis.lrange(key, 0, -1)
-        
-        # Redis lists don't support easy 'update' by field. 
+
+        # Redis lists don't support easy 'update' by field.
         # For a small number of notifications, we can rewrite the list.
         # In a real high-traffic app, we'd use a Hash or Sorted Set for easier updates.
-        
+
         found = False
         updated_notifications = []
-        
+
         for raw in raw_notifications:
             notif = Notification.model_validate_json(raw)
             if notif.id == notification_id:
                 notif.read_at = datetime.now(timezone.utc)
                 found = True
             updated_notifications.append(notif.model_dump_json())
-        
+
         if found:
             # Atomic update would be better with a Lua script or transaction
             async with self.redis.pipeline(transaction=True) as pipe:
@@ -104,5 +104,5 @@ class NotificationService:
                 if updated_notifications:
                     await pipe.rpush(key, *updated_notifications)
                 await pipe.execute()
-        
+
         return found
